@@ -5,10 +5,10 @@ import app.stepanek.gamajun.repository.AssignmentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/assignments")
@@ -21,7 +21,7 @@ public class AssignmentController {
     }
 
     @GetMapping
-    public List<Assignment> AllAssignment() {
+    public List<Assignment> AllAssignments() {
         return assignmentDao.findAll();
     }
 
@@ -32,4 +32,21 @@ public class AssignmentController {
         return assignmentDao.save(assignment);
     }
 
+    @DeleteMapping("/{assignmentId}")
+    public void DeleteAssignment(@PathVariable UUID assignmentId) throws Exception {
+        assignmentDao.deleteById(assignmentId);
+    }
+
+    @PutMapping("/{assignmentId}")
+    public Assignment UpdateAssignment(@PathVariable UUID assignmentId, @RequestBody Assignment assignment) throws Exception {
+        if (!assignment.getId().equals(assignmentId))
+            throw new Exception("Update error");
+
+        return assignmentDao.save(assignment);
+    }
+
+    @GetMapping("/{assignmentId}")
+    public Assignment GetAssignment(@PathVariable UUID assignmentId) throws Exception {
+        return assignmentDao.findById(assignmentId).orElseThrow(Exception::new);
+    }
 }
