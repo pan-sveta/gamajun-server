@@ -23,10 +23,5 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Publish to Docker Hub
-      uses: docker/build-push-action@v1     
-      with:       
-       username: ${{ secrets.DOCKER_REGISTRY_USERNAME }} 
-       password:  ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-       repository: registry.stepanek.app
-       tags: ${{github.run_number}}
+      uses: docker/build-push-action@v3.1.1
 
