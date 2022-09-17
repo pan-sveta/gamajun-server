@@ -24,4 +24,9 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v3.1.1
-
+      with:
+        registry: ghcr.io
+        username: "pan-sveta"
+        password: ${{ secrets.CR_PAT }}
+        repository: pan-sveta/gamajun-server
+        tags: latest
