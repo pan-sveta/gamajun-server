@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,12 @@ public class Exam {
 
     @Column(name = "author", nullable = false)
     private String author;
+
+    @Column(name = "accessible_from", nullable = false)
+    private Instant accessibleFrom;
+
+    @Column(name = "accessible_to", nullable = false)
+    private Instant accessibleTo;
 
     @ManyToMany
     @JoinTable(name = "exam_assignments",

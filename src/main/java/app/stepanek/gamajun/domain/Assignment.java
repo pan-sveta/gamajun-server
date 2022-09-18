@@ -23,12 +23,6 @@ public class Assignment {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "accessible_from", nullable = false)
-    private Instant accessibleFrom;
-
-    @Column(name = "accessible_to", nullable = false)
-    private Instant accessibleTo;
-
     @Lob
     @Column(name = "description", nullable = false)
     private String description;
