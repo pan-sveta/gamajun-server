@@ -3,9 +3,11 @@ package app.stepanek.gamajun.controller;
 import app.stepanek.gamajun.domain.Assignment;
 import app.stepanek.gamajun.repository.AssignmentDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +48,7 @@ public class AssignmentController {
     }
 
     @GetMapping("/{assignmentId}")
-    public Assignment GetAssignment(@PathVariable UUID assignmentId) throws Exception {
-        return assignmentDao.findById(assignmentId).orElseThrow(Exception::new);
+    public Assignment GetAssignment(@PathVariable UUID assignmentId) {
+        return assignmentDao.findById(assignmentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }

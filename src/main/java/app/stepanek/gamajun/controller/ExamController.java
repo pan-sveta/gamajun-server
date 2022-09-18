@@ -3,9 +3,11 @@ package app.stepanek.gamajun.controller;
 import app.stepanek.gamajun.domain.Exam;
 import app.stepanek.gamajun.repository.ExamDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +48,7 @@ public class ExamController {
     }
 
     @GetMapping("/{examId}")
-    public Exam GetExam(@PathVariable UUID examId) throws Exception {
-        return ExamDao.findById(examId).orElseThrow(Exception::new);
+    public Exam GetExam(@PathVariable UUID examId) {
+        return ExamDao.findById(examId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }
