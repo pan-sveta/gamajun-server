@@ -2,6 +2,7 @@ package app.stepanek.gamajun.domain;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -24,11 +25,13 @@ public class Assignment {
     private String title;
 
     @Lob
-    @Column(name = "description", nullable = false)
+    @Type(type = "text")
+    @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
 
     @Lob
-    @Column(name = "xml", nullable = false)
+    @Type(type = "text")
+    @Column(name = "xml", nullable = false, columnDefinition = "text")
     private String xml;
 
     @Column(name = "author", nullable = false)
