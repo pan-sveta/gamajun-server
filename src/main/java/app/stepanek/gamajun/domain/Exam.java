@@ -7,10 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -39,6 +36,6 @@ public class Exam {
     @JoinTable(name = "exam_assignments",
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "assignments_id"))
-    private Set<Assignment> assignments = new LinkedHashSet<>();
+    private List<Assignment> assignments = new ArrayList<>();
 
 }
