@@ -24,12 +24,10 @@ public class Assignment {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Lob
     @Type(type = "text")
     @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
 
-    @Lob
     @Type(type = "text")
     @Column(name = "xml", nullable = false, columnDefinition = "text")
     private String xml;
