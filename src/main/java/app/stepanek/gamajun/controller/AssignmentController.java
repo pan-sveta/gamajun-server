@@ -4,6 +4,7 @@ import app.stepanek.gamajun.domain.Assignment;
 import app.stepanek.gamajun.repository.AssignmentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/assignments")
+@PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
 public class AssignmentController {
     private final AssignmentDao assignmentDao;
 

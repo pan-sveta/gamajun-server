@@ -1,7 +1,10 @@
 package app.stepanek.gamajun.security;
 
+import app.stepanek.gamajun.services.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -21,13 +24,20 @@ import java.util.List;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    final AdminService adminService;
+
+    public SecurityConfig(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/swagger-ui.html","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -42,14 +52,13 @@ public class SecurityConfig {
 
     @Bean
     public OpaqueTokenIntrospector zuulIntrospector() {
-        return new ZuulTokenIntrospector("https://auth.fit.cvut.cz/oauth/check_token", "13195362-f2f9-4bf4-9ac0-17552448f080", "3yhN9zLUd3ODTFWKWvBblDFpvtzydzGd");
+        return new ZuulTokenIntrospector("https://auth.fit.cvut.cz/oauth/check_token", "13195362-f2f9-4bf4-9ac0-17552448f080", "3yhN9zLUd3ODTFWKWvBblDFpvtzydzGd", adminService);
     }
-
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://gamajun.vercel.app","https://gamajun.netlify.app","http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("https://gamajun.vercel.app", "https://gamajun.netlify.app", "http://localhost:3000"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); //to set allowed http methods
         //configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));

@@ -1,7 +1,10 @@
 package app.stepanek.gamajun.security;
 
+import app.stepanek.gamajun.domain.Admin;
+import app.stepanek.gamajun.services.AdminService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.*;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
@@ -25,7 +28,10 @@ public class ZuulTokenIntrospector implements OpaqueTokenIntrospector {
     private final RestOperations restOperations;
     private Converter<String, RequestEntity<?>> requestEntityConverter;
 
-    public ZuulTokenIntrospector(String introspectionUri, String clientId, String clientSecret) {
+    private final AdminService adminService;
+
+    public ZuulTokenIntrospector(String introspectionUri, String clientId, String clientSecret, AdminService adminService) {
+        this.adminService = adminService;
         Assert.notNull(introspectionUri, "introspectionUri cannot be null");
         Assert.notNull(clientId, "clientId cannot be null");
         Assert.notNull(clientSecret, "clientSecret cannot be null");
@@ -70,6 +76,7 @@ public class ZuulTokenIntrospector implements OpaqueTokenIntrospector {
     private Collection<GrantedAuthority> mapAuthorities(ZuulResponse response) {
         Collection<GrantedAuthority> authorities = new ArrayList();
 
+        //Add roles based on token
         Iterator<String> it;
         if (response.getAuthorities() != null) {
             it = response.getAuthorities().iterator();
@@ -79,6 +86,10 @@ public class ZuulTokenIntrospector implements OpaqueTokenIntrospector {
                 authorities.add(new SimpleGrantedAuthority(authority));
             }
         }
+
+        //Add roles based on administrator service
+        if (adminService.IsUserAdministrator(response.username))
+            authorities.add(new SimpleGrantedAuthority("ROLE_GAMAJUN_ADMIN"));
 
         return authorities;
     }
