@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admins")
-@PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
 public class AdminController {
     private final AdminService adminService;
 
@@ -25,17 +24,19 @@ public class AdminController {
         return adminService.getAllAdmins();
     }
 
+    @GetMapping(value = "/{username}")
+    public Admin GetAdmin(@PathVariable String username) {
+        return adminService.getAdmin(username);
+    }
+
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
     public Admin CreatAdmin(@RequestBody Admin assignment) {
         return adminService.createAdmin(assignment);
     }
 
-    @GetMapping(value = "/{username}")
-    public Admin GetAdmin(@PathVariable String username) throws Exception {
-        return adminService.getAdmin(username);
-    }
-
     @DeleteMapping("/{username}")
+    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
     public void DeleteAdmin(@PathVariable String username) throws Exception {
         adminService.deleteAdmin(username);
     }
