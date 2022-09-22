@@ -30,6 +30,11 @@ public class AdminController {
         return adminService.createAdmin(assignment);
     }
 
+    @GetMapping(value = "/{username}")
+    public Admin GetAdmin(@PathVariable String username) throws Exception {
+        return adminService.getAdmin(username);
+    }
+
     @DeleteMapping("/{username}")
     public void DeleteAdmin(@PathVariable String username) throws Exception {
         adminService.deleteAdmin(username);

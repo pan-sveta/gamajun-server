@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.Admin;
+import app.stepanek.gamajun.exceptions.AdminNotFoundException;
 import app.stepanek.gamajun.repository.AdminDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,22 +22,28 @@ public class AdminService {
     }
 
     @Transactional
-    public boolean IsUserAdministrator(String username){
+    public boolean IsUserAdministrator(String username) {
         return administratorDao.existsByUsername(username);
     }
 
     @Transactional
-    public Admin createAdmin(Admin admin){
+    public Admin createAdmin(Admin admin) {
         return administratorDao.save(admin);
     }
 
     @Transactional
-    public List<Admin> getAllAdmins(){
+    public List<Admin> getAllAdmins() {
         return administratorDao.findAll();
     }
 
     @Transactional
-    public void deleteAdmin(String username){
+    public void deleteAdmin(String username) {
         administratorDao.deleteById(username);
+    }
+
+    @Transactional
+    public Admin getAdmin(String username) {
+        return administratorDao.findById(username)
+                .orElseThrow(() -> new AdminNotFoundException("User with username '%s' is not an admin".formatted(username)));
     }
 }
