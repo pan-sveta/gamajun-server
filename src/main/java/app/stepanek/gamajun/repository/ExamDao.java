@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface ExamDao extends JpaRepository<Exam, UUID> {
-    List<Exam> findByAccessibleFromGreaterThanEqualAndAccessibleToLessThanEqual(@NonNull Instant accessibleFrom, @NonNull Instant accessibleTo);
+    List<Exam> findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqual(@NonNull Instant accessibleFrom, @NonNull Instant accessibleTo);
 
 
 }

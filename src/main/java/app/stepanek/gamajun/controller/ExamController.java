@@ -63,7 +63,7 @@ public class ExamController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/opened")
     public List<Exam> OpenedExams() {
-        return examDao.findByAccessibleFromGreaterThanEqualAndAccessibleToLessThanEqual(Instant.now(),Instant.now());
+        return examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqual(Instant.now(),Instant.now());
     }
 
     @PreAuthorize("isAuthenticated()")
