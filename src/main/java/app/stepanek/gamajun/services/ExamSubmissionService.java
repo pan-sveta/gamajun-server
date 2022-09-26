@@ -61,7 +61,7 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
 
-        if (authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
+        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
 
         examSubmission.setSubmittedAt(Instant.now());
@@ -79,7 +79,7 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
 
-        if (authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
+        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
 
         examSubmission.setXml(checkpointCommand.getXml());
