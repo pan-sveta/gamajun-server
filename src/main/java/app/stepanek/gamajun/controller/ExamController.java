@@ -73,7 +73,7 @@ public class ExamController {
 
         ExamSubmission examSubmission = new ExamSubmission();
         examSubmission.setAuthor(principal.getAttribute("user_name"));
-        examSubmission.setSubmittedAt(Instant.now());
+        examSubmission.setStartedAt(Instant.now());
         examSubmission.setExam(exam);
         examSubmission.setExamSubmissionState(ExamSubmissionState.Draft);
 
