@@ -60,8 +60,14 @@ public class ExamController {
         return examDao.findById(examId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{examId}/submission")
     @PreAuthorize("isAuthenticated()")
+    @GetMapping("/opened")
+    public List<Exam> OpenedExams() {
+        return examDao.findByAccessibleFromGreaterThanEqualAndAccessibleToLessThanEqual(Instant.now(),Instant.now());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{examId}/submission")
     public ExamSubmission BeginExam(@PathVariable UUID examId, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
         var exam = examDao.findById(examId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

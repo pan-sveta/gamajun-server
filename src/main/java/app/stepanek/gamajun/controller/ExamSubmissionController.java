@@ -52,6 +52,12 @@ public class ExamSubmissionController {
         return examSubmission;
     }
 
+    @GetMapping("/my")
+    public List<ExamSubmission> MyExamSubmissions(@AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
+        String username = principal.getAttribute("user_name");
+        return examSubmissionDao.findByExam_Author(username);
+    }
+
     @PutMapping("/{examSubmissionId}/checkpoint")
     public ExamSubmission CheckpointExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmission examSubmission, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) throws Exception {
         String username = principal.getAttribute("user_name");
