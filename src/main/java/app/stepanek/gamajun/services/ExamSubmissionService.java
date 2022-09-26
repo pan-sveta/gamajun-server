@@ -4,6 +4,7 @@ import app.stepanek.gamajun.command.ExamSubmissionCheckpointCommand;
 import app.stepanek.gamajun.command.ExamSubmissionSubmitCommand;
 import app.stepanek.gamajun.domain.ExamSubmissionState;
 import app.stepanek.gamajun.dto.StudentExamSubmissionDTO;
+import app.stepanek.gamajun.exceptions.ExamSubmissionLockedException;
 import app.stepanek.gamajun.exceptions.ExamSubmissionNotFoundException;
 import app.stepanek.gamajun.exceptions.ResourceNotOwnedByCurrentUserException;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
@@ -60,6 +61,9 @@ public class ExamSubmissionService {
     public StudentExamSubmissionDTO submitStudentExam(UUID examSubmissionId, ExamSubmissionSubmitCommand submitCommand) {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
+
+        if (!examSubmission.getExamSubmissionState().equals(ExamSubmissionState.Draft))
+            throw new ExamSubmissionLockedException("Exam submission '%s' is not a draft anymore".formatted(examSubmissionId));
 
         if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));

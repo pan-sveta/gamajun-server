@@ -37,7 +37,7 @@ public class ExamSubmissionController {
 
     @DeleteMapping("/{examSubmissionId}")
     @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
-    public void DeleteExamSubmissions(@PathVariable UUID examSubmissionId) throws Exception {
+    public void DeleteExamSubmissions(@PathVariable UUID examSubmissionId) {
         examSubmissionDao.deleteById(examSubmissionId);
     }
 
@@ -57,7 +57,7 @@ public class ExamSubmissionController {
     }
 
     @PutMapping("/{examSubmissionId}/submit")
-    public StudentExamSubmissionDTO SubmitExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmissionSubmitCommand submitCommand) {
+    public StudentExamSubmissionDTO SubmitExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmissionSubmitCommand submitCommand)  {
         return examSubmissionService.submitStudentExam(examSubmissionId, submitCommand);
     }
 
