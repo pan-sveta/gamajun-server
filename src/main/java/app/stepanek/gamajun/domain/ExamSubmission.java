@@ -21,6 +21,10 @@ public class ExamSubmission {
     @JoinColumn(name = "exam_id", nullable = false)
     private Exam exam;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "assignment_id", nullable = false)
+    private Assignment assignment;
+
     @Column(name = "xml", nullable = true, columnDefinition = "text")
     private String xml;
 

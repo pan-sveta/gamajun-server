@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -70,8 +71,10 @@ public class ExamController {
     @PostMapping("/{examId}/submission")
     public ExamSubmission BeginExam(@PathVariable UUID examId, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
         var exam = examDao.findById(examId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Random rand = new Random();
 
         ExamSubmission examSubmission = new ExamSubmission();
+        examSubmission.setAssignment(exam.getAssignments().get(rand.nextInt(exam.getAssignments().size())));
         examSubmission.setAuthor(principal.getAttribute("user_name"));
         examSubmission.setStartedAt(Instant.now());
         examSubmission.setExam(exam);
