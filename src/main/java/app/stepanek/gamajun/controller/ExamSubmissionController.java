@@ -1,31 +1,31 @@
 package app.stepanek.gamajun.controller;
 
+import app.stepanek.gamajun.command.ExamSubmissionCheckpointCommand;
 import app.stepanek.gamajun.domain.ExamSubmission;
-import app.stepanek.gamajun.domain.ExamSubmissionState;
+import app.stepanek.gamajun.command.ExamSubmissionSubmitCommand;
+import app.stepanek.gamajun.dto.StudentExamSubmissionDTO;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
 import app.stepanek.gamajun.services.AdminService;
+import app.stepanek.gamajun.services.ExamSubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/submissions")
 public class ExamSubmissionController {
 
-    private final AdminService adminService;
+    private final ExamSubmissionService examSubmissionService;
     private final ExamSubmissionDao examSubmissionDao;
 
     @Autowired
-    public ExamSubmissionController(AdminService adminService, ExamSubmissionDao examSubmissionDao) {
-        this.adminService = adminService;
+    public ExamSubmissionController(ExamSubmissionService examSubmissionService, ExamSubmissionDao examSubmissionDao) {
+        this.examSubmissionService = examSubmissionService;
         this.examSubmissionDao = examSubmissionDao;
     }
 
@@ -42,50 +42,23 @@ public class ExamSubmissionController {
     }
 
     @GetMapping("/{examSubmissionId}")
-    public ExamSubmission GetExamSubmissions(@PathVariable UUID examSubmissionId, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
-        var examSubmission = examSubmissionDao.findById(examSubmissionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        String username = principal.getAttribute("user_name");
-        if (!Objects.equals(username, examSubmission.getAuthor()) && !adminService.IsUserAdministrator(username))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-        return examSubmission;
+    public StudentExamSubmissionDTO GetExamSubmissions(@PathVariable UUID examSubmissionId) {
+        return examSubmissionService.getExamSubmission(examSubmissionId);
     }
 
     @GetMapping("/my")
-    public List<ExamSubmission> MyExamSubmissions(@AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
-        String username = principal.getAttribute("user_name");
-        return examSubmissionDao.findByExam_Author(username);
+    public List<StudentExamSubmissionDTO> MyExamSubmissions() {
+        return examSubmissionService.mySubmissions();
     }
 
     @PutMapping("/{examSubmissionId}/checkpoint")
-    public ExamSubmission CheckpointExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmission examSubmission, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) throws Exception {
-        String username = principal.getAttribute("user_name");
-
-        if (!Objects.equals(username, examSubmission.getAuthor()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-        if (!examSubmission.getId().equals(examSubmissionId))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-        examSubmission.setExamSubmissionState(ExamSubmissionState.Draft);
-
-        return examSubmissionDao.save(examSubmission);
+    public StudentExamSubmissionDTO CheckpointExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmissionCheckpointCommand checkpointCommand) {
+        return examSubmissionService.checkpointStudentExam(examSubmissionId, checkpointCommand);
     }
 
     @PutMapping("/{examSubmissionId}/submit")
-    public ExamSubmission SubmitExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmission examSubmission, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) throws Exception {
-        String username = principal.getAttribute("user_name");
-
-        if (!Objects.equals(username, examSubmission.getAuthor()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-        if (!examSubmission.getId().equals(examSubmissionId))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-        examSubmission.setExamSubmissionState(ExamSubmissionState.Submitted);
-
-        return examSubmissionDao.save(examSubmission);
+    public StudentExamSubmissionDTO SubmitExamSubmissions(@PathVariable UUID examSubmissionId, @RequestBody ExamSubmissionSubmitCommand submitCommand) {
+        return examSubmissionService.submitStudentExam(examSubmissionId, submitCommand);
     }
 
 }
