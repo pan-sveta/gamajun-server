@@ -3,6 +3,10 @@ server:
     include-message: always
 
 spring:
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
   jpa:
     hibernate:
       ddl-auto: update

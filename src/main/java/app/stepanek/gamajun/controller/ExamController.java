@@ -1,74 +1,78 @@
 package app.stepanek.gamajun.controller;
 
 import app.stepanek.gamajun.domain.Exam;
+import app.stepanek.gamajun.domain.ExamSubmission;
 import app.stepanek.gamajun.dto.StudentExamDTO;
 import app.stepanek.gamajun.dto.StudentExamSubmissionDTO;
+import app.stepanek.gamajun.graphql.CreateExamInput;
+import app.stepanek.gamajun.graphql.UpdateExamInput;
 import app.stepanek.gamajun.repository.ExamDao;
 import app.stepanek.gamajun.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/exams")
+@Controller
 @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
 public class ExamController {
-    private final ExamDao examDao;
     private final ExamService examService;
 
     @Autowired
-    public ExamController(ExamDao ExamDao, ExamService examService) {
-        this.examDao = ExamDao;
+    public ExamController(ExamService examService) {
         this.examService = examService;
     }
 
-    @GetMapping
-    public List<Exam> AllExams() {
-        return examDao.findAll();
+    @SchemaMapping
+    public Exam exam(Exam exam) {
+        return examService.findById(exam.getId());
     }
 
-    @PostMapping
-    public Exam CreatExam(@RequestBody Exam Exam, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
-        Exam.setAuthor(principal.getAttribute("user_name"));
-
-        return examDao.save(Exam);
+    public Exam creatExam(@Argument CreateExamInput createExamInput) {
+        return examService.createExam(createExamInput);
     }
 
-    @DeleteMapping("/{examId}")
-    public void DeleteExam(@PathVariable UUID examId) throws Exception {
-        examDao.deleteById(examId);
+    @QueryMapping
+    public List<Exam> exams() {
+        return examService.findAll();
     }
 
-    @PutMapping("/{examId}")
-    public Exam UpdateExam(@PathVariable UUID examId, @RequestBody Exam Exam) throws Exception {
-        if (!Exam.getId().equals(examId))
-            throw new Exception("Update error");
-
-        return examDao.save(Exam);
+    @QueryMapping
+    public Exam examById(@Argument UUID id) {
+        return examService.findById(id);
     }
 
-    @GetMapping("/{examId}")
-    public Exam GetExam(@PathVariable UUID examId) {
-        return examDao.findById(examId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    @MutationMapping
+    public Exam updateExam(@Argument UpdateExamInput updateExamInput) throws Exception {
+        return examService.update(updateExamInput);
     }
+
+    @MutationMapping
+    public void deleteExam(@Argument UUID id) {
+        examService.deleteExam(id);
+    }
+
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/opened")
-    public List<StudentExamDTO> OpenedExams() {
+    @QueryMapping
+    public List<Exam> openedExams() {
         return examService.getOpenedExams();
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/{examId}/submission")
-    public StudentExamSubmissionDTO BeginExam(@PathVariable UUID examId) {
-        return examService.beginExam(examId);
+    @MutationMapping
+    public ExamSubmission beginExam(@Argument UUID id) {
+        return examService.beginExam(id);
     }
 }

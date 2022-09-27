@@ -1,0 +1,148 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    assignments: [Assignment]
+    assignmentById(id: String!): Assignment
+
+    exams: [Exam]
+    examById(id: String!): [Exam]
+    openedExams: [Exam]
+
+    examSubmissions: [ExamSubmission]
+    examSubmissionById(id: String!): ExamSubmission
+    myExamSubmissions: [ExamSubmission]
+}
+
+type Mutation {
+    "Create assignment"
+    createAssignment(input: CreateAssignmentInput!): Assignment
+    "Update assignment"
+    updateAssignment(input: UpdateAssignmentInput!): Assignment
+    "Delete assignment"
+    deleteAssignment(id: String!): String!
+
+    "Create exam"
+    createExam(input: CreateExamInput!): Exam
+    "Update exam"
+    updateExam(input: UpdateExamInput!): Exam
+    "Delete exam"
+    deleteExam(id: String!): String!
+    "Begin exam"
+    beginExam(id: String!): ExamSubmission!
+
+    "Delete exam submission"
+    deleteExamSubmission(id: String!): String
+    "Checkpoint exam submission"
+    checkpointExamSubmission(input: ExamSubmissionCheckpointInput!): ExamSubmission!
+    "Submit exam submission"
+    submitExamSubmission(input: ExamSubmissionSubmitInput!): ExamSubmission!
+
+}
+
+#############
+#Assignments#
+#############
+
+type Assignment {
+    id: ID
+    title: String
+    description: String
+    xml: String
+    author: String
+}
+
+input AssignmentInput {
+    id: ID
+    title: String
+    description: String
+    xml: String
+    author: String
+}
+
+input CreateAssignmentInput {
+    title: String!
+    description: String!
+    xml: String!
+    author: String!
+}
+
+input UpdateAssignmentInput {
+    id: String!
+    title: String
+    description: String
+    xml: String
+    author: String
+}
+
+#######
+#Exams#
+#######
+
+type Exam {
+    id: ID
+    title: String
+    author: String
+    accessibleFrom: String
+    accessibleTo: String
+    assignments: [Assignment]
+}
+
+input ExamInput {
+    id: ID
+    title: String
+    author: String
+    accessibleFrom: String
+    accessibleTo: String
+    assignments: [AssignmentInput]
+}
+
+input CreateExamInput {
+    title: String
+    author: String
+    accessibleFrom: String
+    accessibleTo: String
+    assignments: [AssignmentInput]
+}
+
+input UpdateExamInput {
+    id: ID
+    title: String
+    author: String
+    accessibleFrom: String
+    accessibleTo: String
+    assignments: [AssignmentInput]
+}
+
+##################
+#Exam submissions#
+##################
+
+type ExamSubmission {
+    id: ID
+    exam: Exam
+    assignment: Assignment
+    xml: String
+    startedAt: String
+    submittedAt: String
+    author: String
+    examSubmissionState: ExamSubmissionState
+}
+
+input ExamSubmissionCheckpointInput {
+    id: ID
+    xml: String
+}
+
+input ExamSubmissionSubmitInput {
+    id: ID
+    xml: String
+}
+
+enum ExamSubmissionState {
+    Draft,
+    Submitted,
+    Graded
+}
