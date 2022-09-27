@@ -36,13 +36,13 @@ public class Assignment {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Assignment that = (Assignment) o;
-        return id != null && Objects.equals(id, that.id);
+        if (!(o instanceof Assignment that)) return false;
+
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

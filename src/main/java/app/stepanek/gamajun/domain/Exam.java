@@ -38,4 +38,16 @@ public class Exam {
             inverseJoinColumns = @JoinColumn(name = "assignments_id"))
     private List<Assignment> assignments = new ArrayList<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Exam exam)) return false;
+
+        return Objects.equals(id, exam.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

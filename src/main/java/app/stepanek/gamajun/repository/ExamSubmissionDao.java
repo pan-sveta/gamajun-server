@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface ExamSubmissionDao extends JpaRepository<ExamSubmission, UUID> {
     List<ExamSubmission> findByExam_Author(@NonNull String author);
 
+
+
 }

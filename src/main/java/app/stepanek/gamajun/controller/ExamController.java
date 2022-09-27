@@ -1,10 +1,10 @@
 package app.stepanek.gamajun.controller;
 
 import app.stepanek.gamajun.domain.Exam;
-import app.stepanek.gamajun.domain.ExamSubmission;
-import app.stepanek.gamajun.domain.ExamSubmissionState;
+import app.stepanek.gamajun.dto.StudentExamDTO;
+import app.stepanek.gamajun.dto.StudentExamSubmissionDTO;
 import app.stepanek.gamajun.repository.ExamDao;
-import app.stepanek.gamajun.repository.ExamSubmissionDao;
+import app.stepanek.gamajun.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -23,12 +22,12 @@ import java.util.UUID;
 @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
 public class ExamController {
     private final ExamDao examDao;
-    private final ExamSubmissionDao examSubmissionDao;
+    private final ExamService examService;
 
     @Autowired
-    public ExamController(ExamDao ExamDao, ExamSubmissionDao examSubmissionDao) {
+    public ExamController(ExamDao ExamDao, ExamService examService) {
         this.examDao = ExamDao;
-        this.examSubmissionDao = examSubmissionDao;
+        this.examService = examService;
     }
 
     @GetMapping
@@ -63,23 +62,13 @@ public class ExamController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/opened")
-    public List<Exam> OpenedExams() {
-        return examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqual(Instant.now(),Instant.now());
+    public List<StudentExamDTO> OpenedExams() {
+        return examService.getOpenedExams();
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{examId}/submission")
-    public ExamSubmission BeginExam(@PathVariable UUID examId, @AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
-        var exam = examDao.findById(examId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Random rand = new Random();
-
-        ExamSubmission examSubmission = new ExamSubmission();
-        examSubmission.setAssignment(exam.getAssignments().get(rand.nextInt(exam.getAssignments().size())));
-        examSubmission.setAuthor(principal.getAttribute("user_name"));
-        examSubmission.setStartedAt(Instant.now());
-        examSubmission.setExam(exam);
-        examSubmission.setExamSubmissionState(ExamSubmissionState.Draft);
-
-        return examSubmissionDao.save(examSubmission);
+    public StudentExamSubmissionDTO BeginExam(@PathVariable UUID examId) {
+        return examService.beginExam(examId);
     }
 }
