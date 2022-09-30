@@ -15,8 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateExamInput {
     private String title;
-    private String author;
     private Instant accessibleFrom;
     private Instant accessibleTo;
-    private List<Assignment> assignments = new ArrayList<>();
+    private List<UUID> assignmentIds = new ArrayList<>();
 }

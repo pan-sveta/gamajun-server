@@ -5,7 +5,6 @@ import app.stepanek.gamajun.graphql.CreateAssignmentInput;
 import app.stepanek.gamajun.graphql.UpdateAssignmentInput;
 import app.stepanek.gamajun.repository.AssignmentDao;
 import app.stepanek.gamajun.services.AssignmentService;
-import app.stepanek.gamajun.utilities.IAuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -24,13 +23,11 @@ import java.util.UUID;
 public class AssignmentController  {
     private final AssignmentService assignmentService;
     private final AssignmentDao assignmentDao;
-    private final IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    public AssignmentController(AssignmentService assignmentService, AssignmentDao assignmentDao, IAuthenticationFacade authenticationFacade) {
+    public AssignmentController(AssignmentService assignmentService, AssignmentDao assignmentDao) {
         this.assignmentService = assignmentService;
         this.assignmentDao = assignmentDao;
-        this.authenticationFacade = authenticationFacade;
     }
 
     @SchemaMapping
@@ -59,8 +56,9 @@ public class AssignmentController  {
     }
 
     @MutationMapping
-    public void deleteAssignment(@Argument UUID id)  {
+    public boolean deleteAssignment(@Argument UUID id)  {
         assignmentDao.deleteById(id);
+        return true;
     }
 
 

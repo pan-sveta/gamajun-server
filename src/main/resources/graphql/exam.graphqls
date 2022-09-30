@@ -1,0 +1,54 @@
+extend type Query {
+    exams: [Exam!]!
+    examById(id: String!): Exam!
+    openedExams: [Exam!]!
+}
+
+extend type Mutation {
+    "Create exam"
+    createExam(input: CreateExamInput!): Exam!
+    "Update exam"
+    updateExam(input: UpdateExamInput!): Exam!
+    "Delete exam"
+    deleteExam(id: String!): Boolean!
+    "Begin exam"
+    beginExam(id: String!): ExamSubmission!
+}
+
+#######
+#Exams#
+#######
+
+type Exam {
+    id: ID!
+    title: String!
+    author: String!
+    accessibleFrom: String!
+    accessibleTo: String!
+    assignments: [Assignment!]!
+}
+
+input ExamInput {
+    id: ID!
+    title: String!
+    author: String!
+    accessibleFrom: String!
+    accessibleTo: String!
+    assignmentIds: [ID!]!
+}
+
+input CreateExamInput {
+    title: String!
+    accessibleFrom: String!
+    accessibleTo: String!
+    assignmentIds: [ID!]!
+}
+
+input UpdateExamInput {
+    id: ID!
+    title: String!
+    accessibleFrom: String!
+    accessibleTo: String!
+    assignmentIds: [ID!]!
+}
+

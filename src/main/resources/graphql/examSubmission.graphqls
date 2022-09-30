@@ -1,0 +1,46 @@
+extend type Query {
+    examSubmissions: [ExamSubmission!]!
+    examSubmissionById(id: String!): ExamSubmission
+    myExamSubmissions: [ExamSubmission!]!
+}
+
+extend type Mutation {
+    "Delete exam submission"
+    deleteExamSubmission(id: String!): Boolean
+    "Checkpoint exam submission"
+    checkpointExamSubmission(input: ExamSubmissionCheckpointInput!): ExamSubmission!
+    "Submit exam submission"
+    submitExamSubmission(input: ExamSubmissionSubmitInput!): ExamSubmission!
+
+}
+
+##################
+#Exam submissions#
+##################
+
+type ExamSubmission {
+    id: ID
+    exam: Exam
+    assignment: Assignment
+    xml: String
+    startedAt: String
+    submittedAt: String
+    author: String
+    examSubmissionState: ExamSubmissionState
+}
+
+input ExamSubmissionCheckpointInput {
+    id: ID
+    xml: String
+}
+
+input ExamSubmissionSubmitInput {
+    id: ID
+    xml: String
+}
+
+enum ExamSubmissionState {
+    Draft,
+    Submitted,
+    Graded
+}

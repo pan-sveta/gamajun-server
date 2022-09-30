@@ -2,24 +2,16 @@ package app.stepanek.gamajun.controller;
 
 import app.stepanek.gamajun.domain.Exam;
 import app.stepanek.gamajun.domain.ExamSubmission;
-import app.stepanek.gamajun.dto.StudentExamDTO;
-import app.stepanek.gamajun.dto.StudentExamSubmissionDTO;
 import app.stepanek.gamajun.graphql.CreateExamInput;
 import app.stepanek.gamajun.graphql.UpdateExamInput;
-import app.stepanek.gamajun.repository.ExamDao;
 import app.stepanek.gamajun.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,8 +31,9 @@ public class ExamController {
         return examService.findById(exam.getId());
     }
 
-    public Exam creatExam(@Argument CreateExamInput createExamInput) {
-        return examService.createExam(createExamInput);
+    @MutationMapping
+    public Exam createExam(@Argument CreateExamInput input) {
+        return examService.createExam(input);
     }
 
     @QueryMapping
@@ -54,13 +47,14 @@ public class ExamController {
     }
 
     @MutationMapping
-    public Exam updateExam(@Argument UpdateExamInput updateExamInput) throws Exception {
-        return examService.update(updateExamInput);
+    public Exam updateExam(@Argument UpdateExamInput input) {
+        return examService.update(input);
     }
 
     @MutationMapping
-    public void deleteExam(@Argument UUID id) {
+    public boolean deleteExam(@Argument UUID id) {
         examService.deleteExam(id);
+        return true;
     }
 
 

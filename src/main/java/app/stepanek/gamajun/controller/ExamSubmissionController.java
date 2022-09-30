@@ -46,8 +46,8 @@ public class ExamSubmissionController {
 
     @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
     @MutationMapping
-    public void deleteExamSubmission(@PathVariable UUID examSubmissionId) {
-        examSubmissionService.delete(examSubmissionId);
+    public boolean deleteExamSubmission(@PathVariable UUID examSubmissionId) {
+        return examSubmissionService.delete(examSubmissionId);
     }
 
     @QueryMapping

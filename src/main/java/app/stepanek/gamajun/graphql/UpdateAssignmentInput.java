@@ -14,5 +14,4 @@ public class UpdateAssignmentInput {
     private String title;
     private String description;
     private String xml;
-    private String author;
 }

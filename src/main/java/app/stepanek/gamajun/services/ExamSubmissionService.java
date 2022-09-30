@@ -69,8 +69,9 @@ public class ExamSubmissionService {
     }
 
     @Transactional
-    public void delete(UUID id) {
+    public boolean delete(UUID id) {
         examSubmissionDao.deleteById(id);
+        return true;
     }
 
     @Transactional

@@ -1,0 +1,46 @@
+extend type Query {
+    assignments: [Assignment!]!
+    assignmentById(id: String!): Assignment
+}
+
+extend type Mutation {
+    "Create assignment"
+    createAssignment(input: CreateAssignmentInput!): Assignment!
+    "Update assignment"
+    updateAssignment(input: UpdateAssignmentInput!): Assignment!
+    "Delete assignment"
+    deleteAssignment(id: String!): Boolean!
+}
+
+#############
+#Assignments#
+#############
+
+type Assignment {
+    id: ID!
+    title: String!
+    description: String!
+    xml: String!
+    author: String!
+}
+
+input AssignmentInput {
+    id: ID!
+    title: String!
+    description: String!
+    xml: String!
+    author: String!
+}
+
+input CreateAssignmentInput {
+    title: String!
+    description: String!
+    xml: String!
+}
+
+input UpdateAssignmentInput {
+    id: String!
+    title: String
+    description: String
+    xml: String
+}
