@@ -2,6 +2,7 @@ extend type Query {
     examSubmissions: [ExamSubmission!]!
     examSubmissionById(id: String!): ExamSubmission
     myExamSubmissions: [ExamSubmission!]!
+    examSubmissionsByExamId(examId: String!): [ExamSubmission!]!
 }
 
 extend type Mutation {
@@ -19,14 +20,14 @@ extend type Mutation {
 ##################
 
 type ExamSubmission {
-    id: ID
-    exam: Exam
-    assignment: Assignment
+    id: ID!
+    exam: Exam!
+    assignment: Assignment!
     xml: String
-    startedAt: String
+    startedAt: String!
     submittedAt: String
-    author: String
-    examSubmissionState: ExamSubmissionState
+    author: String!
+    examSubmissionState: ExamSubmissionState!
 }
 
 input ExamSubmissionCheckpointInput {

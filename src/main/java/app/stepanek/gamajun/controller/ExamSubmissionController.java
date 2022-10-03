@@ -39,6 +39,12 @@ public class ExamSubmissionController {
         return examSubmissionService.findAll();
     }
 
+    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+    @QueryMapping
+    public List<ExamSubmission> examSubmissionsByExamId(@Argument UUID examId) {
+        return examSubmissionService.findAllByExam(examId);
+    }
+
     @QueryMapping
     public ExamSubmission examSubmissionById(@Argument UUID id) {
         return examSubmissionService.findById(id);
@@ -61,8 +67,8 @@ public class ExamSubmissionController {
     }
 
     @MutationMapping
-    public ExamSubmission submitExamSubmission(@Argument ExamSubmissionSubmitInput examSubmissionSubmitInput)  {
-        return examSubmissionService.submitStudentExam(examSubmissionSubmitInput);
+    public ExamSubmission submitExamSubmission(@Argument ExamSubmissionSubmitInput input)  {
+        return examSubmissionService.submitStudentExam(input);
     }
 
 }

@@ -58,6 +58,11 @@ public class ExamSubmissionService {
     }
 
     @Transactional
+    public List<ExamSubmission> findAllByExam(UUID examId) {
+        return examSubmissionDao.findByExam_Id(examId);
+    }
+
+    @Transactional
     public StudentExamSubmissionDTO getExamSubmission(UUID examSubmissionId) {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
@@ -113,6 +118,4 @@ public class ExamSubmissionService {
 
         return examSubmissionDao.save(examSubmission);
     }
-
-
 }
