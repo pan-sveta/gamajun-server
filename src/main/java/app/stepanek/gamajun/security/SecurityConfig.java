@@ -52,7 +52,7 @@ public class SecurityConfig {
 
     @Bean
     public OpaqueTokenIntrospector zuulIntrospector() {
-        return new ZuulTokenIntrospector("https://auth.fit.cvut.cz/oauth/check_token", "13195362-f2f9-4bf4-9ac0-17552448f080", "3yhN9zLUd3ODTFWKWvBblDFpvtzydzGd", adminService);
+        return new ZuulTokenIntrospector("https://auth.fit.cvut.cz/oauth/check_token", "7d018196-b8ff-48d2-b398-98a7ad5ee187", "C4McVjCMTo6GskDmqgJkt6prsB8Jj4h6", adminService);
     }
 
     @Bean
