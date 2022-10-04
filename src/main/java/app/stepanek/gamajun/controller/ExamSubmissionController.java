@@ -1,9 +1,6 @@
 package app.stepanek.gamajun.controller;
 
-import app.stepanek.gamajun.command.ExamSubmissionCheckpointCommand;
 import app.stepanek.gamajun.domain.ExamSubmission;
-import app.stepanek.gamajun.command.ExamSubmissionSubmitCommand;
-import app.stepanek.gamajun.dto.StudentExamSubmissionDTO;
 import app.stepanek.gamajun.graphql.ExamSubmissionCheckpointInput;
 import app.stepanek.gamajun.graphql.ExamSubmissionSubmitInput;
 import app.stepanek.gamajun.services.ExamSubmissionService;
@@ -57,7 +54,7 @@ public class ExamSubmissionController {
     }
 
     @QueryMapping
-    public List<StudentExamSubmissionDTO> myExamSubmissions() {
+    public List<ExamSubmission> myExamSubmissions() {
         return examSubmissionService.mySubmissions();
     }
 
