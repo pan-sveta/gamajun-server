@@ -10,6 +10,7 @@ import app.stepanek.gamajun.graphql.ExamSubmissionSubmitInput;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +23,16 @@ import java.util.UUID;
 public class ExamSubmissionService {
     private final ExamSubmissionDao examSubmissionDao;
     private final AdminService adminService;
-    private final ValidatorService validatorService;
+    @Autowired
+    @Lazy
+    private ValidatorService validatorService;
     private final IAuthenticationFacade authenticationFacade;
 
 
     @Autowired
-    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, AdminService adminService, ValidatorService validatorService, IAuthenticationFacade authenticationFacade) {
+    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, AdminService adminService, IAuthenticationFacade authenticationFacade) {
         this.examSubmissionDao = examSubmissionDao;
         this.adminService = adminService;
-        this.validatorService = validatorService;
         this.authenticationFacade = authenticationFacade;
     }
 

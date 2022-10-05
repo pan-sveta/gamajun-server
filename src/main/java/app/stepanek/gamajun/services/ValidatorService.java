@@ -53,15 +53,6 @@ public class ValidatorService {
     }
 
     @Transactional
-    public void validateAll() {
-        var submissions = examSubmissionService.findAll();
-
-        for (var sub : submissions) {
-            validateSubmission(sub);
-        }
-    }
-
-    @Transactional
     public void validateSubmission(ExamSubmission sub) {
         InputStream inputStream = new ByteArrayInputStream(sub.getXml().getBytes());
         var bpmn = Bpmn.readModelFromStream(inputStream);
