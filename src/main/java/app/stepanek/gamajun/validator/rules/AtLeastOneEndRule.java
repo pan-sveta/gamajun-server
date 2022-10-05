@@ -27,7 +27,7 @@ public class AtLeastOneEndRule extends BaseValidatorRule {
         Collection<ModelElementInstance> elementInstances = instance.getModelElementsByType(endEventType);
 
         if (elementInstances.size() != 1)
-            return invalid("Diagram musí obsahovat alespoň jeden konec.");
+            return invalid("Diagram musí obsahovat alespoň jeden konec, ale obsahuje jich %d".formatted(elementInstances.size()));
 
         return valid();
     }

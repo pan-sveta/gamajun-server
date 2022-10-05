@@ -26,7 +26,7 @@ public class SingleStartRule extends BaseValidatorRule {
         Collection<ModelElementInstance> elementInstances = instance.getModelElementsByType(taskType);
 
         if (elementInstances.size() != 1)
-            return invalid("Diagram musí obsahovat pouze jeden start.");
+            return invalid("Diagram musí obsahovat pouze jeden start, ale obsahuje jich %d".formatted(elementInstances.size()));
 
         return valid();
     }
