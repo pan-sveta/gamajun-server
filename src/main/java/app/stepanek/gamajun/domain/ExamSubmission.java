@@ -42,6 +42,10 @@ public class ExamSubmission {
     @Column(name = "exam_submission_state", nullable = false)
     private ExamSubmissionState examSubmissionState;
 
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "validator_report_id")
+    private ValidatorReport validatorReport;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -26,7 +26,7 @@ public class AdminsConfig {
     InitializingBean sendDatabase() {
         List<Admin> administrators = new ArrayList<>();
 
-        //administrators.add(new Admin("stepafi6"));
+        administrators.add(new Admin("stepafi6"));
         administrators.add(new Admin("naplava"));
 
         return () -> {

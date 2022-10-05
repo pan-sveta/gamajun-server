@@ -10,10 +10,8 @@ import app.stepanek.gamajun.graphql.ExamSubmissionSubmitInput;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -24,15 +22,29 @@ import java.util.UUID;
 public class ExamSubmissionService {
     private final ExamSubmissionDao examSubmissionDao;
     private final AdminService adminService;
+    private final ValidatorService validatorService;
     private final IAuthenticationFacade authenticationFacade;
 
 
     @Autowired
-    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, AdminService adminService, IAuthenticationFacade authenticationFacade) {
+    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, AdminService adminService, ValidatorService validatorService, IAuthenticationFacade authenticationFacade) {
         this.examSubmissionDao = examSubmissionDao;
         this.adminService = adminService;
+        this.validatorService = validatorService;
         this.authenticationFacade = authenticationFacade;
     }
+
+    //******
+    //Create
+    //******
+
+    public ExamSubmission save(ExamSubmission sub) {
+        return examSubmissionDao.save(sub);
+    }
+
+    //****
+    //Read
+    //****
 
     @Transactional
     public ExamSubmission findById(UUID id) {
@@ -56,6 +68,11 @@ public class ExamSubmissionService {
     }
 
     @Transactional
+    public List<ExamSubmission> mySubmissions() {
+        return examSubmissionDao.findByExam_Author(authenticationFacade.getUsername());
+    }
+
+    @Transactional
     public ExamSubmission getExamSubmission(UUID examSubmissionId) {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
@@ -66,16 +83,19 @@ public class ExamSubmissionService {
         return examSubmission;
     }
 
+    //******
+    //Delete
+    //******
+
     @Transactional
     public boolean delete(UUID id) {
         examSubmissionDao.deleteById(id);
         return true;
     }
 
-    @Transactional
-    public List<ExamSubmission> mySubmissions() {
-        return examSubmissionDao.findByExam_Author(authenticationFacade.getUsername());
-    }
+    //*******
+    //Actions
+    //*******
 
     @Transactional
     public ExamSubmission checkpointStudentExam(ExamSubmissionCheckpointInput examSubmissionCheckpointInput) {
@@ -105,6 +125,10 @@ public class ExamSubmissionService {
         examSubmission.setXml(examSubmissionSubmitInput.getXml());
         examSubmission.setExamSubmissionState(ExamSubmissionState.Submitted);
 
-        return examSubmissionDao.save(examSubmission);
+        examSubmission = examSubmissionDao.save(examSubmission);
+
+        validatorService.validateSubmission(examSubmission);
+
+        return examSubmission;
     }
 }

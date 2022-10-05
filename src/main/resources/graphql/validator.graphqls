@@ -1,0 +1,24 @@
+extend type Query {
+    validatorReports: [ValidatorReport!]!
+    validatorReportByExamSubmissionId(id: String!): ValidatorReport
+}
+
+type ValidatorReport{
+    id: String!
+    validatorRuleResults: [ValidatorRuleResult!]!
+    startedAt: String!
+    finishedAt: String!
+}
+
+type ValidatorRuleResult {
+    id: String!
+    validatorRule: ValidatorRule!
+    valid: Boolean!
+    message: String
+}
+
+type ValidatorRule {
+    id: String!
+    name: String!
+    description: String!
+}

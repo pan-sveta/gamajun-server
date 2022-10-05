@@ -28,6 +28,7 @@ type ExamSubmission {
     submittedAt: String
     author: String!
     examSubmissionState: ExamSubmissionState!
+    validatorReport: ValidatorReport
 }
 
 input ExamSubmissionCheckpointInput {
