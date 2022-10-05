@@ -16,7 +16,7 @@ class GamajunApplicationTests {
 
 	@Test
 	void contextLoads() {
-		validatorService.validateAll();
+
 	}
 
 }
