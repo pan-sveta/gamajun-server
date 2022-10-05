@@ -62,7 +62,6 @@ public class ValidatorService {
     }
 
     @Transactional
-    @Async
     public void validateSubmission(ExamSubmission sub) {
         InputStream inputStream = new ByteArrayInputStream(sub.getXml().getBytes());
         var bpmn = Bpmn.readModelFromStream(inputStream);
