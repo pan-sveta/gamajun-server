@@ -22,11 +22,11 @@ public class SingleStartRule extends BaseValidatorRule {
 
     @Override
     public ValidatorRuleResult validate(BpmnModelInstance instance) {
-        ModelElementType taskType = instance.getModel().getType(StartEvent.class);
-        Collection<ModelElementInstance> elementInstances = instance.getModelElementsByType(taskType);
+        var startEvents = instance.getModelElementsByType(StartEvent.class);
 
-        if (elementInstances.size() != 1)
-            return invalid("Diagram musí obsahovat pouze jeden start, ale obsahuje jich %d".formatted(elementInstances.size()));
+
+        if (startEvents.size() != 1)
+            return invalid("Diagram musí obsahovat pouze jeden start, ale obsahuje %d".formatted(startEvents.size()));
 
         return valid();
     }
