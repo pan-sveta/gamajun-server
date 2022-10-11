@@ -3,6 +3,8 @@ server:
     include-message: always
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   graphql:
     graphiql:
       enabled: true
@@ -12,6 +14,6 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: "jdbc:postgresql://stepanek.app:12000/gamajun"
-    username: gamajun
-    password: Gamajun2022
+    url: ${GAMAJUN_PG_HOST}
+    username: ${GAMAJUN_PG_USERNAME}
+    password: ${GAMAJUN_PG_PASSWORD}
