@@ -61,6 +61,7 @@ public class ExamService {
         var attendedExams = submissions.stream().map(ExamSubmission::getExam).toList();
         exams.removeAll(attendedExams);
 
+
         return exams;
     }
 
