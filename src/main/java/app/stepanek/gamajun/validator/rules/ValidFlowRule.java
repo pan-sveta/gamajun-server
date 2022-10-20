@@ -20,20 +20,19 @@ public class ValidFlowRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance instance) {
-
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
         //Get start
-        var starts = instance.getModelElementsByType(StartEvent.class);
+        var starts = submissionBpmn.getModelElementsByType(StartEvent.class);
 
         if (starts.size() != 1)
             return invalid("Diagram musí obsahovat pouze jeden start");
 
         StartEvent start = starts.stream().findFirst().get();
-        ModelElementType endEventType = instance.getModel().getType(EndEvent.class);
+        ModelElementType endEventType = submissionBpmn.getModel().getType(EndEvent.class);
 
         try {
             walk(start, endEventType);
-        } catch (RuntimeException exception){
+        } catch (RuntimeException exception) {
             return invalid("Jeden z elementů neobsahuje odchozí hrany a nejedná se o konec");
         }
 
@@ -42,13 +41,12 @@ public class ValidFlowRule extends BaseValidatorRule {
 
     protected void walk(FlowNode node, ModelElementType endEventType) throws RuntimeException {
         if (node.getOutgoing().isEmpty() && node.getElementType() != endEventType)
-            throw  new RuntimeException("Element does not have ongoing and its not end type");
-
+            throw new RuntimeException("Element does not have ongoing and its not end type");
 
         for (var outgoing : node.getOutgoing()) {
             var target = outgoing.getTarget();
 
-            walk(target,endEventType);
+            walk(target, endEventType);
         }
     }
 

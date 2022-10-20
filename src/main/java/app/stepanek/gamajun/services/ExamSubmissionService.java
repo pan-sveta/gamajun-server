@@ -127,9 +127,11 @@ public class ExamSubmissionService {
         examSubmission.setXml(examSubmissionSubmitInput.getXml());
         examSubmission.setExamSubmissionState(ExamSubmissionState.Submitted);
 
-        examSubmission = examSubmissionDao.save(examSubmission);
 
-        validatorService.validateSubmission(examSubmission);
+        var validatorReport = validatorService.validateSubmission(examSubmission);
+        examSubmission.setValidatorReport(validatorReport);
+
+        examSubmission = examSubmissionDao.save(examSubmission);
 
         return examSubmission;
     }

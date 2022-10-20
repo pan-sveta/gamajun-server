@@ -12,7 +12,7 @@ public abstract class BaseValidatorRule {
     private final ValidatorRule validatorRuleEntity;
     private final ValidatorRuleDao validatorRuleDao;
 
-    public abstract ValidatorRuleResult validate(BpmnModelInstance instance);
+    public abstract ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn);
 
     protected abstract String getId();
 

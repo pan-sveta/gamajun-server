@@ -4,41 +4,43 @@ import app.stepanek.gamajun.domain.ValidatorRuleResult;
 import app.stepanek.gamajun.repository.ValidatorRuleDao;
 import app.stepanek.gamajun.validator.BaseValidatorRule;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.Lane;
+import org.camunda.bpm.model.bpmn.instance.Participant;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
-import org.camunda.bpm.model.xml.instance.ModelElementInstance;
-import org.camunda.bpm.model.xml.type.ModelElementType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-
 @Component
-public class SingleStartRule extends BaseValidatorRule {
+public class PoolRule extends BaseValidatorRule {
 
     @Autowired
-    public SingleStartRule(ValidatorRuleDao validatorRuleDao) {
+    public PoolRule(ValidatorRuleDao validatorRuleDao) {
         super(validatorRuleDao);
     }
 
     @Override
     public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
-        var startEvents = submissionBpmn.getModelElementsByType(StartEvent.class);
 
+        var participantsCount = submissionBpmn.getModelElementsByType(Participant.class).size();
+        var solutionParticipantsCount = solutionBpmn.getModelElementsByType(Participant.class).size();
+        if (participantsCount != solutionParticipantsCount)
+            return invalid("Diagram neobsahuje správný počet participantů. Obsahuje %d ale má obsahovat %d".formatted(participantsCount, solutionParticipantsCount));
 
-        if (startEvents.size() != 1)
-            return invalid("Diagram musí obsahovat pouze jeden start, ale obsahuje %d".formatted(startEvents.size()));
+        var lanes = submissionBpmn.getModelElementsByType(Lane.class);
+        var solutionLanes = solutionBpmn.getModelElementsByType(Lane.class);
+
 
         return valid();
     }
 
     @Override
     protected String getId() {
-        return "SingleStart";
+        return "Pools";
     }
 
     @Override
     public String getName() {
-        return "Jeden start";
+        return "Pools";
     }
 
     @Override

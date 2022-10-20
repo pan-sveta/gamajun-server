@@ -53,18 +53,17 @@ public class ValidatorService {
     }
 
     @Transactional
-    public void validateSubmission(ExamSubmission sub) {
+    public ValidatorReport validateSubmission(ExamSubmission sub) {
         InputStream inputStream = new ByteArrayInputStream(sub.getXml().getBytes());
         var bpmn = Bpmn.readModelFromStream(inputStream);
 
-        var report = validateInstance(bpmn);
+        InputStream solutionStream = new ByteArrayInputStream(sub.getAssignment().getXml().getBytes());
+        var solutionBpmn = Bpmn.readModelFromStream(inputStream);
 
-        sub.setValidatorReport(report);
-
-        examSubmissionService.save(sub);
+        return validateInstance(bpmn, solutionBpmn);
     }
 
-    protected ValidatorReport validateInstance(BpmnModelInstance instance) {
+    protected ValidatorReport validateInstance(BpmnModelInstance bpmn, BpmnModelInstance solutionBpmn) {
         ValidatorReport report = new ValidatorReport();
 
         report.setStartedAt(Instant.now());
@@ -72,7 +71,7 @@ public class ValidatorService {
         Set<ValidatorRuleResult> results = new HashSet<>();
 
         for (var rule : list) {
-            results.add(rule.validate(instance));
+            results.add(rule.validate(bpmn, solutionBpmn));
         }
 
         report.setValidatorRuleResults(results);
