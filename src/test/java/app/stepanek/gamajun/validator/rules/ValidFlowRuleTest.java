@@ -35,7 +35,7 @@ public class ValidFlowRuleTest {
                 .endEvent()
                 .done();
 
-        var result = validFlowRule.validate(modelInstance);
+        var result = validFlowRule.validate(modelInstance, null);
 
         assertFalse(result.getValid());
     }
@@ -49,7 +49,7 @@ public class ValidFlowRuleTest {
                 .endEvent()
                 .done();
 
-        var result = validFlowRule.validate(modelInstance);
+        var result = validFlowRule.validate(modelInstance, null);
 
         assertTrue(result.getValid());
     }
