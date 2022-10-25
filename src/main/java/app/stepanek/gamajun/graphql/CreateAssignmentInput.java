@@ -11,5 +11,6 @@ public class CreateAssignmentInput {
     private String title;
     private String description;
     private String xml;
+    private boolean sandbox;
 }
 
