@@ -59,7 +59,7 @@ public class ValidatorService {
         var bpmn = Bpmn.readModelFromStream(inputStream);
 
         InputStream solutionStream = new ByteArrayInputStream(sub.getAssignment().getXml().getBytes());
-        var solutionBpmn = Bpmn.readModelFromStream(inputStream);
+        var solutionBpmn = Bpmn.readModelFromStream(solutionStream);
 
         return validateInstance(bpmn, solutionBpmn);
     }
