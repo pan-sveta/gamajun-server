@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.ExamSubmission;
+import app.stepanek.gamajun.domain.Submission;
 import app.stepanek.gamajun.domain.ValidatorReport;
 import app.stepanek.gamajun.domain.ValidatorRuleResult;
 import app.stepanek.gamajun.exceptions.ValidatorReportNotFoundException;
@@ -53,7 +54,7 @@ public class ValidatorService {
     }
 
     @Transactional
-    public ValidatorReport validateSubmission(ExamSubmission sub) {
+    public ValidatorReport validateSubmission(Submission sub) {
         InputStream inputStream = new ByteArrayInputStream(sub.getXml().getBytes());
         var bpmn = Bpmn.readModelFromStream(inputStream);
 

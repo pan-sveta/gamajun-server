@@ -32,7 +32,7 @@ public class AssignmentController  {
 
     @SchemaMapping
     public Assignment assignment(Assignment assignment) {
-        return assignmentDao.findById(assignment.getId()).orElseThrow();
+        return assignmentService.findById(assignment.getId());
     }
 
     @MutationMapping

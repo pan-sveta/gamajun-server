@@ -1,0 +1,33 @@
+extend type Query {
+    sandboxSubmissions: [SandboxSubmission!]!
+    sandboxSubmissionById(id: String!): SandboxSubmission
+    mySandboxSubmissions: [SandboxSubmission!]!
+    sandboxSubmissionsByAssignment(assignmentId: String!): [SandboxSubmission!]!
+}
+
+extend type Mutation {
+    "Delete sandbox submission"
+    deleteSandboxSubmission(id: String!): Boolean!
+    "Submit sandbox submission"
+    submitSandboxSubmission(input: SandboxSubmissionSubmitInput!): SandboxSubmission!
+
+}
+
+##################
+#Sandbox submissions#
+##################
+
+type SandboxSubmission {
+    id: ID!
+    assignment: Assignment!
+    xml: String
+    startedAt: String!
+    submittedAt: String
+    author: String!
+    validatorReport: ValidatorReport
+}
+
+input SandboxSubmissionSubmitInput {
+    id: ID
+    xml: String
+}
