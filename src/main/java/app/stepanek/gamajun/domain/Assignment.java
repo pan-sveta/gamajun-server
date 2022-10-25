@@ -33,6 +33,9 @@ public class Assignment {
     @Column(name = "author", nullable = false)
     private String author;
 
+    @Column(name = "sandbox", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean sandbox;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

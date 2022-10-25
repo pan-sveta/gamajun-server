@@ -1,6 +1,7 @@
 extend type Query {
     assignments: [Assignment!]!
     assignmentById(id: String!): Assignment
+    sandboxAssignments: [Assignment!]!
 }
 
 extend type Mutation {
@@ -22,6 +23,7 @@ type Assignment {
     description: String!
     xml: String!
     author: String!
+    sandbox: Boolean!
 }
 
 input AssignmentInput {
@@ -30,12 +32,14 @@ input AssignmentInput {
     description: String!
     xml: String!
     author: String!
+    sandbox: Boolean!
 }
 
 input CreateAssignmentInput {
     title: String!
     description: String!
     xml: String!
+    sandbox: Boolean!
 }
 
 input UpdateAssignmentInput {
@@ -43,4 +47,5 @@ input UpdateAssignmentInput {
     title: String
     description: String
     xml: String
+    sandbox: Boolean!
 }

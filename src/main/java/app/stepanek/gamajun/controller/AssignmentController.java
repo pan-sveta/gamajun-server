@@ -50,6 +50,11 @@ public class AssignmentController  {
         return assignmentDao.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @QueryMapping
+    public List<Assignment> sandboxAssignments() {
+        return assignmentService.sandboxAssignments();
+    }
+
     @MutationMapping
     public Assignment updateAssignment(@Argument UpdateAssignmentInput input) {
         return assignmentService.updateAssignment(input);

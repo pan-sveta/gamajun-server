@@ -8,6 +8,8 @@ import app.stepanek.gamajun.utilities.IAuthenticationFacade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class AssignmentService {
     private final AssignmentDao assignmentDao;
@@ -40,5 +42,9 @@ public class AssignmentService {
         assignment.setXml(updateAssignmentInput.getXml());
 
         return assignmentDao.save(assignment);
+    }
+
+    public List<Assignment> sandboxAssignments() {
+        return assignmentDao.findBySandboxTrue();
     }
 }
