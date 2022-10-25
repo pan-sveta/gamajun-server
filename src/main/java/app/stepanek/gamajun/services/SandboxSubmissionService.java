@@ -20,6 +20,7 @@ import java.util.UUID;
 public class SandboxSubmissionService {
     private final SandboxSubmissionDao sandboxSubmissionDao;
     private final AdminService adminService;
+    private final AssignmentService assignmentService;
     @Autowired
     @Lazy
     private ValidatorService validatorService;
@@ -27,9 +28,10 @@ public class SandboxSubmissionService {
 
 
     @Autowired
-    public SandboxSubmissionService(SandboxSubmissionDao examSubmissionDao, AdminService adminService, IAuthenticationFacade authenticationFacade) {
+    public SandboxSubmissionService(SandboxSubmissionDao examSubmissionDao, AdminService adminService, AssignmentService assignmentService, IAuthenticationFacade authenticationFacade) {
         this.sandboxSubmissionDao = examSubmissionDao;
         this.adminService = adminService;
+        this.assignmentService = assignmentService;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -112,5 +114,16 @@ public class SandboxSubmissionService {
 
     public List<SandboxSubmission> findAllByAssignment(UUID assignmentId) {
         return sandboxSubmissionDao.findByAssignment_Id(assignmentId);
+    }
+
+    public SandboxSubmission createSandboxSubmission(UUID assignmentId) {
+        var assignment = assignmentService.findById(assignmentId);
+
+        SandboxSubmission submission = new SandboxSubmission();
+        submission.setAssignment(assignment);
+        submission.setAuthor(authenticationFacade.getUsername());
+        submission.setStartedAt(Instant.now());
+
+        return sandboxSubmissionDao.save(submission);
     }
 }

@@ -61,4 +61,10 @@ public class SandboxSubmissionController {
         return sandboxSubmissionService.submitSandboxSubmission(input);
     }
 
+    @MutationMapping
+    public SandboxSubmission createSandboxSubmission(@Argument UUID assignmentId)  {
+        return sandboxSubmissionService.createSandboxSubmission(assignmentId);
+    }
+
+
 }
