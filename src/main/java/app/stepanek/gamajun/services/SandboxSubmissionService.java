@@ -64,8 +64,8 @@ public class SandboxSubmissionService {
     }
 
     @Transactional
-    public List<SandboxSubmission> mySandboxSubmissions() {
-        return sandboxSubmissionDao.findByAuthor(authenticationFacade.getUsername());
+    public List<SandboxSubmission> mySandboxSubmissions(UUID assignmentId) {
+        return sandboxSubmissionDao.findByAssignment_IdAndAuthor(assignmentId, authenticationFacade.getUsername());
     }
 
     @Transactional
@@ -77,6 +77,16 @@ public class SandboxSubmissionService {
             throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
 
         return sandboxSubmission;
+    }
+
+    @Transactional
+    public List<SandboxSubmission> findAllByAssignment(UUID assignmentId) {
+        return sandboxSubmissionDao.findByAssignment_Id(assignmentId);
+    }
+
+    @Transactional
+    public List<SandboxSubmission> findAllByAssignmentAndAuthor(UUID assignmentId) {
+        return sandboxSubmissionDao.findByAssignment_Id(assignmentId);
     }
 
     //******
@@ -110,10 +120,6 @@ public class SandboxSubmissionService {
         sandboxSubmission = sandboxSubmissionDao.save(sandboxSubmission);
 
         return sandboxSubmission;
-    }
-
-    public List<SandboxSubmission> findAllByAssignment(UUID assignmentId) {
-        return sandboxSubmissionDao.findByAssignment_Id(assignmentId);
     }
 
     public SandboxSubmission createSandboxSubmission(UUID assignmentId) {

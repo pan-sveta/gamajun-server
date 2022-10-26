@@ -1,7 +1,7 @@
 extend type Query {
     sandboxSubmissions: [SandboxSubmission!]!
     sandboxSubmissionById(id: String!): SandboxSubmission
-    mySandboxSubmissions: [SandboxSubmission!]!
+    mySandboxSubmissions(assignmentId: String!): [SandboxSubmission!]!
     sandboxSubmissionsByAssignment(assignmentId: String!): [SandboxSubmission!]!
 }
 

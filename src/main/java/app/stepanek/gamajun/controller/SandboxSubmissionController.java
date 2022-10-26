@@ -41,8 +41,8 @@ public class SandboxSubmissionController {
     }
 
     @QueryMapping
-    public List<SandboxSubmission> mySandboxSubmissions() {
-        return sandboxSubmissionService.mySandboxSubmissions();
+    public List<SandboxSubmission> mySandboxSubmissions(@Argument UUID assignmentId) {
+        return sandboxSubmissionService.mySandboxSubmissions(assignmentId);
     }
 
     @QueryMapping
