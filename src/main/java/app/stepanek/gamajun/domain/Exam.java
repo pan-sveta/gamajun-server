@@ -32,6 +32,10 @@ public class Exam {
     @Column(name = "accessible_to", nullable = false)
     private Instant accessibleTo;
 
+    @Column(name = "time_limit", nullable = false)
+    //In minutes
+    private int timeLimit;
+
     @ManyToMany
     @JoinTable(name = "exam_assignments",
             joinColumns = @JoinColumn(name = "exam_id"),

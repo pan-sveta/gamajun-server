@@ -73,6 +73,7 @@ public class ExamService {
         exam.setAuthor(authenticationFacade.getUsername());
         exam.setAccessibleFrom(createExamInput.getAccessibleFrom());
         exam.setAccessibleTo(createExamInput.getAccessibleTo());
+        exam.setTimeLimit(createExamInput.getTimeLimit());
         exam.setAssignments(assignmentDao.findAllById(createExamInput.getAssignmentIds()));
 
         return examDao.save(exam);
@@ -98,6 +99,7 @@ public class ExamService {
         exam.setTitle(updateExamInput.getTitle());
         exam.setAccessibleFrom(updateExamInput.getAccessibleFrom());
         exam.setAccessibleTo(updateExamInput.getAccessibleTo());
+        exam.setTimeLimit(updateExamInput.getTimeLimit());
         exam.setAssignments(assignmentDao.findAllById(updateExamInput.getAssignmentIds()));
 
         return examDao.save(exam);

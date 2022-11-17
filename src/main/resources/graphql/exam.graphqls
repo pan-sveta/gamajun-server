@@ -25,6 +25,7 @@ type Exam {
     author: String!
     accessibleFrom: String!
     accessibleTo: String!
+    timeLimit: Int!
     assignments: [Assignment!]!
 }
 
@@ -34,6 +35,7 @@ input ExamInput {
     author: String!
     accessibleFrom: String!
     accessibleTo: String!
+    timeLimit: Int!
     assignmentIds: [ID!]!
 }
 
@@ -41,6 +43,7 @@ input CreateExamInput {
     title: String!
     accessibleFrom: String!
     accessibleTo: String!
+    timeLimit: Int!
     assignmentIds: [ID!]!
 }
 
@@ -49,6 +52,7 @@ input UpdateExamInput {
     title: String!
     accessibleFrom: String!
     accessibleTo: String!
+    timeLimit: Int!
     assignmentIds: [ID!]!
 }
 
