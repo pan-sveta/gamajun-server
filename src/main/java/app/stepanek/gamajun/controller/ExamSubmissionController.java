@@ -59,8 +59,8 @@ public class ExamSubmissionController {
     }
 
     @MutationMapping
-    public ExamSubmission checkpointExamSubmission(@Argument ExamSubmissionCheckpointInput examSubmissionCheckpointInput) {
-        return examSubmissionService.checkpointStudentExam(examSubmissionCheckpointInput);
+    public ExamSubmission checkpointExamSubmission(@Argument ExamSubmissionCheckpointInput input) {
+        return examSubmissionService.checkpointStudentExam(input);
     }
 
     @MutationMapping
