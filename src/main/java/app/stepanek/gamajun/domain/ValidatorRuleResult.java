@@ -1,8 +1,8 @@
 package app.stepanek.gamajun.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.UUID;
 
 @Entity

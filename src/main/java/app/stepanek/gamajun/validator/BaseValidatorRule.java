@@ -6,8 +6,6 @@ import app.stepanek.gamajun.repository.ValidatorRuleDao;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
-
 public abstract class BaseValidatorRule {
     private final ValidatorRule validatorRuleEntity;
     private final ValidatorRuleDao validatorRuleDao;

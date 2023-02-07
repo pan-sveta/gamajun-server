@@ -1,12 +1,14 @@
 package app.stepanek.gamajun.domain;
 
-import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.Type;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
-import java.time.Instant;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 

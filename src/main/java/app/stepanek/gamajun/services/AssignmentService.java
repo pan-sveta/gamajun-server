@@ -1,10 +1,7 @@
 package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.Assignment;
-import app.stepanek.gamajun.domain.ExamSubmission;
 import app.stepanek.gamajun.exceptions.AssignmentNotFoundException;
-import app.stepanek.gamajun.exceptions.ExamSubmissionNotFoundException;
-import app.stepanek.gamajun.exceptions.ResourceNotOwnedByCurrentUserException;
 import app.stepanek.gamajun.graphql.CreateAssignmentInput;
 import app.stepanek.gamajun.graphql.UpdateAssignmentInput;
 import app.stepanek.gamajun.repository.AssignmentDao;

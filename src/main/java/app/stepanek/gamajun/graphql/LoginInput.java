@@ -12,10 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateExamInput {
-    private String title;
-    private Instant accessibleFrom;
-    private Instant accessibleTo;
-    private int timeLimit;
-    private List<UUID> assignmentIds = new ArrayList<>();
+public class LoginInput {
+    private String username;
+    private String password;
 }

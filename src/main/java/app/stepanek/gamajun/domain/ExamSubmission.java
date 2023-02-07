@@ -1,11 +1,10 @@
 package app.stepanek.gamajun.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
-import java.time.Instant;
-import java.util.Objects;
-import java.util.UUID;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter

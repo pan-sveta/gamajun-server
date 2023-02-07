@@ -1,7 +1,6 @@
 package app.stepanek.gamajun.controller;
 
 import app.stepanek.gamajun.domain.ValidatorReport;
-import app.stepanek.gamajun.repository.ValidatorReportDao;
 import app.stepanek.gamajun.services.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
