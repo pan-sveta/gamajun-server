@@ -108,6 +108,7 @@ public class SecurityConfig {
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .redirectUri("https://oauth.pstmn.io/v1/callback")
                 .redirectUri("http://127.0.0.1:3000/auth/gamajun/redirect")
+                .redirectUri("http://lvh.me:3000/auth/gamajun/redirect")
                 .redirectUri("https://gamajun.stepanek.app/auth/gamajun/redirect")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
