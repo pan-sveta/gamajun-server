@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -50,6 +51,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 @EnableWebSecurity
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -76,24 +78,15 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/graphql","/graphql/**","/graphiql/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
-                .formLogin(withDefaults());
+                .formLogin(withDefaults())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
         return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.builder()
-                .username("user")
-                .password(passwordEncoder().encode("password"))
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
     }
 
     @Bean
@@ -115,6 +108,7 @@ public class SecurityConfig {
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .redirectUri("https://oauth.pstmn.io/v1/callback")
                 .redirectUri("http://127.0.0.1:3000/auth/gamajun/redirect")
+                .redirectUri("https://gamajun.stepanek.app/auth/gamajun/redirect")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .scope("message.read")
