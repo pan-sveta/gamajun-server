@@ -7,10 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -44,6 +41,12 @@ public class Exam {
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "assignments_id"))
     private List<Assignment> assignments = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "exam_classrooms",
+            joinColumns = @JoinColumn(name = "exam_id"),
+            inverseJoinColumns = @JoinColumn(name = "classroom_id"))
+    private List<Classroom> classrooms = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

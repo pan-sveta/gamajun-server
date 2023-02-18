@@ -8,6 +8,7 @@ import app.stepanek.gamajun.exceptions.ExamSubmissionLockedException;
 import app.stepanek.gamajun.graphql.CreateExamInput;
 import app.stepanek.gamajun.graphql.UpdateExamInput;
 import app.stepanek.gamajun.repository.AssignmentDao;
+import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.repository.ExamDao;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
@@ -26,13 +27,16 @@ public class ExamService {
     private final ExamDao examDao;
     private final ExamSubmissionDao examSubmissionDao;
     private final IAuthenticationFacade authenticationFacade;
+    private final ClassroomDao classroomDao;
 
     @Autowired
-    public ExamService(AssignmentDao assignmentDao, ExamDao examDao, ExamSubmissionDao examSubmissionDao, IAuthenticationFacade authenticationFacade) {
+    public ExamService(AssignmentDao assignmentDao, ExamDao examDao, ExamSubmissionDao examSubmissionDao, IAuthenticationFacade authenticationFacade,
+                       ClassroomDao classroomDao) {
         this.assignmentDao = assignmentDao;
         this.examDao = examDao;
         this.examSubmissionDao = examSubmissionDao;
         this.authenticationFacade = authenticationFacade;
+        this.classroomDao = classroomDao;
     }
 
     public ExamSubmission beginExam(UUID examId) {
@@ -75,6 +79,7 @@ public class ExamService {
         exam.setAccessibleTo(createExamInput.getAccessibleTo());
         exam.setTimeLimit(createExamInput.getTimeLimit());
         exam.setAssignments(assignmentDao.findAllById(createExamInput.getAssignmentIds()));
+        exam.setClassrooms(classroomDao.findAllById(createExamInput.getClassroomIds()));
 
         return examDao.save(exam);
     }
@@ -101,6 +106,7 @@ public class ExamService {
         exam.setAccessibleTo(updateExamInput.getAccessibleTo());
         exam.setTimeLimit(updateExamInput.getTimeLimit());
         exam.setAssignments(assignmentDao.findAllById(updateExamInput.getAssignmentIds()));
+        exam.setClassrooms(classroomDao.findAllById(updateExamInput.getClassroomIds()));
 
         return examDao.save(exam);
     }
