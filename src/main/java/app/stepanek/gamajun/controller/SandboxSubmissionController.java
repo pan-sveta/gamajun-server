@@ -29,7 +29,7 @@ public class SandboxSubmissionController {
         return sandboxSubmissionService.findById(sandboxSubmission.getId());
     }
 
-    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     @QueryMapping
     public List<SandboxSubmission> sandboxSubmissions() {
         return sandboxSubmissionService.findAll();
@@ -50,7 +50,7 @@ public class SandboxSubmissionController {
         return sandboxSubmissionService.findAllByAssignment(assignmentId);
     }
 
-    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     @MutationMapping
     public boolean deleteSandboxSubmission(@PathVariable UUID sandboxSubmissionId) {
         return sandboxSubmissionService.delete(sandboxSubmissionId);

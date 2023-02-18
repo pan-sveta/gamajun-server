@@ -22,7 +22,6 @@ import java.util.UUID;
 @Service
 public class ExamSubmissionService {
     private final ExamSubmissionDao examSubmissionDao;
-    private final AdminService adminService;
     @Autowired
     @Lazy
     private ValidatorService validatorService;
@@ -30,9 +29,8 @@ public class ExamSubmissionService {
 
 
     @Autowired
-    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, AdminService adminService, IAuthenticationFacade authenticationFacade) {
+    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, IAuthenticationFacade authenticationFacade) {
         this.examSubmissionDao = examSubmissionDao;
-        this.adminService = adminService;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -53,7 +51,7 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(id)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(id)));
 
-        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()) && !adminService.IsUserAdministrator(authenticationFacade.getUsername()))
+        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(id, authenticationFacade.getUsername()));
 
         return examSubmission;
@@ -79,7 +77,7 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
 
-        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()) && !adminService.IsUserAdministrator(authenticationFacade.getUsername()))
+        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
 
         return examSubmission;

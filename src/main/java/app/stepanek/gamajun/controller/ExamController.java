@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+@PreAuthorize("hasRole('GAMAJUN_TEACHER')")
 public class ExamController {
     private final ExamService examService;
 

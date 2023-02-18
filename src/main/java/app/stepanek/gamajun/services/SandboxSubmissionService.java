@@ -19,7 +19,6 @@ import java.util.UUID;
 @Service
 public class SandboxSubmissionService {
     private final SandboxSubmissionDao sandboxSubmissionDao;
-    private final AdminService adminService;
     private final AssignmentService assignmentService;
     @Autowired
     @Lazy
@@ -28,9 +27,8 @@ public class SandboxSubmissionService {
 
 
     @Autowired
-    public SandboxSubmissionService(SandboxSubmissionDao examSubmissionDao, AdminService adminService, AssignmentService assignmentService, IAuthenticationFacade authenticationFacade) {
+    public SandboxSubmissionService(SandboxSubmissionDao examSubmissionDao, AssignmentService assignmentService, IAuthenticationFacade authenticationFacade) {
         this.sandboxSubmissionDao = examSubmissionDao;
-        this.adminService = adminService;
         this.assignmentService = assignmentService;
         this.authenticationFacade = authenticationFacade;
     }
@@ -52,7 +50,7 @@ public class SandboxSubmissionService {
         var sandboxSubmission = sandboxSubmissionDao.findById(id)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Sandbox submission with id %s was not found.".formatted(id)));
 
-        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()) && !adminService.IsUserAdministrator(authenticationFacade.getUsername()))
+        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(id, authenticationFacade.getUsername()));
 
         return sandboxSubmission;
@@ -73,7 +71,7 @@ public class SandboxSubmissionService {
         var sandboxSubmission = sandboxSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Sandbox submission with id %s was not found.".formatted(examSubmissionId)));
 
-        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()) && !adminService.IsUserAdministrator(authenticationFacade.getUsername()))
+        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()))
             throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
 
         return sandboxSubmission;

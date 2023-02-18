@@ -1,0 +1,23 @@
+extend type Query {
+    classrooms: [Classroom!]!
+    classroomById(id: String!): Classroom!
+    validateInviteCode(code: String!): Boolean!
+}
+
+extend type Mutation {
+    createClassroom(input: CreateClassroomInput!): Classroom!
+    addUser(username: String!, classroomId: String!):Classroom!
+    removeUser(username: String!, classroomId: String!):Classroom!
+}
+
+type Classroom{
+    id: String!
+    name: String!
+    inviteCode: String!
+    users: [User!]!
+}
+
+input CreateClassroomInput {
+    name: String!
+    inviteCode: String!
+}

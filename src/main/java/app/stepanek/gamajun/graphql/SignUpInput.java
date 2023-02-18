@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SignUpInput {
     private String username;
+    private String email;
     private String password;
     private String name;
     private String surname;
-    private String code;
+    private String inviteCode;
 }

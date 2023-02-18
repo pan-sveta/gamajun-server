@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-//@PreAuthorize("hasRole('GAMAJUN_TEACHER')")
 public class AssignmentController  {
     private final AssignmentService assignmentService;
     private final AssignmentDao assignmentDao;

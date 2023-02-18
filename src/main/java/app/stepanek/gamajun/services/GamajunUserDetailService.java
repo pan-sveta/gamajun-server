@@ -1,6 +1,6 @@
 package app.stepanek.gamajun.services;
 
-import app.stepanek.gamajun.repository.UserRepository;
+import app.stepanek.gamajun.repository.UserDao;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,15 +15,15 @@ import java.util.List;
 @Service
 public class GamajunUserDetailService implements UserDetailsService {
 
-    UserRepository userRepository;
+    UserDao userDao;
 
-    public GamajunUserDetailService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public GamajunUserDetailService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByUsername(username).orElseThrow(() -> {
+        var user = userDao.findByUsername(username).orElseThrow(() -> {
             throw new UsernameNotFoundException(username);
         });
 

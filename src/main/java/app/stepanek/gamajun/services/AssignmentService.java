@@ -6,6 +6,7 @@ import app.stepanek.gamajun.graphql.CreateAssignmentInput;
 import app.stepanek.gamajun.graphql.UpdateAssignmentInput;
 import app.stepanek.gamajun.repository.AssignmentDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class AssignmentService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     public Assignment createAssignment(CreateAssignmentInput createAssignmentInput) {
         Assignment assignment = new Assignment();
 
@@ -36,12 +38,14 @@ public class AssignmentService {
     }
 
     @Transactional
+    //TODO: Check authrorization
     public Assignment findById(UUID id) {
         return assignmentDao.findById(id)
                 .orElseThrow(() -> new AssignmentNotFoundException("Exam submission with id %s was not found.".formatted(id)));
     }
 
     @Transactional
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     public Assignment updateAssignment(UpdateAssignmentInput updateAssignmentInput) {
         Assignment assignment = assignmentDao.findById(updateAssignmentInput.getId())
                 .orElseThrow();

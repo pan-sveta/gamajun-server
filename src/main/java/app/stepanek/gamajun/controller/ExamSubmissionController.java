@@ -30,13 +30,13 @@ public class ExamSubmissionController {
         return examSubmissionService.findById(examSubmission.getId());
     }
 
-    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     @QueryMapping
     public List<ExamSubmission> examSubmissions() {
         return examSubmissionService.findAll();
     }
 
-    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     @QueryMapping
     public List<ExamSubmission> examSubmissionsByExamId(@Argument UUID examId) {
         return examSubmissionService.findAllByExam(examId);
@@ -47,7 +47,7 @@ public class ExamSubmissionController {
         return examSubmissionService.findById(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_GAMAJUN_ADMIN')")
+    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     @MutationMapping
     public boolean deleteExamSubmission(@PathVariable UUID examSubmissionId) {
         return examSubmissionService.delete(examSubmissionId);

@@ -1,7 +1,7 @@
 package app.stepanek.gamajun.security;
 
 import app.stepanek.gamajun.domain.Role;
-import app.stepanek.gamajun.repository.RoleRepository;
+import app.stepanek.gamajun.repository.RoleDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -13,11 +13,11 @@ import java.util.List;
 
 @Configuration
 public class RolesInitializer {
-    private final RoleRepository roleRepository;
+    private final RoleDao roleDao;
     Logger logger = LoggerFactory.getLogger(RolesInitializer.class);
 
-    public RolesInitializer(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public RolesInitializer(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
 
     @Bean
@@ -29,11 +29,11 @@ public class RolesInitializer {
 
         return () -> {
             for (var role : roles) {
-                var exists = roleRepository.existsByName(role.getName());
+                var exists = roleDao.existsByName(role.getName());
 
                 if (!exists) {
                     logger.info("Creating role '{}'", role.getName());
-                    roleRepository.save(role);
+                    roleDao.save(role);
                 } else
                     logger.info("Role '{}' already exists in database", role.getName());
             }
