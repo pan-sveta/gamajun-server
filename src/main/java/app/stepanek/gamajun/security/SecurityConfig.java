@@ -134,6 +134,8 @@ public class SecurityConfig {
                 .redirectUri("http://127.0.0.1:3000/api/auth/callback/gamajun")
                 .redirectUri("http://lvh.me:3000/api/auth/callback/gamajun")
                 .redirectUri("https://gamajun.stepanek.app/auth/gamajun/redirect")
+                .redirectUri("https://gamajun.vercel.app/auth/gamajun/redirect")
+                .redirectUri("https://gamajun.netlify.app/auth/gamajun/redirect")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
