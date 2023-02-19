@@ -80,7 +80,8 @@ public class SecurityConfig {
                                 new LoginUrlAuthenticationEntryPoint("/login"))
                 )
                 // Accept access tokens for User Info and/or Client Registration
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .cors(withDefaults());
 
         return http.build();
     }
