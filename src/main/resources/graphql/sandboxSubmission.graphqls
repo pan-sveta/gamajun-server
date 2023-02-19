@@ -25,7 +25,7 @@ type SandboxSubmission {
     xml: String
     startedAt: String!
     submittedAt: String
-    author: String!
+    user: User!
     validatorReport: ValidatorReport
 }
 

@@ -22,16 +22,7 @@ type Assignment {
     title: String!
     description: String!
     xml: String!
-    author: String!
-    sandbox: Boolean!
-}
-
-input AssignmentInput {
-    id: ID!
-    title: String!
-    description: String!
-    xml: String!
-    author: String!
+    author: User!
     sandbox: Boolean!
 }
 

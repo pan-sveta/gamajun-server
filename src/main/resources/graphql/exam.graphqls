@@ -22,23 +22,12 @@ extend type Mutation {
 type Exam {
     id: ID!
     title: String!
-    author: String!
+    author: User!
     accessibleFrom: String!
     accessibleTo: String!
     timeLimit: Int!
     assignments: [Assignment!]!
     classrooms: [Classroom!]!
-}
-
-input ExamInput {
-    id: ID!
-    title: String!
-    author: String!
-    accessibleFrom: String!
-    accessibleTo: String!
-    timeLimit: Int!
-    assignmentIds: [ID!]!
-    classroomIds: [ID!]!
 }
 
 input CreateExamInput {

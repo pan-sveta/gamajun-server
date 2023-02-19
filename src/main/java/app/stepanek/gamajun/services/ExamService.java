@@ -42,7 +42,7 @@ public class ExamService {
     public ExamSubmission beginExam(UUID examId) {
         var exam = examDao.findById(examId).orElseThrow(() -> new ExamNotFoundException("Exam with id '%s' was not found".formatted(examId)));
 
-        var userExamSubmissions = examSubmissionDao.findByExam_Author(authenticationFacade.getUsername());
+        var userExamSubmissions = examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
         if (userExamSubmissions.stream().map(ExamSubmission::getExam).anyMatch(e -> e.equals(exam)))
             throw new ExamSubmissionLockedException("You already attended exam with id '%s'".formatted(examId));
 
@@ -50,7 +50,7 @@ public class ExamService {
 
         ExamSubmission examSubmission = new ExamSubmission();
         examSubmission.setAssignment(exam.getAssignments().get(rand.nextInt(exam.getAssignments().size())));
-        examSubmission.setAuthor(authenticationFacade.getUsername());
+        examSubmission.setUser(authenticationFacade.getUser());
         examSubmission.setStartedAt(Instant.now());
         examSubmission.setExam(exam);
         examSubmission.setExamSubmissionState(ExamSubmissionState.Draft);
@@ -60,7 +60,7 @@ public class ExamService {
 
     public List<Exam> getOpenedExams() {
         var exams = examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqual(Instant.now(), Instant.now());
-        var submissions = examSubmissionDao.findByExam_Author(authenticationFacade.getUsername());
+        var submissions = examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
 
         var attendedExams = submissions.stream().map(ExamSubmission::getExam).toList();
         exams.removeAll(attendedExams);
@@ -74,7 +74,7 @@ public class ExamService {
         Exam exam = new Exam();
 
         exam.setTitle(createExamInput.getTitle());
-        exam.setAuthor(authenticationFacade.getUsername());
+        exam.setAuthor(authenticationFacade.getUser());
         exam.setAccessibleFrom(createExamInput.getAccessibleFrom());
         exam.setAccessibleTo(createExamInput.getAccessibleTo());
         exam.setTimeLimit(createExamInput.getTimeLimit());

@@ -24,7 +24,6 @@ public class AssignmentService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     public Assignment createAssignment(CreateAssignmentInput createAssignmentInput) {
         Assignment assignment = new Assignment();
 
@@ -32,7 +31,7 @@ public class AssignmentService {
         assignment.setDescription(createAssignmentInput.getDescription());
         assignment.setXml(createAssignmentInput.getXml());
         assignment.setSandbox(createAssignmentInput.isSandbox());
-        assignment.setAuthor(authenticationFacade.getUsername());
+        assignment.setAuthor(authenticationFacade.getUser());
 
         return assignmentDao.save(assignment);
     }
@@ -45,7 +44,6 @@ public class AssignmentService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('GAMAJUN_TEACHER')")
     public Assignment updateAssignment(UpdateAssignmentInput updateAssignmentInput) {
         Assignment assignment = assignmentDao.findById(updateAssignmentInput.getId())
                 .orElseThrow();

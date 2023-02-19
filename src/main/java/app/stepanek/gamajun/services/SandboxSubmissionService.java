@@ -50,8 +50,8 @@ public class SandboxSubmissionService {
         var sandboxSubmission = sandboxSubmissionDao.findById(id)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Sandbox submission with id %s was not found.".formatted(id)));
 
-        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(id, authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(sandboxSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(id, authenticationFacade.getUsername()));*/
 
         return sandboxSubmission;
     }
@@ -63,7 +63,7 @@ public class SandboxSubmissionService {
 
     @Transactional
     public List<SandboxSubmission> mySandboxSubmissions(UUID assignmentId) {
-        return sandboxSubmissionDao.findByAssignment_IdAndAuthor(assignmentId, authenticationFacade.getUsername());
+        return sandboxSubmissionDao.findByAssignment_IdAndUser_Username(assignmentId, authenticationFacade.getUsername());
     }
 
     @Transactional
@@ -71,8 +71,8 @@ public class SandboxSubmissionService {
         var sandboxSubmission = sandboxSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Sandbox submission with id %s was not found.".formatted(examSubmissionId)));
 
-        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(sandboxSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));*/
 
         return sandboxSubmission;
     }
@@ -106,8 +106,8 @@ public class SandboxSubmissionService {
         var sandboxSubmission = sandboxSubmissionDao.findById(sandboxSubmissionSubmitInput.getId())
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Sandbox submission with id %s was not found.".formatted(sandboxSubmissionSubmitInput.getId())));
 
-        if (!authenticationFacade.getUsername().equals(sandboxSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(sandboxSubmissionSubmitInput.getId(), authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(sandboxSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(sandboxSubmissionSubmitInput.getId(), authenticationFacade.getUsername()));*/
 
         sandboxSubmission.setSubmittedAt(Instant.now());
         sandboxSubmission.setXml(sandboxSubmissionSubmitInput.getXml());
@@ -125,7 +125,7 @@ public class SandboxSubmissionService {
 
         SandboxSubmission submission = new SandboxSubmission();
         submission.setAssignment(assignment);
-        submission.setAuthor(authenticationFacade.getUsername());
+        submission.setUser(authenticationFacade.getUser());
         submission.setStartedAt(Instant.now());
 
         return sandboxSubmissionDao.save(submission);

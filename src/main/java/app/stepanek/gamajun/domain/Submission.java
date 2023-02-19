@@ -31,8 +31,9 @@ public class Submission {
     @Column(name = "submitted_at", nullable = true)
     protected Instant submittedAt;
 
-    @Column(name = "author", nullable = false)
-    protected String author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "username", nullable = false)
+    protected User user;
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "validator_report_id")

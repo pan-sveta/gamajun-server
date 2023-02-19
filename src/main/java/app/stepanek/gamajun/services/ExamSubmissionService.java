@@ -51,8 +51,8 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(id)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(id)));
 
-        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(id, authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(id, authenticationFacade.getUsername()));*/
 
         return examSubmission;
     }
@@ -69,7 +69,7 @@ public class ExamSubmissionService {
 
     @Transactional
     public List<ExamSubmission> mySubmissions() {
-        return examSubmissionDao.findByExam_Author(authenticationFacade.getUsername());
+        return examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
     }
 
     @Transactional
@@ -77,8 +77,8 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(examSubmissionId)
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
 
-        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));*/
 
         return examSubmission;
     }
@@ -102,8 +102,8 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(examSubmissionCheckpointInput.getId())
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionCheckpointInput.getId())));
 
-        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionCheckpointInput.getId(), authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionCheckpointInput.getId(), authenticationFacade.getUsername()));*/
 
         examSubmission.setXml(examSubmissionCheckpointInput.getXml());
 
@@ -118,8 +118,8 @@ public class ExamSubmissionService {
         if (!examSubmission.getExamSubmissionState().equals(ExamSubmissionState.Draft))
             throw new ExamSubmissionLockedException("Exam submission '%s' is not a draft anymore".formatted(examSubmissionSubmitInput.getId()));
 
-        if (!authenticationFacade.getUsername().equals(examSubmission.getAuthor()))
-            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionSubmitInput.getId(), authenticationFacade.getUsername()));
+        /*if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionSubmitInput.getId(), authenticationFacade.getUsername()));*/
 
         examSubmission.setSubmittedAt(Instant.now());
         examSubmission.setXml(examSubmissionSubmitInput.getXml());

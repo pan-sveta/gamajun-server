@@ -23,8 +23,9 @@ public class Exam {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "author", nullable = false)
-    private String author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_username", nullable = false)
+    private User author;
 
     @Column(name = "accessible_from", nullable = false)
     private Instant accessibleFrom;

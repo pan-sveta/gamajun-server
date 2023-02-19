@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface SandboxSubmissionDao extends JpaRepository<SandboxSubmission, UUID> {
     List<SandboxSubmission> findByAssignment_Id(UUID id);
 
-    List<SandboxSubmission> findByAssignment_IdAndAuthor(UUID id, String author);
+    List<SandboxSubmission> findByAssignment_IdAndUser_Username(UUID id, String username);
 
 
 

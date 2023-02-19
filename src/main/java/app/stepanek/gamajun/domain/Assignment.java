@@ -1,9 +1,6 @@
 package app.stepanek.gamajun.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -32,8 +29,9 @@ public class Assignment {
     @Column(name = "xml", nullable = false, columnDefinition = "text")
     private String xml;
 
-    @Column(name = "author", nullable = false)
-    private String author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_username", nullable = false)
+    private User author;
 
     @Column(name = "sandbox", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean sandbox;
