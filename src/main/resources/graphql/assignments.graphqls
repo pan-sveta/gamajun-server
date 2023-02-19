@@ -1,6 +1,6 @@
 extend type Query {
     assignments: [Assignment!]!
-    assignmentById(id: String!): Assignment
+    assignmentById(id: String!): Assignment!
     sandboxAssignments: [Assignment!]!
 }
 
