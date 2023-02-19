@@ -81,7 +81,7 @@ public class SecurityConfig {
                 )
                 // Accept access tokens for User Info and/or Client Registration
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .cors(withDefaults());
+                .cors(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
@@ -197,7 +197,7 @@ public class SecurityConfig {
         //configuration.setExposedHeaders(Arrays.asList("Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/graphql", configuration);
         return source;
     }
 
