@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.repository;
 
 import app.stepanek.gamajun.domain.SandboxSubmission;
+import app.stepanek.gamajun.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,5 @@ public interface SandboxSubmissionDao extends JpaRepository<SandboxSubmission, U
 
     List<SandboxSubmission> findByAssignment_IdAndUser_Username(UUID id, String username);
 
-
-
+    void deleteExamSubmissionsByUser(User user);
 }

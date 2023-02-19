@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.utilities;
 
 import app.stepanek.gamajun.domain.User;
+import app.stepanek.gamajun.security.GamajunUserPrincipal;
 import app.stepanek.gamajun.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationFacade implements IAuthenticationFacade {
 
-    private final UserService userService;
-
-    public AuthenticationFacade(UserService userService) {
-        this.userService = userService;
+    public AuthenticationFacade() {
     }
 
     @Override
@@ -23,21 +21,22 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     }
 
     @Override
-    public Jwt getPrincipal() {
-        if (getAuthentication().getPrincipal() instanceof Jwt)
-            return (Jwt) getAuthentication().getPrincipal();
+    public GamajunUserPrincipal getPrincipal() {
+        if (getAuthentication().getPrincipal() instanceof GamajunUserPrincipal)
+            return (GamajunUserPrincipal) getAuthentication().getPrincipal();
         else
-            throw new RuntimeException("Authenticaiton principal is not type of 'Jwt'");
+            throw new RuntimeException("Authenticaiton principal i" +
+                    "s not type of 'Jwt'");
     }
 
     @Override
     public String getUsername() {
-        return getPrincipal().getSubject();
+        return getPrincipal().getUsername();
     }
 
     @Override
     public User getUser() {
-        return userService.findByUsername(getUsername());
+        return getPrincipal().getUser();
     }
 
 

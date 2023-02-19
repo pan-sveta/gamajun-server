@@ -1,5 +1,6 @@
 package app.stepanek.gamajun.repository;
 
+import app.stepanek.gamajun.domain.Classroom;
 import app.stepanek.gamajun.domain.Exam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface ExamDao extends JpaRepository<Exam, UUID> {
-    List<Exam> findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqual(@NonNull Instant accessibleFrom, @NonNull Instant accessibleTo);
+    List<Exam> findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(@NonNull Instant accessibleFrom, @NonNull Instant accessibleTo, Classroom classroom);
 
 
 }

@@ -29,7 +29,8 @@ public class OidcUserInfoService {
                 .name(user.getName())
                 .familyName(user.getSurname())
                 .nickname(user.getUsername())
-                .picture("https://avatars.dicebear.com/api/pixel-art/%s.svg".formatted(user.getUsername()))
+                .email(user.getEmail())
+                .picture("https://ui-avatars.com/api/?background=random&name=%s".formatted(user.getFullName()))
                 .claim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
                 .build();
     }

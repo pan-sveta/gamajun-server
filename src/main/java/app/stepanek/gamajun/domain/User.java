@@ -29,4 +29,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"))
     private Set<Role> roles;
 
+    public String getFullName() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getName());
+        sb.append(" ");
+        sb.append(getSurname());
+
+        return sb.toString();
+    }
 }

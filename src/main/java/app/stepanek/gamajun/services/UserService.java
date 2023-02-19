@@ -21,16 +21,20 @@ import java.util.Set;
 @Service
 public class UserService {
 
+    private final ExamSubmissionService examSubmissionService;
+    private final SandboxSubmissionService sandboxSubmissionService;
     UserDao userDao;
     RoleDao roleDao;
     ClassroomService classroomService;
     PasswordEncoder passwordEncoder;
 
-    public UserService(UserDao userDao, RoleDao roleDao, ClassroomService classroomService, PasswordEncoder passwordEncoder) {
+    public UserService(UserDao userDao, RoleDao roleDao, ClassroomService classroomService, PasswordEncoder passwordEncoder, ExamSubmissionService examSubmissionService, SandboxSubmissionService sandboxSubmissionService) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.classroomService = classroomService;
         this.passwordEncoder = passwordEncoder;
+        this.examSubmissionService = examSubmissionService;
+        this.sandboxSubmissionService = sandboxSubmissionService;
     }
 
     @Transactional
@@ -64,6 +68,9 @@ public class UserService {
     @Transactional
     public void deleteUser(String username) {
         User user = userDao.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
+        examSubmissionService.deleteByUser(user);
+        sandboxSubmissionService.deleteByUser(user);
 
         userDao.delete(user);
     }

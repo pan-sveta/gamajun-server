@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.SandboxSubmission;
+import app.stepanek.gamajun.domain.User;
 import app.stepanek.gamajun.exceptions.ExamSubmissionNotFoundException;
 import app.stepanek.gamajun.exceptions.ResourceNotOwnedByCurrentUserException;
 import app.stepanek.gamajun.graphql.SandboxSubmissionSubmitInput;
@@ -95,6 +96,11 @@ public class SandboxSubmissionService {
     public boolean delete(UUID id) {
         sandboxSubmissionDao.deleteById(id);
         return true;
+    }
+
+    @Transactional
+    public void deleteByUser(User user) {
+        sandboxSubmissionDao.deleteExamSubmissionsByUser(user);
     }
 
     //*******

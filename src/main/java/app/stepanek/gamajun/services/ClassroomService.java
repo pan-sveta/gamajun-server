@@ -84,10 +84,14 @@ public class ClassroomService {
     }
 
     @Transactional
-
     public boolean validateInviteCode(String inviteCode) {
         var classroom = classroomDao.findClassroomByInviteCode(inviteCode).orElse(null);
 
         return classroom != null;
+    }
+
+    @Transactional
+    public Classroom getClassroomByUser(User user) {
+        return classroomDao.findClassroomByUsersContains(user).orElseThrow(() -> new ClassroomNotFoundException("Classroom containing user %s was not found".formatted(user.getUsername())));
     }
 }

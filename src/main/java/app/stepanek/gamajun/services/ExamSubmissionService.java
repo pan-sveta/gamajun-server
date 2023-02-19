@@ -2,6 +2,7 @@ package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.ExamSubmission;
 import app.stepanek.gamajun.domain.ExamSubmissionState;
+import app.stepanek.gamajun.domain.User;
 import app.stepanek.gamajun.exceptions.ExamSubmissionLockedException;
 import app.stepanek.gamajun.exceptions.ExamSubmissionNotFoundException;
 import app.stepanek.gamajun.exceptions.ResourceNotOwnedByCurrentUserException;
@@ -91,6 +92,11 @@ public class ExamSubmissionService {
     public boolean delete(UUID id) {
         examSubmissionDao.deleteById(id);
         return true;
+    }
+
+    @Transactional
+    public void deleteByUser(User user) {
+        examSubmissionDao.deleteExamSubmissionsByUser(user);
     }
 
     //*******

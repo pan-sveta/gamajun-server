@@ -1,8 +1,10 @@
 package app.stepanek.gamajun.services;
 
+import app.stepanek.gamajun.domain.Classroom;
 import app.stepanek.gamajun.domain.Exam;
 import app.stepanek.gamajun.domain.ExamSubmission;
 import app.stepanek.gamajun.domain.ExamSubmissionState;
+import app.stepanek.gamajun.exceptions.ClassroomNotFoundException;
 import app.stepanek.gamajun.exceptions.ExamNotFoundException;
 import app.stepanek.gamajun.exceptions.ExamSubmissionLockedException;
 import app.stepanek.gamajun.graphql.CreateExamInput;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -28,15 +31,17 @@ public class ExamService {
     private final ExamSubmissionDao examSubmissionDao;
     private final IAuthenticationFacade authenticationFacade;
     private final ClassroomDao classroomDao;
+    private final ClassroomService classroomService;
 
     @Autowired
     public ExamService(AssignmentDao assignmentDao, ExamDao examDao, ExamSubmissionDao examSubmissionDao, IAuthenticationFacade authenticationFacade,
-                       ClassroomDao classroomDao) {
+                       ClassroomDao classroomDao, ClassroomService classroomService) {
         this.assignmentDao = assignmentDao;
         this.examDao = examDao;
         this.examSubmissionDao = examSubmissionDao;
         this.authenticationFacade = authenticationFacade;
         this.classroomDao = classroomDao;
+        this.classroomService = classroomService;
     }
 
     public ExamSubmission beginExam(UUID examId) {
@@ -59,7 +64,14 @@ public class ExamService {
     }
 
     public List<Exam> getOpenedExams() {
-        var exams = examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqual(Instant.now(), Instant.now());
+        Classroom classroom;
+        try {
+            classroom = classroomService.getClassroomByUser(authenticationFacade.getUser());
+        }catch (ClassroomNotFoundException e){
+            return new ArrayList<>();
+        }
+
+        var exams = examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(Instant.now(), Instant.now(), classroom);
         var submissions = examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
 
         var attendedExams = submissions.stream().map(ExamSubmission::getExam).toList();
