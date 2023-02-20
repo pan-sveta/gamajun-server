@@ -44,13 +44,6 @@ public class ValidatorService {
     }
 
     @Transactional
-    public ValidatorReport findValidatorReportFromExamSubmissionId(UUID examSubmissionId) {
-        var examSubmission = examSubmissionService.findById(examSubmissionId);
-
-        return examSubmission.getValidatorReport();
-    }
-
-    @Transactional
     public ValidatorReport validateSubmission(Submission sub) {
         InputStream inputStream = new ByteArrayInputStream(sub.getXml().getBytes());
         var bpmn = Bpmn.readModelFromStream(inputStream);

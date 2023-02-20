@@ -24,15 +24,4 @@ public class ValidatorReportController {
     public ValidatorReport validatorReport(ValidatorReport validatorReport) {
         return validatorService.findById(validatorReport.getId());
     }
-
-    @QueryMapping
-    public List<ValidatorReport> validatorReports() {
-        return validatorService.findAll();
-    }
-
-    @QueryMapping
-    public ValidatorReport validatorReportByExamSubmissionId(@Argument UUID id){
-        return validatorService.findValidatorReportFromExamSubmissionId(id);
-    }
-
 }

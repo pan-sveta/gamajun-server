@@ -1,8 +1,3 @@
-extend type Query {
-    validatorReports: [ValidatorReport!]!
-    validatorReportByExamSubmissionId(id: String!): ValidatorReport
-}
-
 type ValidatorReport{
     id: String!
     validatorRuleResults: [ValidatorRuleResult!]!

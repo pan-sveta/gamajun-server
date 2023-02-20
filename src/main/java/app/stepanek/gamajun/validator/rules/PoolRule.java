@@ -44,6 +44,6 @@ public class PoolRule extends BaseValidatorRule {
 
     @Override
     public String getDescription() {
-        return "Graf musí obsahovat pouze jeden start.";
+        return "Graf musí obsahovat pouze stejný počet bazénů.";
     }
 }

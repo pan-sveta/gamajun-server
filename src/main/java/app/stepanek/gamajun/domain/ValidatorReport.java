@@ -2,6 +2,7 @@ package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -19,6 +20,10 @@ public class ValidatorReport {
     @GeneratedValue(generator = "UUID")
     @Column(name = "id", nullable = false)
     private UUID id;
+
+    @OneToOne
+    @JoinColumn(name = "submission_id")
+    protected ValidatorReport validatorReport;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "validator_report_id")

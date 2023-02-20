@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,8 +12,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 @Getter
 @Setter
 public class Submission {
@@ -38,9 +38,8 @@ public class Submission {
     @JoinColumn(name = "username", nullable = false)
     protected User user;
 
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "validator_report_id")
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    @OneToOne
+    @Cascade(CascadeType.ALL)
     protected ValidatorReport validatorReport;
 
     @Override
