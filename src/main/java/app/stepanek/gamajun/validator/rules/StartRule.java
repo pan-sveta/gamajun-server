@@ -4,40 +4,40 @@ import app.stepanek.gamajun.domain.ValidatorRuleResult;
 import app.stepanek.gamajun.repository.ValidatorRuleDao;
 import app.stepanek.gamajun.validator.BaseValidatorRule;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.EndEvent;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AtLeastOneEndRule extends BaseValidatorRule {
-
+public class StartRule extends BaseValidatorRule {
+    //Rozman pattern 2
     @Autowired
-    public AtLeastOneEndRule(ValidatorRuleDao validatorRuleDao) {
+    public StartRule(ValidatorRuleDao validatorRuleDao) {
         super(validatorRuleDao);
     }
 
     @Override
     public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
-        var endEvents = submissionBpmn.getModelElementsByType(EndEvent.class);
+        var startEvents = submissionBpmn.getModelElementsByType(StartEvent.class);
 
-        if (endEvents.size() != 1)
-            return invalid("Diagram musí obsahovat alespoň jeden konec, ale obsahuje %d".formatted(endEvents.size()));
+        if (startEvents.size() < 1)
+            return invalid("Diagram musí obsahovat alespoň jeden start");
 
         return valid();
     }
 
     @Override
     protected String getId() {
-        return "AtLeastOneEnd";
+        return "Start";
     }
 
     @Override
     public String getName() {
-        return "Alespoň jeden konec";
+        return "Přítomnost startu";
     }
 
     @Override
     public String getDescription() {
-        return "Graf musí obsahovat alespoň jeden konec";
+        return "Diagram musí obsahovat alespoň jeden start.";
     }
 }

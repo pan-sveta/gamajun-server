@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ya9gae" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="11.4.1">
+  <bpmn:process id="Process_03y9jba">
+    <bpmn:task id="Activity_0q8vw81" name="Task C">
+      <bpmn:incoming>Flow_1eyd8tq</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:dataObjectReference id="DataObjectReference_1num4t9" name="Message A" dataObjectRef="DataObject_1rdpgp8" />
+    <bpmn:dataObject id="DataObject_1rdpgp8" />
+    <bpmn:task id="Activity_0eid5o0" name="Task A">
+      <bpmn:outgoing>Flow_08mp9qq</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_0xf508l" name="Task B">
+      <bpmn:incoming>Flow_08mp9qq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1eyd8tq</bpmn:outgoing>
+      <bpmn:property id="Property_1yolikl" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_05ynymg">
+        <bpmn:sourceRef>DataObjectReference_1num4t9</bpmn:sourceRef>
+        <bpmn:targetRef>Property_1yolikl</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_08mp9qq" sourceRef="Activity_0eid5o0" targetRef="Activity_0xf508l" />
+    <bpmn:sequenceFlow id="Flow_1eyd8tq" sourceRef="Activity_0xf508l" targetRef="Activity_0q8vw81" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_03y9jba">
+      <bpmndi:BPMNShape id="Activity_0q8vw81_di" bpmnElement="Activity_0q8vw81">
+        <dc:Bounds x="460" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_1num4t9_di" bpmnElement="DataObjectReference_1num4t9">
+        <dc:Bounds x="332" y="105" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="322" y="75" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0eid5o0_di" bpmnElement="Activity_0eid5o0">
+        <dc:Bounds x="150" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xf508l_di" bpmnElement="Activity_0xf508l">
+        <dc:Bounds x="300" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataInputAssociation_05ynymg_di" bpmnElement="DataInputAssociation_05ynymg">
+        <di:waypoint x="350" y="155" />
+        <di:waypoint x="350" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08mp9qq_di" bpmnElement="Flow_08mp9qq">
+        <di:waypoint x="250" y="250" />
+        <di:waypoint x="300" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1eyd8tq_di" bpmnElement="Flow_1eyd8tq">
+        <di:waypoint x="400" y="250" />
+        <di:waypoint x="460" y="250" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

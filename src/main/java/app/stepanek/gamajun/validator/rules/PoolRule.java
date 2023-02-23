@@ -23,10 +23,13 @@ public class PoolRule extends BaseValidatorRule {
         var participantsCount = submissionBpmn.getModelElementsByType(Participant.class).size();
         var solutionParticipantsCount = solutionBpmn.getModelElementsByType(Participant.class).size();
         if (participantsCount != solutionParticipantsCount)
-            return invalid("Diagram neobsahuje správný počet participantů. Obsahuje %d ale má obsahovat %d".formatted(participantsCount, solutionParticipantsCount));
+            return invalid("Diagram neobsahuje správný počet participatů. Obsahuje %d ale má obsahovat %d".formatted(participantsCount, solutionParticipantsCount));
 
-        var lanes = submissionBpmn.getModelElementsByType(Lane.class);
-        var solutionLanes = solutionBpmn.getModelElementsByType(Lane.class);
+        var lanes = submissionBpmn.getModelElementsByType(Lane.class).size();
+        var solutionLanes = solutionBpmn.getModelElementsByType(Lane.class).size();
+
+        if (lanes != solutionLanes)
+            return invalid("Diagram neobsahuje správný počet swimlines. Obsahuje %d ale má obsahovat %d".formatted(lanes, solutionLanes));
 
 
         return valid();
@@ -39,11 +42,11 @@ public class PoolRule extends BaseValidatorRule {
 
     @Override
     public String getName() {
-        return "Pools";
+        return "Participanti a bazény";
     }
 
     @Override
     public String getDescription() {
-        return "Graf musí obsahovat pouze stejný počet bazénů.";
+        return "Graf musí obsahovat stejný počet participantů a swimlines.";
     }
 }
