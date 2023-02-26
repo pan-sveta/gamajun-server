@@ -26,7 +26,7 @@ public class MessageEventsRuleTest {
         var resource = new ClassPathResource("MessageEventsInvalid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageEventsRule.validate(modelInstance, null);
+        var result = messageEventsRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -36,7 +36,7 @@ public class MessageEventsRuleTest {
         var resource = new ClassPathResource("MessageEventsValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageEventsRule.validate(modelInstance, null);
+        var result = messageEventsRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

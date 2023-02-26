@@ -26,7 +26,7 @@ public class MessageFlowSourceRuleTest {
         var resource = new ClassPathResource("MessageFlowSourceInvalid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageFlowSourceRule.validate(modelInstance, null);
+        var result = messageFlowSourceRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -36,7 +36,7 @@ public class MessageFlowSourceRuleTest {
         var resource = new ClassPathResource("MessageFlowSourceValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageFlowSourceRule.validate(modelInstance, null);
+        var result = messageFlowSourceRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

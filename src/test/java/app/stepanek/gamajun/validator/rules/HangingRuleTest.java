@@ -26,7 +26,7 @@ public class HangingRuleTest {
         var resource = new ClassPathResource("HangingRuleInvalid1.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = hangingRule.validate(modelInstance, null);
+        var result = hangingRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -36,7 +36,7 @@ public class HangingRuleTest {
         var resource = new ClassPathResource("HangingRuleInvalid2.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = hangingRule.validate(modelInstance, null);
+        var result = hangingRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -46,7 +46,7 @@ public class HangingRuleTest {
         var resource = new ClassPathResource("HangingRuleValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = hangingRule.validate(modelInstance, null);
+        var result = hangingRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

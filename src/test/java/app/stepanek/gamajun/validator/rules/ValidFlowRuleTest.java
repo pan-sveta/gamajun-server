@@ -6,6 +6,9 @@ import org.camunda.bpm.model.bpmn.GatewayDirection;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,36 +24,21 @@ public class ValidFlowRuleTest {
     }
 
     @Test
-    public void TestInvalidScenario(){
-        BpmnModelInstance modelInstance = Bpmn.createProcess()
-                .name("BPMN API Invoice Process")
-                .startEvent()
-                .exclusiveGateway()
-                .name("Invoice approved?")
-                .gatewayDirection(GatewayDirection.Diverging)
-                .condition("yes", "${approved}")
-                .userTask()
-                .moveToLastGateway()
-                .condition("no", "${approved}")
-                .userTask()
-                .endEvent()
-                .done();
+    public void TestInvalidScenario() throws IOException {
+        var resource = new ClassPathResource("ValidFlowInvalid.bpmn");
+        BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = validFlowRule.validate(modelInstance, null);
+        var result = validFlowRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
 
     @Test
-    public void TestValiddScenario(){
-        BpmnModelInstance modelInstance = Bpmn.createProcess()
-                .name("BPMN Test")
-                .startEvent()
-                .userTask()
-                .endEvent()
-                .done();
+    public void TestValidScenario() throws IOException {
+        var resource = new ClassPathResource("ValidFlowValid.bpmn");
+        BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = validFlowRule.validate(modelInstance, null);
+        var result = validFlowRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

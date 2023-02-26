@@ -26,7 +26,7 @@ public class PoolLanesStartsRuleTest {
         var resource = new ClassPathResource("PoolLanesStartsInvalid1.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = poolLanesStartsRule.validate(modelInstance, null);
+        var result = poolLanesStartsRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -36,7 +36,7 @@ public class PoolLanesStartsRuleTest {
         var resource = new ClassPathResource("PoolLanesStartsInvalid2.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = poolLanesStartsRule.validate(modelInstance, null);
+        var result = poolLanesStartsRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -46,7 +46,7 @@ public class PoolLanesStartsRuleTest {
         var resource = new ClassPathResource("PoolLanesStartsValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = poolLanesStartsRule.validate(modelInstance, null);
+        var result = poolLanesStartsRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

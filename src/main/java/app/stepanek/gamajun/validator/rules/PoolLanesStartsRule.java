@@ -15,7 +15,7 @@ public class PoolLanesStartsRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
 
         for (LaneSet laneSet : submissionBpmn.getModelElementsByType(LaneSet.class)) {
             int startCount = 0;
@@ -36,7 +36,7 @@ public class PoolLanesStartsRule extends BaseValidatorRule {
 
     @Override
     protected String getId() {
-        return "PoolLaneStarts";
+        return "PoolLanesStarts";
     }
 
     @Override

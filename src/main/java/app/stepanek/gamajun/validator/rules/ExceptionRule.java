@@ -17,7 +17,7 @@ public class ExceptionRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
 
         for (BoundaryEvent boundaryEvent : submissionBpmn.getModelElementsByType(BoundaryEvent.class)) {
             if (boundaryEvent.getOutgoing().isEmpty())
@@ -29,16 +29,16 @@ public class ExceptionRule extends BaseValidatorRule {
 
     @Override
     protected String getId() {
-        return "ExceptionRule";
+        return "Exception";
     }
 
     @Override
     protected String getName() {
-        return "Kontrola zavěšení";
+        return "Ošetření vyjímek";
     }
 
     @Override
     protected String getDescription() {
-        return "Aktivity/event, která má vstup musí mít i výstup";
+        return "Všechny vyjímky musí být ošetřeny. Tok musí existovat i pro neočekávané stavy";
     }
 }

@@ -28,7 +28,7 @@ public class PoolActivityRuleTest {
         var resource = new ClassPathResource("PoolActivityRuleInvalid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = poolActivityRule.validate(modelInstance, null);
+        var result = poolActivityRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -38,7 +38,7 @@ public class PoolActivityRuleTest {
         var resource = new ClassPathResource("PoolActivityRuleValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = poolActivityRule.validate(modelInstance, null);
+        var result = poolActivityRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }

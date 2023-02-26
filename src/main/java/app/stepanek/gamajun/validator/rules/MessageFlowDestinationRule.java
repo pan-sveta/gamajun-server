@@ -15,7 +15,7 @@ public class MessageFlowDestinationRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
         for (Activity activity : submissionBpmn.getModelElementsByType(Activity.class)) {
             if (!activity.getChildElementsByType(DataInputAssociation.class).isEmpty())
                 return invalid("Aktivita %s obsahuje příchozí zprávu".formatted(activity.getName()));
@@ -31,11 +31,11 @@ public class MessageFlowDestinationRule extends BaseValidatorRule {
 
     @Override
     protected String getName() {
-        return "Cíl zpráv";
+        return "Použití aktivity jako cíl toku zpráv";
     }
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Aktivita nesmí být použita jako cíl toku zpráv";
     }
 }

@@ -17,10 +17,10 @@ public class EndRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
         var endEvents = submissionBpmn.getModelElementsByType(EndEvent.class);
 
-        if (endEvents.size() != 1)
+        if (endEvents.size() < 1)
             return invalid("Diagram musí obsahovat alespoň jeden konec, ale obsahuje %d".formatted(endEvents.size()));
 
         return valid();

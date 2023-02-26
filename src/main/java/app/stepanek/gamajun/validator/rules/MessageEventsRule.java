@@ -17,7 +17,7 @@ public class MessageEventsRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
 
         for (IntermediateCatchEvent intermediateCatchEvent : submissionBpmn.getModelElementsByType(IntermediateCatchEvent.class)) {
             if (intermediateCatchEvent.getEventDefinitions().isEmpty())
@@ -38,11 +38,11 @@ public class MessageEventsRule extends BaseValidatorRule {
 
     @Override
     protected String getName() {
-        return "Události se zprávou";
+        return "Mezilehlá události se zprávou";
     }
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Mezilehlé událost se zprávou musí být správně používány";
     }
 }

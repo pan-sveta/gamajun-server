@@ -62,7 +62,7 @@ public class ValidatorService {
         Set<ValidatorRuleResult> results = new HashSet<>();
 
         for (var rule : list) {
-            results.add(rule.validate(bpmn, solutionBpmn));
+            results.add(rule.validate(bpmn));
         }
 
         report.setValidatorRuleResults(results);

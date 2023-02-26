@@ -20,20 +20,16 @@ public class ValidFlowRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
         //Get start
-        var starts = submissionBpmn.getModelElementsByType(StartEvent.class);
+        for (StartEvent start : submissionBpmn.getModelElementsByType(StartEvent.class)) {
+            ModelElementType endEventType = submissionBpmn.getModel().getType(EndEvent.class);
 
-        if (starts.size() != 1)
-            return invalid("Diagram musí obsahovat pouze jeden start");
-
-        StartEvent start = starts.stream().findFirst().get();
-        ModelElementType endEventType = submissionBpmn.getModel().getType(EndEvent.class);
-
-        try {
-            walk(start, endEventType);
-        } catch (RuntimeException exception) {
-            return invalid("Jeden z elementů neobsahuje odchozí hrany a nejedná se o konec");
+            try {
+                walk(start, endEventType);
+            } catch (RuntimeException exception) {
+                return invalid("Jeden z elementů neobsahuje odchozí hrany a nejedná se o konec");
+            }
         }
 
         return valid();
@@ -52,7 +48,7 @@ public class ValidFlowRule extends BaseValidatorRule {
 
     @Override
     protected String getId() {
-        return "ValidFlowRule";
+        return "ValidFlow";
     }
 
     @Override

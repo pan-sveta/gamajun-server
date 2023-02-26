@@ -14,12 +14,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PoolActivityRule extends BaseValidatorRule {
+    //Rozman pattern 1
     public PoolActivityRule(ValidatorRuleDao validatorRuleDao) {
         super(validatorRuleDao);
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
 
         for (Participant participant : submissionBpmn.getModelElementsByType(Participant.class)) {
             for (Activity activity : participant.getProcess().getChildElementsByType(Activity.class)){
@@ -41,7 +42,7 @@ public class PoolActivityRule extends BaseValidatorRule {
 
     @Override
     protected String getId() {
-        return "ParticipantActivityConnection";
+        return "PoolActivity";
     }
 
     @Override

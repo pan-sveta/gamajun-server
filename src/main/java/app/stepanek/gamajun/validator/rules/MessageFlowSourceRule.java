@@ -15,7 +15,7 @@ public class MessageFlowSourceRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
         for (Event event : submissionBpmn.getModelElementsByType(Event.class)) {
             if (!event.getChildElementsByType(DataOutputAssociation.class).isEmpty())
                 return invalid("Událost %s obsahuje odchozí zprávu".formatted(event.getName()));
@@ -31,11 +31,11 @@ public class MessageFlowSourceRule extends BaseValidatorRule {
 
     @Override
     protected String getName() {
-        return "Zdroj zpráv";
+        return "Použití události jako zdroj toku zpráv";
     }
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Událost nesmí být použita jako zdroj toku zpráv. Pouze aktivity smějí být použity jako zdroj zpráv";
     }
 }

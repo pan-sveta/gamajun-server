@@ -15,7 +15,7 @@ public class HangingRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
 
         for (Activity activity : submissionBpmn.getModelElementsByType(Activity.class)) {
             if (activity.getIncoming().isEmpty() && !activity.getOutgoing().isEmpty())
@@ -44,6 +44,6 @@ public class HangingRule extends BaseValidatorRule {
 
     @Override
     protected String getDescription() {
-        return "Aktivity/event, která má vstup musí mít i výstup";
+        return "Aktivity/eventy musí obsahovat vstupní hranu";
     }
 }

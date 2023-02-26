@@ -13,30 +13,30 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class ExceptionFlowRuleTest {
-    private final MessageFlowSourceRule messageFlowSourceRule;
+public class StartRuleRuleTest {
+    private final StartRule startRule;
 
     @Autowired
-    ExceptionFlowRuleTest(MessageFlowSourceRule messageFlowSourceRule) {
-        this.messageFlowSourceRule = messageFlowSourceRule;
+    StartRuleRuleTest(StartRule startRule) {
+        this.startRule = startRule;
     }
 
     @Test
     public void TestInvalidScenario() throws IOException {
-        var resource = new ClassPathResource("MessageFlowSourceInvalid.bpmn");
+        var resource = new ClassPathResource("StartRuleInvalid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageFlowSourceRule.validate(modelInstance);
+        var result = startRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
 
     @Test
     public void TestValidScenario() throws IOException{
-        var resource = new ClassPathResource("MessageFlowSourceValid.bpmn");
+        var resource = new ClassPathResource("StartRuleValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageFlowSourceRule.validate(modelInstance);
+        var result = startRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

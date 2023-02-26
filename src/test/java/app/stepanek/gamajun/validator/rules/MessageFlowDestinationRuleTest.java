@@ -26,7 +26,7 @@ public class MessageFlowDestinationRuleTest {
         var resource = new ClassPathResource("MessageFlowDestinationInvalid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageFlowDestinationRule.validate(modelInstance, null);
+        var result = messageFlowDestinationRule.validate(modelInstance);
 
         assertFalse(result.getValid());
     }
@@ -36,7 +36,7 @@ public class MessageFlowDestinationRuleTest {
         var resource = new ClassPathResource("MessageFlowDestinationValid.bpmn");
         BpmnModelInstance modelInstance = Bpmn.readModelFromFile(resource.getFile());
 
-        var result = messageFlowDestinationRule.validate(modelInstance, null);
+        var result = messageFlowDestinationRule.validate(modelInstance);
 
         assertTrue(result.getValid());
     }

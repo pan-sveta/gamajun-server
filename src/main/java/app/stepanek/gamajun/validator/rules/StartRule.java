@@ -17,7 +17,7 @@ public class StartRule extends BaseValidatorRule {
     }
 
     @Override
-    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn, BpmnModelInstance solutionBpmn) {
+    public ValidatorRuleResult validate(BpmnModelInstance submissionBpmn) {
         var startEvents = submissionBpmn.getModelElementsByType(StartEvent.class);
 
         if (startEvents.size() < 1)
