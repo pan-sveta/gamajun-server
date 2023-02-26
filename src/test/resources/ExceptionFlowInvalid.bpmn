@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ya9gae" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="11.4.1">
+  <bpmn:process id="Process_03y9jba">
+    <bpmn:task id="Activity_0nnqr59" name="Source activity">
+      <bpmn:outgoing>Flow_1w9qkvj</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:boundaryEvent id="Event_1thdxt0" attachedToRef="Activity_0nnqr59">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1safi9l" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Activity_14kizni" name="Normal activity">
+      <bpmn:incoming>Flow_1w9qkvj</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1w9qkvj" sourceRef="Activity_0nnqr59" targetRef="Activity_14kizni" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_03y9jba">
+      <bpmndi:BPMNShape id="Activity_0nnqr59_di" bpmnElement="Activity_0nnqr59">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14kizni_di" bpmnElement="Activity_14kizni">
+        <dc:Bounds x="390" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1af5r1j_di" bpmnElement="Event_1thdxt0">
+        <dc:Bounds x="242" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1w9qkvj_di" bpmnElement="Flow_1w9qkvj">
+        <di:waypoint x="260" y="120" />
+        <di:waypoint x="390" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
