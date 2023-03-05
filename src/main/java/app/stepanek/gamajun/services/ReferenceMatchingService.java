@@ -63,7 +63,7 @@ public class ReferenceMatchingService {
         var solutionLanesCount = solution.getModelElementsByType(Lane.class).size();
         var referenceLanesCount = reference.getModelElementsByType(Lane.class).size();
 
-        if (solutionParticipantCount != referenceParticipantCount) {
+        if (solutionLanesCount != referenceLanesCount) {
             valid = false;
             sb.append("\nDiagram neobsahuje referenční počet swimlines. Odevzdané řešení obsahuje %d swimlines, ale referenční %d."
                     .formatted(solutionLanesCount, referenceLanesCount)
