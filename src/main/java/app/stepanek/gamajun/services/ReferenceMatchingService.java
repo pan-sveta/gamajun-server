@@ -47,7 +47,7 @@ public class ReferenceMatchingService {
         StringBuilder sb = new StringBuilder();
 
         var solutionParticipantCount = solution.getModelElementsByType(Participant.class).size();
-        var referenceParticipantCount = solution.getModelElementsByType(Participant.class).size();
+        var referenceParticipantCount = reference.getModelElementsByType(Participant.class).size();
 
         if (solutionParticipantCount != referenceParticipantCount) {
             valid = false;
@@ -61,7 +61,7 @@ public class ReferenceMatchingService {
         }
 
         var solutionLanesCount = solution.getModelElementsByType(Lane.class).size();
-        var referenceLanesCount = solution.getModelElementsByType(Lane.class).size();
+        var referenceLanesCount = reference.getModelElementsByType(Lane.class).size();
 
         if (solutionParticipantCount != referenceParticipantCount) {
             valid = false;
