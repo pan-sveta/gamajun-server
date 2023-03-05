@@ -3,6 +3,7 @@ type ValidatorReport{
     validatorRuleResults: [ValidatorRuleResult!]!
     startedAt: String!
     finishedAt: String!
+    referenceMatchingResult: ReferenceMatchingResult!
 }
 
 type ValidatorRuleResult {
@@ -16,4 +17,18 @@ type ValidatorRule {
     id: String!
     name: String!
     description: String!
+}
+
+type ReferenceMatchingResult {
+    id: String!
+    result: ReferenceMatchingResultState!
+    isomorphismCheckResult: Boolean!
+    participantsCheckResult: Boolean!
+    participantsCheckMessage: String!
+}
+
+enum ReferenceMatchingResultState {
+    FullMatch,
+    PartialMatch,
+    NoMatch
 }

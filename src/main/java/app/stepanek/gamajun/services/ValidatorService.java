@@ -22,14 +22,14 @@ import java.util.UUID;
 
 @Service
 public class ValidatorService {
-    private final ExamSubmissionService examSubmissionService;
     private final ValidatorReportDao validatorReportDao;
+    private final ReferenceMatchingService referenceMatchingService;
     private List<BaseValidatorRule> list;
 
     @Autowired
-    public ValidatorService(ExamSubmissionService examSubmissionService, ValidatorReportDao reportDao, List<BaseValidatorRule> list) {
-        this.examSubmissionService = examSubmissionService;
+    public ValidatorService(ValidatorReportDao reportDao, ReferenceMatchingService referenceMatchingService, List<BaseValidatorRule> list) {
         this.validatorReportDao = reportDao;
+        this.referenceMatchingService = referenceMatchingService;
         this.list = list;
     }
 
@@ -59,13 +59,19 @@ public class ValidatorService {
 
         report.setStartedAt(Instant.now());
 
-        Set<ValidatorRuleResult> results = new HashSet<>();
 
+        //Reference matching
+        var referenceMatchingResult = referenceMatchingService.match(bpmn,solutionBpmn);
+        report.setReferenceMatchingResult(referenceMatchingResult);
+
+        //Validator rules
+        Set<ValidatorRuleResult> results = new HashSet<>();
         for (var rule : list) {
             results.add(rule.validate(bpmn));
         }
-
         report.setValidatorRuleResults(results);
+
+
         report.setFinishedAt(Instant.now());
 
         return report;
