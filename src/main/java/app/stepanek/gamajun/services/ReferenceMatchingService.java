@@ -86,8 +86,8 @@ public class ReferenceMatchingService {
         var solutionGraph = buildGraph(solution);
 
         //Merge activities
-        mergeSubsequentActivities(referenceGraph);
-        mergeSubsequentActivities(solutionGraph);
+        //mergeSubsequentActivities(referenceGraph);
+        //mergeSubsequentActivities(solutionGraph);
 
         //Check isomorphism
         var isomorphismInspector = new VF2GraphIsomorphismInspector<FlowNode, DefaultEdge>(solutionGraph, referenceGraph);
