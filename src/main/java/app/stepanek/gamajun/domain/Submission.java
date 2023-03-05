@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;

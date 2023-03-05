@@ -1,17 +1,18 @@
 package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExamSubmission extends Submission {
+
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "exam_id", nullable = false)
     private Exam exam;

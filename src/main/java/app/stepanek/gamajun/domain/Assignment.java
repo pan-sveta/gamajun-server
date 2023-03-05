@@ -1,10 +1,7 @@
 package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -13,7 +10,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Assignment {
     @Id
     @GeneratedValue(generator = "UUID")
