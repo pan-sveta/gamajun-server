@@ -29,4 +29,26 @@ class ReferenceMatchingServiceTest {
 
         assertEquals(referenceMatchingService.match(solutionInstance, referenceInstance).getResult(), ReferenceMatchingResultState.FullMatch);
     }
+
+    @Test
+    void CaseASolutionB() throws IOException {
+        var solution = new ClassPathResource("ReferenceMatching/CaseAReference.bpmn");
+        BpmnModelInstance solutionInstance = Bpmn.readModelFromFile(solution.getFile());
+
+        var reference = new ClassPathResource("ReferenceMatching/CaseASolutionB.bpmn");
+        BpmnModelInstance referenceInstance = Bpmn.readModelFromFile(reference.getFile());
+
+        assertEquals(referenceMatchingService.match(solutionInstance, referenceInstance).getResult(), ReferenceMatchingResultState.FullMatch);
+    }
+
+    @Test
+    void CaseBSolutionA() throws IOException {
+        var solution = new ClassPathResource("ReferenceMatching/CaseBReference.bpmn");
+        BpmnModelInstance solutionInstance = Bpmn.readModelFromFile(solution.getFile());
+
+        var reference = new ClassPathResource("ReferenceMatching/CaseBSolutionA.bpmn");
+        BpmnModelInstance referenceInstance = Bpmn.readModelFromFile(reference.getFile());
+
+        assertEquals(referenceMatchingService.match(solutionInstance, referenceInstance).getResult(), ReferenceMatchingResultState.FullMatch);
+    }
 }

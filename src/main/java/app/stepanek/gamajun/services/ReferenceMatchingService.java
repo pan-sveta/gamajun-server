@@ -5,8 +5,8 @@ import app.stepanek.gamajun.domain.ReferenceMatchingResultState;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.*;
 import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
 import org.jgrapht.alg.isomorphism.VF2GraphIsomorphismInspector;
-import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.springframework.stereotype.Service;
@@ -86,39 +86,35 @@ public class ReferenceMatchingService {
         var solutionGraph = buildGraph(solution);
 
         //Merge activities
-        //mergeSubsequentActivities(referenceGraph);
-        //mergeSubsequentActivities(solutionGraph);
+        mergeSubsequentActivities(referenceGraph, reference);
+        mergeSubsequentActivities(solutionGraph, solution);
 
         //Check isomorphism
         var isomorphismInspector = new VF2GraphIsomorphismInspector<FlowNode, DefaultEdge>(solutionGraph, referenceGraph);
         referenceMatchingResult.setIsomorphismCheckResult(isomorphismInspector.isomorphismExists());
     }
 
-    private void mergeSubsequentActivities(Graph<FlowNode, DefaultEdge> graph) {
+    private void mergeSubsequentActivities(Graph<FlowNode, DefaultEdge> graph, BpmnModelInstance model) {
+        List<Lane> lanes = new ArrayList<>(model.getModelElementsByType(Lane.class));
         List<FlowNode> toRemove = new ArrayList<>();
-        List<Pair<FlowNode, FlowNode>> toAdd = new ArrayList<>();
 
         for (DefaultEdge e : graph.edgeSet()) {
             var source = graph.getEdgeSource(e);
             var target = graph.getEdgeTarget(e);
             if (source instanceof Activity && target instanceof Activity) {
-                for (var flow : source.getIncoming()) {
-                    var node = flow.getSource();
-                    toAdd.add(new Pair<>(node, target));
-                }
+                var sourceParent = lanes.stream().filter(l -> l.getFlowNodeRefs().contains(source)).findFirst().orElse(null);
+                var targetParent = lanes.stream().filter(l -> l.getFlowNodeRefs().contains(target)).findFirst().orElse(null);
 
-                toRemove.add(source);
+                if (sourceParent != null && targetParent != null) {
+                    if (sourceParent.equals(targetParent))
+                        toRemove.add(target);
+                } else
+                    toRemove.add(target);
 
             }
         }
 
-        for (var edge : toAdd) {
-            graph.addEdge(edge.getFirst(), edge.getSecond());
-        }
-
-        for (var node : toRemove) {
-            graph.removeVertex(node);
-        }
+        Graphs.removeVertexAndPreserveConnectivity(graph, toRemove);
     }
 
     private Graph<FlowNode, DefaultEdge> buildGraph(BpmnModelInstance instance) {
