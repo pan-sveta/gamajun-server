@@ -12,6 +12,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -33,11 +34,13 @@ public class ClassroomController {
         return classroomService.findById(classroom.getId());
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public List<Classroom> classrooms(){
         return classroomService.findAll();
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public Classroom classroomById(@Argument UUID id){
         return classroomService.findById(id);
@@ -48,6 +51,7 @@ public class ClassroomController {
         return classroomService.createClassroom(classroomInput);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Classroom addUser(@Argument String username, @Argument UUID classroomId){
         User user = userService.findByUsername(username);
@@ -55,6 +59,7 @@ public class ClassroomController {
         return classroomService.addUser(classroomId,user);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Classroom removeUser(@Argument String username, @Argument UUID classroomId){
         var classroom =  classroomService.removeUserFromClassroom(classroomId,username);

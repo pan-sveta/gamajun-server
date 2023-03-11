@@ -10,6 +10,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
@@ -30,32 +31,36 @@ public class ExamController {
         return examService.findById(exam.getId());
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Exam createExam(@Argument CreateExamInput input) {
         return examService.createExam(input);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public List<Exam> exams() {
         return examService.findAll();
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public Exam examById(@Argument UUID id) {
         return examService.findById(id);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Exam updateExam(@Argument UpdateExamInput input) {
         return examService.update(input);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public boolean deleteExam(@Argument UUID id) {
         examService.deleteExam(id);
         return true;
     }
-
 
     @PreAuthorize("isAuthenticated()")
     @QueryMapping

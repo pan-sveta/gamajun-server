@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,36 +31,43 @@ public class ExamSubmissionController {
         return examSubmissionService.findById(examSubmission.getId());
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public List<ExamSubmission> examSubmissions() {
         return examSubmissionService.findAll();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @QueryMapping
     public List<ExamSubmission> examSubmissionsByExamId(@Argument UUID examId) {
         return examSubmissionService.findAllByExam(examId);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @QueryMapping
     public ExamSubmission examSubmissionById(@Argument UUID id) {
         return examSubmissionService.findById(id);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public boolean deleteExamSubmission(@PathVariable UUID examSubmissionId) {
         return examSubmissionService.delete(examSubmissionId);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @QueryMapping
     public List<ExamSubmission> myExamSubmissions() {
         return examSubmissionService.mySubmissions();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @MutationMapping
     public ExamSubmission checkpointExamSubmission(@Argument ExamSubmissionCheckpointInput input) {
         return examSubmissionService.checkpointStudentExam(input);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @MutationMapping
     public ExamSubmission submitExamSubmission(@Argument ExamSubmissionSubmitInput input)  {
         return examSubmissionService.submitStudentExam(input);

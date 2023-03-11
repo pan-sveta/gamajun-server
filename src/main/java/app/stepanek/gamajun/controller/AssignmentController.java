@@ -11,6 +11,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,31 +35,37 @@ public class AssignmentController  {
         return assignmentService.findById(assignment.getId());
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Assignment createAssignment(@Argument CreateAssignmentInput input) {
        return assignmentService.createAssignment(input);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public List<Assignment> assignments() {
         return assignmentDao.findAll();
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public Assignment assignmentById(@Argument UUID id) {
         return assignmentDao.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public List<Assignment> sandboxAssignments() {
         return assignmentService.sandboxAssignments();
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Assignment updateAssignment(@Argument UpdateAssignmentInput input) {
         return assignmentService.updateAssignment(input);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public boolean deleteAssignment(@Argument UUID id)  {
         assignmentDao.deleteById(id);
