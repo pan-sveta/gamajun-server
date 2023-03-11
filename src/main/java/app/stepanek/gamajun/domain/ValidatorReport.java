@@ -14,6 +14,7 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ValidatorReport {
     @Id
     @GeneratedValue(generator = "UUID")

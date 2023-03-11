@@ -23,15 +23,15 @@ import java.util.UUID;
 @Service
 public class ExamSubmissionService {
     private final ExamSubmissionDao examSubmissionDao;
-    @Autowired
     @Lazy
     private ValidatorService validatorService;
     private final IAuthenticationFacade authenticationFacade;
 
 
     @Autowired
-    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, IAuthenticationFacade authenticationFacade) {
+    public ExamSubmissionService(ExamSubmissionDao examSubmissionDao, ValidatorService validatorService, IAuthenticationFacade authenticationFacade) {
         this.examSubmissionDao = examSubmissionDao;
+        this.validatorService = validatorService;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -73,17 +73,6 @@ public class ExamSubmissionService {
         return examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
     }
 
-    @Transactional
-    public ExamSubmission getExamSubmission(UUID examSubmissionId) {
-        var examSubmission = examSubmissionDao.findById(examSubmissionId)
-                .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionId)));
-
-        /*if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
-            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));*/
-
-        return examSubmission;
-    }
-
     //******
     //Delete
     //******
@@ -108,8 +97,8 @@ public class ExamSubmissionService {
         var examSubmission = examSubmissionDao.findById(examSubmissionCheckpointInput.getId())
                 .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionCheckpointInput.getId())));
 
-        /*if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
-            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionCheckpointInput.getId(), authenticationFacade.getUsername()));*/
+        if (!authenticationFacade.getUsername().equals(examSubmission.getUser().getUsername()))
+            throw new ResourceNotOwnedByCurrentUserException("Exam submission '%s' is not owned by user %s".formatted(examSubmissionCheckpointInput.getId(), authenticationFacade.getUsername()));
 
         examSubmission.setXml(examSubmissionCheckpointInput.getXml());
 

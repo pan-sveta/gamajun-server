@@ -65,13 +65,13 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_11an8rn">
       <bpmndi:BPMNShape id="Participant_08v11v3_di" bpmnElement="Participant_08v11v3" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1230" height="410" />
+        <dc:Bounds x="160" y="80" width="840" height="410" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_12xvych_di" bpmnElement="Lane_12xvych" isHorizontal="true">
-        <dc:Bounds x="190" y="285" width="1200" height="205" />
+        <dc:Bounds x="190" y="285" width="810" height="205" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_0gpgwuv_di" bpmnElement="Lane_0gpgwuv" isHorizontal="true">
-        <dc:Bounds x="190" y="80" width="1200" height="205" />
+        <dc:Bounds x="190" y="80" width="810" height="205" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_0fhsmxe">
         <dc:Bounds x="232" y="182" width="36" height="36" />
