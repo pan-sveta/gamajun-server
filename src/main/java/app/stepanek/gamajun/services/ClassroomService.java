@@ -6,13 +6,11 @@ import app.stepanek.gamajun.exceptions.ClassroomNotFoundException;
 import app.stepanek.gamajun.graphql.CreateClassroomInput;
 import app.stepanek.gamajun.repository.ClassroomDao;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ClassroomService {
@@ -84,14 +82,11 @@ public class ClassroomService {
     }
 
     @Transactional
-    public boolean validateInviteCode(String inviteCode) {
-        var classroom = classroomDao.findClassroomByInviteCode(inviteCode).orElse(null);
-
-        return classroom != null;
-    }
-
-    @Transactional
     public Classroom getClassroomByUser(User user) {
         return classroomDao.findClassroomByUsersContains(user).orElseThrow(() -> new ClassroomNotFoundException("Classroom containing user %s was not found".formatted(user.getUsername())));
+    }
+
+    public Optional<Classroom> findByIdInviteCode(String inviteCode) {
+        return classroomDao.findClassroomByInviteCode(inviteCode);
     }
 }

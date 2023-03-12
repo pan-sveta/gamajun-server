@@ -66,10 +66,4 @@ public class ClassroomController {
         userService.deleteUser(username);
         return classroom;
     }
-
-    @QueryMapping
-    public boolean validateInviteCode(@Argument String code){
-        return classroomService.validateInviteCode(code);
-    }
-
 }

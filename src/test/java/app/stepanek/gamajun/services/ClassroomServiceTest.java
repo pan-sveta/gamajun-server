@@ -187,14 +187,8 @@ class ClassroomServiceTest {
                 .users(new HashSet<>())
                 .build()));
 
-        assertTrue(classroomService.validateInviteCode("inviteCode"));
+        assertNotNull(classroomService.findByIdInviteCode("inviteCode").get());
     }
-
-    @Test
-    void validateInviteCodeInvalid() {
-        assertFalse(classroomService.validateInviteCode("inviteCode2"));
-    }
-
     @Test
     void getClassroomByUser() {
         var user = User

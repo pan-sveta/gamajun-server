@@ -9,6 +9,7 @@ import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.repository.RoleDao;
 import app.stepanek.gamajun.repository.UserDao;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class UserService {
     ClassroomService classroomService;
     PasswordEncoder passwordEncoder;
 
+    @Value("${GAMAJUN_ADMIN_CODE}")
+    private String adminCode;
+
+
     public UserService(UserDao userDao, RoleDao roleDao, ClassroomService classroomService, PasswordEncoder passwordEncoder, ExamSubmissionService examSubmissionService, SandboxSubmissionService sandboxSubmissionService) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -41,7 +46,7 @@ public class UserService {
     public User registerUser(SignUpInput input) {
         User user = new User();
 
-        if (!classroomService.validateInviteCode(input.getInviteCode()))
+        if (!validateInviteCode(input.getInviteCode()))
             throw new ClassroomNotFoundException("Classroom with code %s was not found".formatted(input.getInviteCode()));
 
         user.setName(input.getName());
@@ -53,14 +58,15 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleDao.findByName("GAMAJUN_STUDENT").get());
 
-        if (Objects.equals(user.getUsername(), "stepafi6"))
+        if (input.getInviteCode().equals(adminCode))
             roles.add(roleDao.findByName("GAMAJUN_TEACHER").get());
 
         user.setRoles(roles);
 
         user = userDao.save(user);
 
-        classroomService.addUserByInviteCode(input.getInviteCode(), user);
+        if (!input.getInviteCode().equals(adminCode))
+            classroomService.addUserByInviteCode(input.getInviteCode(), user);
 
         return user;
     }
@@ -81,5 +87,12 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userDao.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    @Transactional
+    public boolean validateInviteCode(String inviteCode) {
+        var classroom = classroomService.findByIdInviteCode(inviteCode);
+
+        return (classroom.isPresent()) || inviteCode.equals(adminCode);
     }
 }
