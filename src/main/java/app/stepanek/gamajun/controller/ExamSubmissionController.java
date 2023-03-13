@@ -2,6 +2,7 @@ package app.stepanek.gamajun.controller;
 
 import app.stepanek.gamajun.domain.ExamSubmission;
 import app.stepanek.gamajun.graphql.ExamSubmissionCheckpointInput;
+import app.stepanek.gamajun.graphql.ExamSubmissionGradeInput;
 import app.stepanek.gamajun.graphql.ExamSubmissionSubmitInput;
 import app.stepanek.gamajun.services.ExamSubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,14 @@ public class ExamSubmissionController {
 
     @Secured("GAMAJUN_TEACHER")
     @MutationMapping
-    public boolean deleteExamSubmission(@PathVariable UUID examSubmissionId) {
+    public boolean deleteExamSubmission(@Argument UUID examSubmissionId) {
         return examSubmissionService.delete(examSubmissionId);
+    }
+
+    @Secured("GAMAJUN_TEACHER")
+    @MutationMapping
+    public ExamSubmission gradeExamSubmission(@Argument ExamSubmissionGradeInput input) {
+        return examSubmissionService.gradeStudentExam(input);
     }
 
     @PreAuthorize("isAuthenticated()")

@@ -20,4 +20,11 @@ public class ExamSubmission extends Submission {
     @Enumerated(EnumType.STRING)
     @Column(name = "exam_submission_state", nullable = false)
     private ExamSubmissionState examSubmissionState;
+
+    @Column(name = "points", nullable = true)
+    private Double points;
+
+    @Column(name = "comment", nullable = true, columnDefinition = "text")
+    private String comment;
+
 }

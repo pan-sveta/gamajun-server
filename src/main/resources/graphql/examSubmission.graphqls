@@ -12,6 +12,8 @@ extend type Mutation {
     checkpointExamSubmission(input: ExamSubmissionCheckpointInput!): ExamSubmission!
     "Submit exam submission"
     submitExamSubmission(input: ExamSubmissionSubmitInput!): ExamSubmission!
+    "Grade exam submission"
+    gradeExamSubmission(input: ExamSubmissionGradeInput!): ExamSubmission!
 
 }
 
@@ -29,6 +31,8 @@ type ExamSubmission {
     user: User!
     examSubmissionState: ExamSubmissionState!
     validatorReport: ValidatorReport
+    points: Float
+    comment: String
 }
 
 input ExamSubmissionCheckpointInput {
@@ -39,6 +43,12 @@ input ExamSubmissionCheckpointInput {
 input ExamSubmissionSubmitInput {
     id: ID
     xml: String
+}
+
+input ExamSubmissionGradeInput {
+    id: ID
+    points: Float
+    comment: String
 }
 
 enum ExamSubmissionState {

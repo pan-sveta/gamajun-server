@@ -7,6 +7,7 @@ import app.stepanek.gamajun.exceptions.ExamSubmissionLockedException;
 import app.stepanek.gamajun.exceptions.ExamSubmissionNotFoundException;
 import app.stepanek.gamajun.exceptions.ResourceNotOwnedByCurrentUserException;
 import app.stepanek.gamajun.graphql.ExamSubmissionCheckpointInput;
+import app.stepanek.gamajun.graphql.ExamSubmissionGradeInput;
 import app.stepanek.gamajun.graphql.ExamSubmissionSubmitInput;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
@@ -123,6 +124,23 @@ public class ExamSubmissionService {
 
         var validatorReport = validatorService.validateSubmission(examSubmission);
         examSubmission.setValidatorReport(validatorReport);
+
+        examSubmission = examSubmissionDao.save(examSubmission);
+
+        return examSubmission;
+    }
+
+    @Transactional
+    public ExamSubmission gradeStudentExam(ExamSubmissionGradeInput examSubmissionGradeInput) {
+        var examSubmission = examSubmissionDao.findById(examSubmissionGradeInput.getId())
+                .orElseThrow(() -> new ExamSubmissionNotFoundException("Exam submission with id %s was not found.".formatted(examSubmissionGradeInput.getId())));
+
+        if (examSubmission.getExamSubmissionState().equals(ExamSubmissionState.Draft))
+            throw new ExamSubmissionLockedException("Exam submission '%s' cannot be graded yet".formatted(examSubmissionGradeInput.getId()));
+
+        examSubmission.setPoints(examSubmissionGradeInput.getPoints());
+        examSubmission.setComment(examSubmissionGradeInput.getComment());
+        examSubmission.setExamSubmissionState(ExamSubmissionState.Graded);
 
         examSubmission = examSubmissionDao.save(examSubmission);
 
