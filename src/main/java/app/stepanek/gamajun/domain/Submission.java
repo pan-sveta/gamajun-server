@@ -37,6 +37,7 @@ public class Submission {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     protected User user;
 
     @OneToOne

@@ -42,7 +42,7 @@ public class Exam {
             inverseJoinColumns = @JoinColumn(name = "assignments_id"))
     private List<Assignment> assignments = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinTable(name = "exam_classrooms",
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "classroom_id"))

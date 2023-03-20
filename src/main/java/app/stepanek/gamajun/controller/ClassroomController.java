@@ -51,6 +51,12 @@ public class ClassroomController {
         return classroomService.createClassroom(classroomInput);
     }
 
+    @MutationMapping
+    public boolean deleteClassroom(@Argument UUID id){
+        classroomService.deleteClassroom(id);
+        return true;
+    }
+
     @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Classroom addUser(@Argument String username, @Argument UUID classroomId){
