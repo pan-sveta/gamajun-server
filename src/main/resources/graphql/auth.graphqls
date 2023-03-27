@@ -4,7 +4,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    signUp(input: SignUpInput!): User!
+    signUp(input: SignUpInput!): User
 }
 
 input SignUpInput{

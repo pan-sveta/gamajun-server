@@ -6,7 +6,7 @@ extend type Query {
 
 extend type Mutation {
     "Create assignment"
-    createAssignment(input: CreateAssignmentInput!): Assignment!
+    createAssignment(input: CreateAssignmentInput!): Assignment
     "Update assignment"
     updateAssignment(input: UpdateAssignmentInput!): Assignment!
     "Delete assignment"

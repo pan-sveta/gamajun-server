@@ -30,19 +30,19 @@ public class SandboxSubmissionController {
         return sandboxSubmissionService.findById(sandboxSubmission.getId());
     }
 
-    @Secured("GAMAJUN_TEACHER")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public List<SandboxSubmission> sandboxSubmissions() {
         return sandboxSubmissionService.findAll();
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public SandboxSubmission sandboxSubmissionById(@Argument UUID id) {
         return sandboxSubmissionService.findById(id);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public List<SandboxSubmission> mySandboxSubmissions(@Argument UUID assignmentId) {
         return sandboxSubmissionService.mySandboxSubmissions(assignmentId);
@@ -60,13 +60,13 @@ public class SandboxSubmissionController {
         return sandboxSubmissionService.delete(sandboxSubmissionId);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @MutationMapping
     public SandboxSubmission submitSandboxSubmission(@Argument SandboxSubmissionSubmitInput input)  {
         return sandboxSubmissionService.submitSandboxSubmission(input);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @MutationMapping
     public SandboxSubmission createSandboxSubmission(@Argument UUID assignmentId)  {
         return sandboxSubmissionService.createSandboxSubmission(assignmentId);

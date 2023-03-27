@@ -1,6 +1,7 @@
 package app.stepanek.gamajun.exceptions;
 
 import graphql.ErrorClassification;
+import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.GraphQLException;
 import graphql.language.SourceLocation;
@@ -19,6 +20,6 @@ public class UserAlreadyExistsException extends RuntimeException implements Grap
 
     @Override
     public ErrorClassification getErrorType() {
-        return null;
+        return ErrorType.ValidationError;
     }
 }

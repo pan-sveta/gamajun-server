@@ -62,13 +62,13 @@ public class ExamController {
         return true;
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public List<Exam> openedExams() {
         return examService.getOpenedExams();
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @MutationMapping
     public ExamSubmission beginExam(@Argument UUID id) {
         return examService.beginExam(id);

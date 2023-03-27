@@ -4,6 +4,7 @@ import app.stepanek.gamajun.domain.Classroom;
 import app.stepanek.gamajun.domain.Role;
 import app.stepanek.gamajun.domain.User;
 import app.stepanek.gamajun.exceptions.ClassroomNotFoundException;
+import app.stepanek.gamajun.exceptions.UserAlreadyExistsException;
 import app.stepanek.gamajun.graphql.SignUpInput;
 import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.repository.RoleDao;
@@ -48,6 +49,9 @@ public class UserService {
 
         if (!validateInviteCode(input.getInviteCode()))
             throw new ClassroomNotFoundException("Classroom with code %s was not found".formatted(input.getInviteCode()));
+
+        if (userDao.findByUsername(input.getUsername()).isPresent())
+            throw new UserAlreadyExistsException("Uživatel se jménem %s již existuje".formatted(input.getUsername()));
 
         user.setName(input.getName());
         user.setSurname(input.getSurname());

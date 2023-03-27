@@ -7,7 +7,7 @@ extend type Query {
 
 extend type Mutation {
     "Create sandbox submission"
-    createSandboxSubmission(assignmentId: String!): SandboxSubmission!
+    createSandboxSubmission(assignmentId: String!): SandboxSubmission
     "Delete sandbox submission"
     deleteSandboxSubmission(id: String!): Boolean!
     "Submit sandbox submission"

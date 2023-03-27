@@ -53,7 +53,7 @@ public class AssignmentController  {
         return assignmentDao.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @Secured("GAMAJUN_TEACHER")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public List<Assignment> sandboxAssignments() {
         return assignmentService.sandboxAssignments();

@@ -38,13 +38,13 @@ public class ExamSubmissionController {
         return examSubmissionService.findAll();
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public List<ExamSubmission> examSubmissionsByExamId(@Argument UUID examId) {
         return examSubmissionService.findAllByExam(examId);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public ExamSubmission examSubmissionById(@Argument UUID id) {
         return examSubmissionService.findById(id);
@@ -62,19 +62,19 @@ public class ExamSubmissionController {
         return examSubmissionService.gradeStudentExam(input);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @QueryMapping
     public List<ExamSubmission> myExamSubmissions() {
         return examSubmissionService.mySubmissions();
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @MutationMapping
     public ExamSubmission checkpointExamSubmission(@Argument ExamSubmissionCheckpointInput input) {
         return examSubmissionService.checkpointStudentExam(input);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @Secured("GAMAJUN_STUDENT")
     @MutationMapping
     public ExamSubmission submitExamSubmission(@Argument ExamSubmissionSubmitInput input)  {
         return examSubmissionService.submitStudentExam(input);
