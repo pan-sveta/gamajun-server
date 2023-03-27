@@ -16,6 +16,6 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: ${GAMAJUN_PG_HOST}
-    username: ${GAMAJUN_PG_USERNAME}
-    password: ${GAMAJUN_PG_PASSWORD}
+    url: ${POSTGRES_HOST}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}

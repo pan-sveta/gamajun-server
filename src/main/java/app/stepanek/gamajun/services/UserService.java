@@ -34,7 +34,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     IAuthenticationFacade authenticationFacade;
 
-    @Value("${GAMAJUN_ADMIN_CODE}")
+    @Value("${ADMIN_CODE}")
     private String adminCode;
 
 

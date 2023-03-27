@@ -1,4 +1,4 @@
-package app.stepanek.gamajun.security;
+package app.stepanek.gamajun.config;
 
 import app.stepanek.gamajun.services.OidcUserInfoService;
 import org.springframework.context.annotation.Bean;
