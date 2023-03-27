@@ -9,7 +9,9 @@ import app.stepanek.gamajun.graphql.SignUpInput;
 import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.repository.RoleDao;
 import app.stepanek.gamajun.repository.UserDao;
+import app.stepanek.gamajun.utilities.IAuthenticationFacade;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class UserService {
 
     private final ExamSubmissionService examSubmissionService;
@@ -29,18 +32,20 @@ public class UserService {
     RoleDao roleDao;
     ClassroomService classroomService;
     PasswordEncoder passwordEncoder;
+    IAuthenticationFacade authenticationFacade;
 
     @Value("${GAMAJUN_ADMIN_CODE}")
     private String adminCode;
 
 
-    public UserService(UserDao userDao, RoleDao roleDao, ClassroomService classroomService, PasswordEncoder passwordEncoder, ExamSubmissionService examSubmissionService, SandboxSubmissionService sandboxSubmissionService) {
+    public UserService(UserDao userDao, RoleDao roleDao, ClassroomService classroomService, PasswordEncoder passwordEncoder, ExamSubmissionService examSubmissionService, SandboxSubmissionService sandboxSubmissionService, IAuthenticationFacade authenticationFacade) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.classroomService = classroomService;
         this.passwordEncoder = passwordEncoder;
         this.examSubmissionService = examSubmissionService;
         this.sandboxSubmissionService = sandboxSubmissionService;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Transactional
@@ -77,6 +82,8 @@ public class UserService {
 
     @Transactional
     public void deleteUser(String username) {
+        log.info("User {} is deleting user {}", authenticationFacade.getUsername(), username);
+
         User user = userDao.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
         examSubmissionService.deleteByUser(user);
@@ -86,6 +93,7 @@ public class UserService {
     }
 
     public List<User> findAll() {
+        log.info("User {} is getting all users", authenticationFacade.getUsername());
         return userDao.findAll();
     }
 
@@ -95,6 +103,8 @@ public class UserService {
 
     @Transactional
     public boolean validateInviteCode(String inviteCode) {
+        log.info("User {} is validating invite code {}", authenticationFacade.getUsername(), inviteCode);
+
         var classroom = classroomService.findByIdInviteCode(inviteCode);
 
         return (classroom.isPresent()) || inviteCode.equals(adminCode);

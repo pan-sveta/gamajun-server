@@ -11,4 +11,5 @@ public interface IAuthenticationFacade {
     GamajunUserPrincipal getPrincipal();
     String getUsername();
     User getUser();
+    boolean isResourceOwner(User entityOwner);
 }

@@ -25,8 +25,7 @@ public class AuthenticationFacade implements IAuthenticationFacade {
         if (getAuthentication().getPrincipal() instanceof GamajunUserPrincipal)
             return (GamajunUserPrincipal) getAuthentication().getPrincipal();
         else
-            throw new RuntimeException("Authenticaiton principal i" +
-                    "s not type of 'Jwt'");
+            throw new RuntimeException("Authenticaiton principal is not type of 'GamajunUserPrincipal'");
     }
 
     @Override
@@ -39,5 +38,11 @@ public class AuthenticationFacade implements IAuthenticationFacade {
         return getPrincipal().getUser();
     }
 
-
+    @Override
+    public boolean isResourceOwner(User entityOwner) {
+        if (getUser().getRoles().stream().anyMatch(role -> role.getName().equals("GAMAJUN_TEACHER")))
+            return true;
+        else
+            return getUser().equals(entityOwner);
+    }
 }

@@ -14,6 +14,7 @@ import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.repository.ExamDao;
 import app.stepanek.gamajun.repository.ExamSubmissionDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import java.util.Random;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ExamService {
     private final AssignmentDao assignmentDao;
     private final ExamDao examDao;
@@ -45,6 +47,8 @@ public class ExamService {
     }
 
     public ExamSubmission beginExam(UUID examId) {
+        log.info("User {} is starting exam with id {}", authenticationFacade.getUsername(), examId);
+
         var exam = examDao.findById(examId).orElseThrow(() -> new ExamNotFoundException("Exam with id '%s' was not found".formatted(examId)));
 
         var userExamSubmissions = examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
@@ -64,6 +68,8 @@ public class ExamService {
     }
 
     public List<Exam> getOpenedExams() {
+        log.info("User {} is getting opened exams", authenticationFacade.getUsername());
+
         Classroom classroom;
         try {
             classroom = classroomService.getClassroomByUser(authenticationFacade.getUser());
@@ -83,6 +89,8 @@ public class ExamService {
 
     @Transactional
     public Exam createExam(CreateExamInput createExamInput) {
+        log.info("User {} is creating exam with title {}", authenticationFacade.getUsername(), createExamInput.getTitle());
+
         Exam exam = new Exam();
 
         exam.setTitle(createExamInput.getTitle());
@@ -97,20 +105,26 @@ public class ExamService {
     }
 
     public List<Exam> findAll() {
+        log.info("User {} is getting all exams", authenticationFacade.getUsername());
         return examDao.findAll();
     }
 
     public Exam findById(UUID examId) {
+        log.info("User {} is getting exam with id {}", authenticationFacade.getUsername(), examId);
+
         return examDao
                 .findById(examId)
                 .orElseThrow(() -> new ExamNotFoundException("Exam with id '%s' was not found".formatted(examId)));
     }
 
     public void deleteExam(UUID examId) {
+        log.info("User {} is deleting exam with id {}", authenticationFacade.getUsername(), examId);
         examDao.deleteById(examId);
     }
 
     public Exam update(UpdateExamInput updateExamInput) {
+        log.info("User {} is updating exam with id {}", authenticationFacade.getUsername(), updateExamInput.getId());
+
         Exam exam = findById(updateExamInput.getId());
 
         exam.setTitle(updateExamInput.getTitle());

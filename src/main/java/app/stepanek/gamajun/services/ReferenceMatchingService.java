@@ -2,6 +2,7 @@ package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.ReferenceMatchingResult;
 import app.stepanek.gamajun.domain.ReferenceMatchingResultState;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.*;
 import org.jgrapht.Graph;
@@ -15,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ReferenceMatchingService {
     public ReferenceMatchingResult match(BpmnModelInstance solution, BpmnModelInstance reference) {
+        log.info("Matching solution and reference");
+
         ReferenceMatchingResult referenceMatchingResult = new ReferenceMatchingResult();
 
         //Check isomorphism
