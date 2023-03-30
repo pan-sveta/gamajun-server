@@ -67,7 +67,7 @@ public class SecurityConfig {
     @Lazy
     UserService userService;
 
-    @Value("${FRONTEND_URL}")
+    @Value("${NEXTAUTH_URL}")
     private String frontendUrl;
 
 

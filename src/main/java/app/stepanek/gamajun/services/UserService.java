@@ -103,7 +103,7 @@ public class UserService {
 
     @Transactional
     public boolean validateInviteCode(String inviteCode) {
-        log.info("User {} is validating invite code {}", authenticationFacade.getUsername(), inviteCode);
+        log.info("Validating invite code {}", inviteCode);
 
         var classroom = classroomService.findByIdInviteCode(inviteCode);
 

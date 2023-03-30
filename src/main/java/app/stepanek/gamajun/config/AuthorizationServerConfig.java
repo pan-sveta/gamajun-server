@@ -43,13 +43,13 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class AuthorizationServerConfig {
-    @Value("${CLIENT_ID}")
+    @Value("${OAUTH2_CLIENT_ID}")
     private String clientId;
 
-    @Value("${CLIENT_SECRET}")
+    @Value("${OAUTH2_CLIENT_SECRET}")
     private String clientSecret;
 
-    @Value("${FRONTEND_URL}")
+    @Value("${NEXTAUTH_URL}")
     private String frontendUrl;
 
     @Bean
@@ -77,7 +77,6 @@ public class AuthorizationServerConfig {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(clientId)
                 .clientSecret(passwordEncoder().encode(clientSecret))
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)

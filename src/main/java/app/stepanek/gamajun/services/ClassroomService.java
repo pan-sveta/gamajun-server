@@ -108,7 +108,7 @@ public class ClassroomService {
     }
 
     public Optional<Classroom> findByIdInviteCode(String inviteCode) {
-        log.info("User {} is finding classroom by invite code {}", authenticationFacade.getUsername(), inviteCode);
+        log.info("Finding classroom by invite code {}", inviteCode);
 
         return classroomDao.findClassroomByInviteCode(inviteCode);
     }

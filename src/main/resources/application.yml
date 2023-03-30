@@ -1,8 +1,7 @@
 server:
   error:
     include-message: always
-
-server.forward-headers-strategy: NATIVE
+  forward-headers-strategy: native
 
 spring:
   config:
