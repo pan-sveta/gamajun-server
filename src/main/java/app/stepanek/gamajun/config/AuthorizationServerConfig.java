@@ -49,7 +49,7 @@ public class AuthorizationServerConfig {
     @Value("${OAUTH2_CLIENT_SECRET}")
     private String clientSecret;
 
-    @Value("${NEXTAUTH_URL}")
+    @Value("${CLIENT_URL}")
     private String frontendUrl;
 
     @Bean
