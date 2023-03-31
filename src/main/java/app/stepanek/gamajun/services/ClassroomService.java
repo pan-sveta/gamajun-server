@@ -62,7 +62,7 @@ public class ClassroomService {
 
     @Transactional
     public Classroom addUserByInviteCode(String inviteCode, User user) {
-        log.info("User {} is adding user with username {} to classroom with invite code {}", authenticationFacade.getUsername(), user.getUsername(), inviteCode);
+        log.info("Adding user with username {} to classroom with invite code {}", user.getUsername(), inviteCode);
 
         var classroom = classroomDao.findClassroomByInviteCode(inviteCode).orElseThrow(() -> new ClassroomNotFoundException("Classroom with invite code %s was not found".formatted(inviteCode)));
 
