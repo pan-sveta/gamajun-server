@@ -38,4 +38,16 @@ public class User {
 
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (!(obj instanceof User))
+            return false;
+
+        User user = (User) obj;
+
+        return user.getUsername().equals(this.getUsername());
+    }
 }

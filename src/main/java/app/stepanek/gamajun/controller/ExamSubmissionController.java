@@ -38,13 +38,13 @@ public class ExamSubmissionController {
         return examSubmissionService.findAll();
     }
 
-    @Secured("GAMAJUN_STUDENT")
+    @Secured("GAMAJUN_TEACHER")
     @QueryMapping
     public List<ExamSubmission> examSubmissionsByExamId(@Argument UUID examId) {
         return examSubmissionService.findAllByExam(examId);
     }
 
-    @Secured("GAMAJUN_STUDENT")
+    @PreAuthorize("isAuthenticated()")
     @QueryMapping
     public ExamSubmission examSubmissionById(@Argument UUID id) {
         return examSubmissionService.findById(id);

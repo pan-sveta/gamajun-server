@@ -20,6 +20,9 @@ public class ClassroomService {
     ClassroomDao classroomDao;
     IAuthenticationFacade authenticationFacade;
 
+    @Value("${ADMIN_CODE}")
+    private String adminCode;
+
     public ClassroomService(ClassroomDao classroomDao, IAuthenticationFacade authenticationFacade) {
         this.classroomDao = classroomDao;
         this.authenticationFacade = authenticationFacade;
@@ -28,6 +31,9 @@ public class ClassroomService {
     @Transactional
     public Classroom createClassroom(CreateClassroomInput classroomInput) {
         log.info("User {} is creating classroom with name: {}", authenticationFacade.getUsername(), classroomInput.getName());
+
+        if (classroomInput.getInviteCode().equals(adminCode))
+            throw new IllegalArgumentException("Kód pozvánky se nesmí shodovat s tajným kódem!".formatted());
 
         Classroom classroom = new Classroom();
 

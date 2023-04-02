@@ -65,10 +65,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(input.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.findByName("GAMAJUN_STUDENT").get());
 
         if (input.getInviteCode().equals(adminCode))
             roles.add(roleDao.findByName("GAMAJUN_TEACHER").get());
+        else
+            roles.add(roleDao.findByName("GAMAJUN_STUDENT").get());
 
         user.setRoles(roles);
 
