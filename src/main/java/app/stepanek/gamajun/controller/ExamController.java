@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
@@ -64,7 +65,7 @@ public class ExamController {
 
     @Secured("GAMAJUN_STUDENT")
     @QueryMapping
-    public List<Exam> openedExams() {
+    public Set<Exam> openedExams() {
         return examService.getOpenedExams();
     }
 

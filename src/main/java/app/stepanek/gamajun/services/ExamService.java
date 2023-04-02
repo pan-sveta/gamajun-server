@@ -20,10 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -58,7 +56,7 @@ public class ExamService {
         Random rand = new Random();
 
         ExamSubmission examSubmission = new ExamSubmission();
-        examSubmission.setAssignment(exam.getAssignments().get(rand.nextInt(exam.getAssignments().size())));
+        examSubmission.setAssignment(new ArrayList<>(exam.getAssignments()).get(rand.nextInt(exam.getAssignments().size())));
         examSubmission.setUser(authenticationFacade.getUser());
         examSubmission.setStartedAt(Instant.now());
         examSubmission.setExam(exam);
@@ -67,20 +65,20 @@ public class ExamService {
         return examSubmissionDao.save(examSubmission);
     }
 
-    public List<Exam> getOpenedExams() {
+    public Set<Exam> getOpenedExams() {
         log.info("User {} is getting opened exams", authenticationFacade.getUsername());
 
         Classroom classroom;
         try {
             classroom = classroomService.getClassroomByUser(authenticationFacade.getUser());
         }catch (ClassroomNotFoundException e){
-            return new ArrayList<>();
+            return new HashSet<>();
         }
 
         var exams = examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(Instant.now(), Instant.now(), classroom);
         var submissions = examSubmissionDao.findByUser_Username(authenticationFacade.getUsername());
 
-        var attendedExams = submissions.stream().map(ExamSubmission::getExam).toList();
+        var attendedExams = submissions.stream().map(ExamSubmission::getExam).collect(Collectors.toSet());
         exams.removeAll(attendedExams);
 
 
@@ -98,8 +96,8 @@ public class ExamService {
         exam.setAccessibleFrom(createExamInput.getAccessibleFrom());
         exam.setAccessibleTo(createExamInput.getAccessibleTo());
         exam.setTimeLimit(createExamInput.getTimeLimit());
-        exam.setAssignments(assignmentDao.findAllById(createExamInput.getAssignmentIds()));
-        exam.setClassrooms(classroomDao.findAllById(createExamInput.getClassroomIds()));
+        exam.setAssignments(new HashSet<>(assignmentDao.findAllById(createExamInput.getAssignmentIds())));
+        exam.setClassrooms(new HashSet<>(classroomDao.findAllById(createExamInput.getClassroomIds())));
 
         return examDao.save(exam);
     }
@@ -131,8 +129,8 @@ public class ExamService {
         exam.setAccessibleFrom(updateExamInput.getAccessibleFrom());
         exam.setAccessibleTo(updateExamInput.getAccessibleTo());
         exam.setTimeLimit(updateExamInput.getTimeLimit());
-        exam.setAssignments(assignmentDao.findAllById(updateExamInput.getAssignmentIds()));
-        exam.setClassrooms(classroomDao.findAllById(updateExamInput.getClassroomIds()));
+        exam.setAssignments(new HashSet<>(assignmentDao.findAllById(updateExamInput.getAssignmentIds())));
+        exam.setClassrooms(new HashSet<>(classroomDao.findAllById(updateExamInput.getClassroomIds())));
 
         return examDao.save(exam);
     }

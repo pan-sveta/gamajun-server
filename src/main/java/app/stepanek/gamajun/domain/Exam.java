@@ -40,13 +40,13 @@ public class Exam {
     @JoinTable(name = "exam_assignments",
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "assignments_id"))
-    private List<Assignment> assignments = new ArrayList<>();
+    private Set<Assignment> assignments = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "exam_classrooms",
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "classroom_id"))
-    private List<Classroom> classrooms = new ArrayList<>();
+    private Set<Classroom> classrooms = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

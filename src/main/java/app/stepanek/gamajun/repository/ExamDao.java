@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
 public interface ExamDao extends JpaRepository<Exam, UUID> {
-    List<Exam> findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(@NonNull Instant accessibleFrom, @NonNull Instant accessibleTo, Classroom classroom);
+    Set<Exam> findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(@NonNull Instant accessibleFrom, @NonNull Instant accessibleTo, Classroom classroom);
 
 
 }
