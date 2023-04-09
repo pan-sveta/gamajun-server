@@ -94,7 +94,7 @@ public class ReferenceMatchingService {
         mergeSubsequentActivities(solutionGraph, solution);
 
         //Check isomorphism
-        var isomorphismInspector = new VF2GraphIsomorphismInspector<FlowNode, DefaultEdge>(solutionGraph, referenceGraph);
+        var isomorphismInspector = new VF2GraphIsomorphismInspector<>(solutionGraph, referenceGraph);
         referenceMatchingResult.setIsomorphismCheckResult(isomorphismInspector.isomorphismExists());
     }
 
@@ -122,7 +122,7 @@ public class ReferenceMatchingService {
     }
 
     private Graph<FlowNode, DefaultEdge> buildGraph(BpmnModelInstance instance) {
-        Graph<FlowNode, DefaultEdge> graph = new DefaultDirectedGraph<FlowNode, DefaultEdge>(DefaultEdge.class);
+        Graph<FlowNode, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
         for (var flowNode : instance.getModelElementsByType(FlowNode.class)) {
             graph.addVertex(flowNode);
         }

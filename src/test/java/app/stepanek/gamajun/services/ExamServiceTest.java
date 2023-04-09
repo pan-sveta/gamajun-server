@@ -72,7 +72,7 @@ class ExamServiceTest {
                                         .builder()
                                         .id(UUID.randomUUID())
                                         .title("title")
-                                        .assignments(List.of(
+                                        .assignments(Set.of(
                                                 Assignment
                                                         .builder()
                                                         .id(UUID.randomUUID())
@@ -123,10 +123,10 @@ class ExamServiceTest {
                 .build();
 
         when(examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(Mockito.any(Instant.class), Mockito.any(Instant.class), Mockito.any(Classroom.class)))
-                .thenReturn(new ArrayList<>(List.of(
+                .thenReturn(Set.of(
                         exam1,
                         exam2
-                )));
+                ));
 
         when(examSubmissionDao.findByUser_Username("username"))
                 .thenReturn(new ArrayList<>(List.of(
@@ -152,7 +152,7 @@ class ExamServiceTest {
                         .builder()
                         .username("username")
                         .build())
-                .assignments(List.of(
+                .assignments(Set.of(
                         Assignment
                                 .builder()
                                 .id(UUID.randomUUID())
@@ -164,7 +164,7 @@ class ExamServiceTest {
                                 .title("title2")
                                 .build()
                 ))
-                .classrooms(List.of(
+                .classrooms(Set.of(
                         Classroom
                                 .builder()
                                 .id(UUID.randomUUID())
@@ -255,10 +255,10 @@ class ExamServiceTest {
                         .builder()
                         .username("username")
                         .build())
-                .assignments(List.of(
+                .assignments(Set.of(
                         assignment
                 ))
-                .classrooms(List.of(
+                .classrooms(Set.of(
                         classroom
                 ))
                 .build();
