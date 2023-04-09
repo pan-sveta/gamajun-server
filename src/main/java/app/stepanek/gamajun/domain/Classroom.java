@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,4 +29,14 @@ public class Classroom {
             joinColumns = @JoinColumn(name = "classroom_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "classroom_user", referencedColumnName = "username"))
     private Set<User> users;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "classrooms")
+    private Set<Exam> exams = new HashSet<>();
+
+    @PreRemove
+    private void removeAssociations() {
+        for (Exam exam : exams) {
+            exam.getClassrooms().remove(this);
+        }
+    }
 }
