@@ -20,8 +20,7 @@ import java.time.Instant;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ExamServiceTest {
@@ -122,11 +121,12 @@ class ExamServiceTest {
                 .title("title2")
                 .build();
 
+        HashSet<Exam> examsSet = new HashSet<>();
+        examsSet.add(exam1);
+        examsSet.add(exam2);
+
         when(examDao.findByAccessibleFromLessThanEqualAndAccessibleToGreaterThanEqualAndClassroomsContains(Mockito.any(Instant.class), Mockito.any(Instant.class), Mockito.any(Classroom.class)))
-                .thenReturn(Set.of(
-                        exam1,
-                        exam2
-                ));
+                .thenReturn(examsSet);
 
         when(examSubmissionDao.findByUser_Username("username"))
                 .thenReturn(new ArrayList<>(List.of(
