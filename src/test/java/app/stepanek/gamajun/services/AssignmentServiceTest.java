@@ -7,7 +7,6 @@ import app.stepanek.gamajun.graphql.CreateAssignmentInput;
 import app.stepanek.gamajun.graphql.UpdateAssignmentInput;
 import app.stepanek.gamajun.repository.AssignmentDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

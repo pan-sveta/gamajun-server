@@ -2,11 +2,7 @@ package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -31,22 +27,15 @@ public class User {
     private Set<Role> roles;
 
     public String getFullName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getName());
-        sb.append(" ");
-        sb.append(getSurname());
-
-        return sb.toString();
+        return getName() + " " + getSurname();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == this)
             return true;
-        if (!(obj instanceof User))
+        if (!(obj instanceof User user))
             return false;
-
-        User user = (User) obj;
 
         return user.getUsername().equals(this.getUsername());
     }

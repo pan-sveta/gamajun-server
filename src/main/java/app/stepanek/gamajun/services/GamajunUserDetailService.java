@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class GamajunUserDetailService implements UserDetailsService {
 
-    UserDao userDao;
+    private final UserDao userDao;
 
     public GamajunUserDetailService(UserDao userDao) {
         this.userDao = userDao;
@@ -23,9 +23,7 @@ public class GamajunUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userDao.findByUsername(username).orElseThrow(() -> {
-            throw new UsernameNotFoundException(username);
-        });
+        var user = userDao.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
         List<GrantedAuthority> authorityList = new ArrayList<>();
 

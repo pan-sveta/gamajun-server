@@ -4,7 +4,10 @@ import app.stepanek.gamajun.domain.ValidatorRuleResult;
 import app.stepanek.gamajun.repository.ValidatorRuleDao;
 import app.stepanek.gamajun.validator.BaseValidatorRule;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.*;
+import org.camunda.bpm.model.bpmn.instance.FlowNode;
+import org.camunda.bpm.model.bpmn.instance.Lane;
+import org.camunda.bpm.model.bpmn.instance.LaneSet;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.springframework.stereotype.Component;
 
 @Component

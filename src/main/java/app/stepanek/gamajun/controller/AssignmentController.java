@@ -67,9 +67,8 @@ public class AssignmentController  {
 
     @Secured("GAMAJUN_TEACHER")
     @MutationMapping
-    public boolean deleteAssignment(@Argument UUID id)  {
+    public void deleteAssignment(@Argument UUID id)  {
         assignmentDao.deleteById(id);
-        return true;
     }
 
 

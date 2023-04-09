@@ -21,10 +21,10 @@ public class ExamSubmission extends Submission {
     @Column(name = "exam_submission_state", nullable = false)
     private ExamSubmissionState examSubmissionState;
 
-    @Column(name = "points", nullable = true)
+    @Column(name = "points")
     private Double points;
 
-    @Column(name = "comment", nullable = true, columnDefinition = "text")
+    @Column(name = "comment", columnDefinition = "text")
     private String comment;
 
 }

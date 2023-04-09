@@ -27,7 +27,7 @@ import java.util.UUID;
 public class ExamSubmissionService {
     private final ExamSubmissionDao examSubmissionDao;
     @Lazy
-    private ValidatorService validatorService;
+    private final ValidatorService validatorService;
     private final IAuthenticationFacade authenticationFacade;
 
 
@@ -89,10 +89,9 @@ public class ExamSubmissionService {
     //******
 
     @Transactional
-    public boolean delete(UUID id) {
+    public void delete(UUID id) {
         log.info("User {} is deleting exam submission with id {}", authenticationFacade.getUsername(), id);
         examSubmissionDao.deleteById(id);
-        return true;
     }
 
     @Transactional

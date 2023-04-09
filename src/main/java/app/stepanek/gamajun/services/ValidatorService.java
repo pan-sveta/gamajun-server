@@ -27,7 +27,7 @@ import java.util.UUID;
 public class ValidatorService {
     private final ValidatorReportDao validatorReportDao;
     private final ReferenceMatchingService referenceMatchingService;
-    private List<BaseValidatorRule> list;
+    private final List<BaseValidatorRule> list;
 
     private final IAuthenticationFacade authenticationFacade;
 

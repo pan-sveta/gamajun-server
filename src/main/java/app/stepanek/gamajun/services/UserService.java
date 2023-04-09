@@ -1,12 +1,10 @@
 package app.stepanek.gamajun.services;
 
-import app.stepanek.gamajun.domain.Classroom;
 import app.stepanek.gamajun.domain.Role;
 import app.stepanek.gamajun.domain.User;
 import app.stepanek.gamajun.exceptions.ClassroomNotFoundException;
 import app.stepanek.gamajun.exceptions.UserAlreadyExistsException;
 import app.stepanek.gamajun.graphql.SignUpInput;
-import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.repository.RoleDao;
 import app.stepanek.gamajun.repository.UserDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -28,11 +25,11 @@ public class UserService {
 
     private final ExamSubmissionService examSubmissionService;
     private final SandboxSubmissionService sandboxSubmissionService;
-    UserDao userDao;
-    RoleDao roleDao;
-    ClassroomService classroomService;
-    PasswordEncoder passwordEncoder;
-    IAuthenticationFacade authenticationFacade;
+    private final UserDao userDao;
+    private final RoleDao roleDao;
+    private final ClassroomService classroomService;
+    private final PasswordEncoder passwordEncoder;
+    private final IAuthenticationFacade authenticationFacade;
 
     @Value("${ADMIN_CODE}")
     private String adminCode;

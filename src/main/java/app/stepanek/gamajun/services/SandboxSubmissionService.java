@@ -108,11 +108,10 @@ public class SandboxSubmissionService {
     //******
 
     @Transactional
-    public boolean delete(UUID id) {
+    public void delete(UUID id) {
         log.info("User {} is deleting sandbox submission with id {}", authenticationFacade.getUsername(), id);
 
         sandboxSubmissionDao.deleteById(id);
-        return true;
     }
 
     @Transactional

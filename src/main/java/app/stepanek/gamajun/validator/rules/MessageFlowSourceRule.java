@@ -4,7 +4,8 @@ import app.stepanek.gamajun.domain.ValidatorRuleResult;
 import app.stepanek.gamajun.repository.ValidatorRuleDao;
 import app.stepanek.gamajun.validator.BaseValidatorRule;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.*;
+import org.camunda.bpm.model.bpmn.instance.DataOutputAssociation;
+import org.camunda.bpm.model.bpmn.instance.Event;
 import org.springframework.stereotype.Component;
 
 @Component

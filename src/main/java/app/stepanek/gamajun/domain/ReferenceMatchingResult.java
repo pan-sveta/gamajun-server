@@ -27,6 +27,6 @@ public class ReferenceMatchingResult {
     @Column(name = "participant_count_result", nullable = false)
     private boolean participantsCheckResult;
 
-    @Column(name = "isomorphism_message", nullable = true)
+    @Column(name = "isomorphism_message")
     private String participantsCheckMessage;
 }

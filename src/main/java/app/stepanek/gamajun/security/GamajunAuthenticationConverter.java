@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 public class GamajunAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-    UserService userService;
+    private final UserService userService;
 
     public GamajunAuthenticationConverter(UserService userService) {
         this.userService = userService;

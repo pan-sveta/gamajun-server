@@ -7,7 +7,6 @@ import app.stepanek.gamajun.graphql.UpdateAssignmentInput;
 import app.stepanek.gamajun.repository.AssignmentDao;
 import app.stepanek.gamajun.utilities.IAuthenticationFacade;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

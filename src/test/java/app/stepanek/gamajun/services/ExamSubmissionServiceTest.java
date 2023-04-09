@@ -12,14 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,6 +32,30 @@ class ExamSubmissionServiceTest {
 
     @InjectMocks
     ExamSubmissionService examSubmissionService;
+
+    User mockAuthentication() {
+        Set<Role> roles = new HashSet<>();
+
+        var studentRole = new Role("GAMAJUN_STUDENT");
+        var teacherRole = new Role("GAMAJUN_TEACHER");
+        roles.add(studentRole);
+        roles.add(teacherRole);
+
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("password");
+        user.setEmail("email");
+        user.setName("name");
+        user.setSurname("surname");
+        user.setRoles(roles);
+
+
+        lenient().when(authenticationFacade.getUser()).thenReturn(user);
+        lenient().when(authenticationFacade.isResourceOwner(user)).thenReturn(true);
+        lenient().when(authenticationFacade.getUsername()).thenReturn(user.getUsername());
+
+        return user;
+    }
 
     @Test
     void save() {
@@ -55,6 +77,8 @@ class ExamSubmissionServiceTest {
 
     @Test
     void findById() {
+        var user = mockAuthentication();
+
         UUID uuid = UUID.randomUUID();
 
         ExamSubmission examSubmission = ExamSubmission.builder()
@@ -64,6 +88,7 @@ class ExamSubmissionServiceTest {
                         .build()
                 )
                 .build();
+        examSubmission.setUser(user);
         examSubmission.setId(uuid);
 
         when(examSubmissionDao.findById(uuid)).thenAnswer(i -> java.util.Optional.of(examSubmission));
@@ -75,7 +100,7 @@ class ExamSubmissionServiceTest {
 
     @Test
     void findAll() {
-        when(examSubmissionDao.findAll()).thenAnswer(i -> new ArrayList<ExamSubmission>(
+        when(examSubmissionDao.findAll()).thenAnswer(i -> new ArrayList<>(
                         List.of(
                                 ExamSubmission.builder()
                                         .examSubmissionState(ExamSubmissionState.Submitted)
@@ -104,7 +129,7 @@ class ExamSubmissionServiceTest {
 
     @Test
     void findAllByExam() {
-        when(examSubmissionDao.findByExam_Id(Mockito.any(UUID.class))).thenAnswer(i -> new ArrayList<ExamSubmission>(
+        when(examSubmissionDao.findByExam_Id(Mockito.any(UUID.class))).thenAnswer(i -> new ArrayList<>(
                         List.of(
                                 ExamSubmission.builder()
                                         .examSubmissionState(ExamSubmissionState.Submitted)
@@ -133,8 +158,8 @@ class ExamSubmissionServiceTest {
 
     @Test
     void mySubmissions() {
-        when(authenticationFacade.getUsername()).thenReturn("username");
-        when(examSubmissionDao.findByUser_Username("username")).thenReturn(new ArrayList<ExamSubmission>(
+        mockAuthentication();
+        when(examSubmissionDao.findByUser_Username("username")).thenReturn(new ArrayList<>(
                         List.of(
                                 ExamSubmission.builder()
                                         .examSubmissionState(ExamSubmissionState.Submitted)
@@ -162,6 +187,8 @@ class ExamSubmissionServiceTest {
 
     @Test
     void checkpointStudentExam() {
+        var user = mockAuthentication();
+
         ExamSubmissionCheckpointInput examSubmissionCheckpointInput = ExamSubmissionCheckpointInput.builder()
                 .id(UUID.randomUUID())
                 .xml("<xml>foo</xml>")
@@ -176,15 +203,9 @@ class ExamSubmissionServiceTest {
                         .build()
                 )
                 .build();
-        examSub.setUser(User
-                .builder()
-                .username("username")
-                .build()
-        );
+        examSub.setUser(user);
 
         when(examSubmissionDao.findById(examSubmissionCheckpointInput.getId())).thenReturn(java.util.Optional.of(examSub));
-
-        when(authenticationFacade.getUsername()).thenReturn("username");
 
         when(examSubmissionDao.save(Mockito.any(ExamSubmission.class))).thenAnswer(i -> i.getArguments()[0]);
 
@@ -196,7 +217,6 @@ class ExamSubmissionServiceTest {
 
     @Test()
     void checkpointStudentExamUnauthorized() {
-
         ExamSubmissionCheckpointInput examSubmissionCheckpointInput = ExamSubmissionCheckpointInput.builder()
                 .id(UUID.randomUUID())
                 .xml("<xml>foo</xml>")
@@ -228,6 +248,8 @@ class ExamSubmissionServiceTest {
 
     @Test
     void submitStudentExam() {
+        var user = mockAuthentication();
+
         ExamSubmissionSubmitInput examSubmissionSubmitInput = ExamSubmissionSubmitInput.builder()
                 .id(UUID.randomUUID())
                 .xml("<xml>foo</xml>")
@@ -242,11 +264,7 @@ class ExamSubmissionServiceTest {
                         .build()
                 )
                 .build();
-        examSub.setUser(User
-                .builder()
-                .username("username")
-                .build()
-        );
+        examSub.setUser(user);
 
         when(examSubmissionDao.findById(examSubmissionSubmitInput.getId())).thenReturn(java.util.Optional.of(examSub));
 

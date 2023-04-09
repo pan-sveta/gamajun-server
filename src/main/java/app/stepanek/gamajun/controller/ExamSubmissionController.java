@@ -13,7 +13,6 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
@@ -53,7 +52,8 @@ public class ExamSubmissionController {
     @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public boolean deleteExamSubmission(@Argument UUID examSubmissionId) {
-        return examSubmissionService.delete(examSubmissionId);
+        examSubmissionService.delete(examSubmissionId);
+        return true;
     }
 
     @Secured("GAMAJUN_TEACHER")

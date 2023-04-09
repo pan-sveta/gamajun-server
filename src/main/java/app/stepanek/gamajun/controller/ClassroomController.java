@@ -1,11 +1,8 @@
 package app.stepanek.gamajun.controller;
 
 import app.stepanek.gamajun.domain.Classroom;
-import app.stepanek.gamajun.domain.Exam;
 import app.stepanek.gamajun.domain.User;
 import app.stepanek.gamajun.graphql.CreateClassroomInput;
-import app.stepanek.gamajun.repository.AssignmentDao;
-import app.stepanek.gamajun.repository.ClassroomDao;
 import app.stepanek.gamajun.services.ClassroomService;
 import app.stepanek.gamajun.services.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -21,8 +18,8 @@ import java.util.UUID;
 @Controller
 public class ClassroomController {
 
-    ClassroomService classroomService;
-    UserService userService;
+    private final ClassroomService classroomService;
+    private final UserService userService;
 
     public ClassroomController(ClassroomService classroomService, UserService userService) {
         this.classroomService = classroomService;
@@ -52,9 +49,8 @@ public class ClassroomController {
     }
 
     @MutationMapping
-    public boolean deleteClassroom(@Argument UUID id){
+    public void deleteClassroom(@Argument UUID id){
         classroomService.deleteClassroom(id);
-        return true;
     }
 
     @Secured("GAMAJUN_TEACHER")

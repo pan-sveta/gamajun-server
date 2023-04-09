@@ -11,7 +11,6 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -58,9 +57,8 @@ public class ExamController {
 
     @Secured("GAMAJUN_TEACHER")
     @MutationMapping
-    public boolean deleteExam(@Argument UUID id) {
+    public void deleteExam(@Argument UUID id) {
         examService.deleteExam(id);
-        return true;
     }
 
     @Secured("GAMAJUN_STUDENT")

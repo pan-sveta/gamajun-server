@@ -1,6 +1,5 @@
 package app.stepanek.gamajun.services;
 
-import app.stepanek.gamajun.domain.ReferenceMatchingResult;
 import app.stepanek.gamajun.domain.ReferenceMatchingResultState;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
@@ -11,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ReferenceMatchingServiceTest {

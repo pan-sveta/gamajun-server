@@ -3,7 +3,6 @@ package app.stepanek.gamajun.exceptions;
 import graphql.ErrorClassification;
 import graphql.ErrorType;
 import graphql.GraphQLError;
-import graphql.GraphQLException;
 import graphql.language.SourceLocation;
 
 import java.util.List;

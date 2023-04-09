@@ -1,7 +1,6 @@
 package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.Classroom;
-import app.stepanek.gamajun.domain.ExamSubmission;
 import app.stepanek.gamajun.domain.Role;
 import app.stepanek.gamajun.domain.User;
 import app.stepanek.gamajun.graphql.SignUpInput;
@@ -93,13 +92,5 @@ class UserServiceTest {
         when(classroomService.findByIdInviteCode("inviteCode2")).thenReturn(java.util.Optional.empty());
 
         assertFalse(userService.validateInviteCode("inviteCode2"));
-    }
-
-    @Test
-    void findAll() {
-    }
-
-    @Test
-    void findByUsername() {
     }
 }

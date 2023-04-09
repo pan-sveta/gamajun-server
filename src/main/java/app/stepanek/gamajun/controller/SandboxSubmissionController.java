@@ -57,7 +57,8 @@ public class SandboxSubmissionController {
     @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public boolean deleteSandboxSubmission(@PathVariable UUID sandboxSubmissionId) {
-        return sandboxSubmissionService.delete(sandboxSubmissionId);
+        sandboxSubmissionService.delete(sandboxSubmissionId);
+        return true;
     }
 
     @PreAuthorize("isAuthenticated()")

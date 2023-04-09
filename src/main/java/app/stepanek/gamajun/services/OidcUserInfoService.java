@@ -2,7 +2,6 @@ package app.stepanek.gamajun.services;
 
 import app.stepanek.gamajun.domain.Role;
 import app.stepanek.gamajun.repository.UserDao;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
 

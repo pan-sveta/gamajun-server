@@ -1,11 +1,13 @@
 package app.stepanek.gamajun.services;
 
-import app.stepanek.gamajun.domain.Assignment;
 import app.stepanek.gamajun.domain.Classroom;
+import app.stepanek.gamajun.domain.Role;
 import app.stepanek.gamajun.domain.User;
-import app.stepanek.gamajun.graphql.CreateAssignmentInput;
 import app.stepanek.gamajun.graphql.CreateClassroomInput;
 import app.stepanek.gamajun.repository.ClassroomDao;
+import app.stepanek.gamajun.utilities.IAuthenticationFacade;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,15 +16,21 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ClassroomServiceTest {
     @Mock
     ClassroomDao classroomDao;
+
+    @Mock
+    IAuthenticationFacade authenticationFacade;
 
     @InjectMocks
     ClassroomService classroomService;

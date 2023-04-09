@@ -17,8 +17,8 @@ import java.util.*;
 @Service
 @Slf4j
 public class ClassroomService {
-    ClassroomDao classroomDao;
-    IAuthenticationFacade authenticationFacade;
+    private final ClassroomDao classroomDao;
+    private final IAuthenticationFacade authenticationFacade;
 
     @Value("${ADMIN_CODE}")
     private String adminCode;
@@ -33,7 +33,7 @@ public class ClassroomService {
         log.info("User {} is creating classroom with name: {}", authenticationFacade.getUsername(), classroomInput.getName());
 
         if (classroomInput.getInviteCode().equals(adminCode))
-            throw new IllegalArgumentException("Kód pozvánky se nesmí shodovat s tajným kódem!".formatted());
+            throw new IllegalArgumentException("Kód pozvánky se nesmí shodovat s tajným kódem!");
 
         Classroom classroom = new Classroom();
 

@@ -1,7 +1,6 @@
 package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -26,13 +25,13 @@ public class Submission {
     @JoinColumn(name = "assignment_id", nullable = false)
     protected Assignment assignment;
 
-    @Column(name = "xml", nullable = true, columnDefinition = "text")
+    @Column(name = "xml", columnDefinition = "text")
     protected String xml;
 
     @Column(name = "started_at", nullable = false)
     protected Instant startedAt;
 
-    @Column(name = "submitted_at", nullable = true)
+    @Column(name = "submitted_at")
     protected Instant submittedAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
