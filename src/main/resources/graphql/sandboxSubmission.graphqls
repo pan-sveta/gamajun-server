@@ -9,7 +9,7 @@ extend type Mutation {
     "Create sandbox submission"
     createSandboxSubmission(assignmentId: String!): SandboxSubmission
     "Delete sandbox submission"
-    deleteSandboxSubmission(id: String!): Boolean!
+    deleteSandboxSubmission(id: String!): Boolean
     "Submit sandbox submission"
     submitSandboxSubmission(input: SandboxSubmissionSubmitInput!): SandboxSubmission!
 

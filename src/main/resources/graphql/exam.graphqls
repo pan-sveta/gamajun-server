@@ -10,7 +10,7 @@ extend type Mutation {
     "Update exam"
     updateExam(input: UpdateExamInput!): Exam!
     "Delete exam"
-    deleteExam(id: String!): Boolean!
+    deleteExam(id: String!): Boolean
     "Begin exam"
     beginExam(id: String!): ExamSubmission!
 }

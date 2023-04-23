@@ -10,7 +10,7 @@ extend type Mutation {
     "Update assignment"
     updateAssignment(input: UpdateAssignmentInput!): Assignment!
     "Delete assignment"
-    deleteAssignment(id: String!): Boolean!
+    deleteAssignment(id: String!): Boolean
 }
 
 #############
