@@ -1,6 +1,6 @@
 # Gamajun Client Application
 
-![Logo](src\main\resources\logo.png)
+![Logo](src/main/resources/logo.png)
 
 The Gamajun Server Application is a part of the Gamajun BPMN testing system.
 
