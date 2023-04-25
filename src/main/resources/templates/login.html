@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Gamajun - Přihlášení</title>
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap");
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ededed;
+        min-height: 100vh;
+        font-family: "Roboto", sans-serif;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    img {
+        max-width: 10vw;
+        display: block;
+        margin-bottom: 5rem;
+    }
+
+    .wrapper {
+        background-color: white;
+        padding: 3rem 2rem;
+        border-radius: 4%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0px 8px 14px 0px rgba(0,0,0,0.27);
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        margin: 0.4rem 0;
+        padding: 6px 12px;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border-top: 0px;
+        border-right: 0px;
+        border-bottom: 3px #ced4da solid;
+        border-left: 0px;
+        appearance: none;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border-top: 0px;
+        border-right: 0px;
+        border-bottom: 3px #1c4b82 solid;
+        border-left: 0px;
+        outline: none;
+        transition: border .2s ease-out;
+    }
+
+    .error {
+        color: red;
+        font-weight: bold;
+    }
+
+    div.error {
+        font-size: 18px;
+    }
+
+    .button-wrapper {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    #loginButton {
+        display: block;
+        outline: none;
+        cursor: pointer;
+        font-size: 17px;
+        line-height: 1;
+        border-radius: 500px;
+        border: 1px solid transparent;
+        white-space: normal;
+        font-weight: bold;
+        text-align: center;
+        padding: 17px 48px;
+        color: #fff;
+        background-color: #1c4b82;
+        height: 56px;
+        transition: background .2s;
+    }
+
+    #loginButton:hover {
+        background-color: #102C4D;
+    }
+
+</style>
+
+<body>
+<div class="wrapper">
+    <h1>Přihlášení</h1>
+    <img src="https://github.com/pan-sveta/gamajun-client/raw/main/public/logo.png" alt="">
+    <form th:action="@{/login}" method="post">
+        <div>
+            <input type="text" name="username" placeholder="Uživatelské jméno" />
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Heslo" />
+        </div>
+        <div class="error" th:if="${param.error}">
+            Neplatné přihlašovací údaje
+        </div>
+        <div class="error" th:if="${param.logout}">
+            Byl jste odhlášen!
+        </div>
+        <div class="button-wrapper">
+            <input id="loginButton" type="submit" value="Přihlásit se" />
+        </div>
+    </form>
+</div>
+</body>
+</html>
