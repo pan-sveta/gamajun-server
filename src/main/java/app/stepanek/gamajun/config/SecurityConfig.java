@@ -69,12 +69,9 @@ public class SecurityConfig {
                 // authorization server filter chain
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .successHandler(new AuthenticationSuccessHandler() {
-                            @Override
-                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                                response.sendRedirect(frontendUrl);
-                            }
-                        })
+                        .loginProcessingUrl("/login")
+                        .failureUrl("/login?error=true")
+                        .defaultSuccessUrl("/")
                         .permitAll())
                 .logout()
                 .invalidateHttpSession(true) // Invalidate session
