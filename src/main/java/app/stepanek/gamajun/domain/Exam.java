@@ -2,6 +2,8 @@ package app.stepanek.gamajun.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -26,6 +28,7 @@ public class Exam {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_username", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User author;
 
     @Column(name = "accessible_from", nullable = false)
