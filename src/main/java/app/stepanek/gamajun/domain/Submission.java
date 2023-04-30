@@ -23,6 +23,7 @@ public class Submission {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "assignment_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     protected Assignment assignment;
 
     @Column(name = "xml", columnDefinition = "text")
