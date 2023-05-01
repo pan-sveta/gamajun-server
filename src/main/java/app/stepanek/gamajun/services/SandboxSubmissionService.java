@@ -23,16 +23,16 @@ import java.util.UUID;
 public class SandboxSubmissionService {
     private final SandboxSubmissionDao sandboxSubmissionDao;
     private final AssignmentService assignmentService;
-    @Autowired
     @Lazy
-    private ValidatorService validatorService;
+    private final ValidatorService validatorService;
     private final IAuthenticationFacade authenticationFacade;
 
 
     @Autowired
-    public SandboxSubmissionService(SandboxSubmissionDao examSubmissionDao, AssignmentService assignmentService, IAuthenticationFacade authenticationFacade) {
+    public SandboxSubmissionService(SandboxSubmissionDao examSubmissionDao, AssignmentService assignmentService, ValidatorService validatorService, IAuthenticationFacade authenticationFacade) {
         this.sandboxSubmissionDao = examSubmissionDao;
         this.assignmentService = assignmentService;
+        this.validatorService = validatorService;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -75,29 +75,7 @@ public class SandboxSubmissionService {
     }
 
     @Transactional
-    public SandboxSubmission getSandboxSubmission(UUID examSubmissionId) {
-        log.info("User {} is finding sandbox submission with id {}", authenticationFacade.getUsername(), examSubmissionId);
-
-        var sandboxSubmission = sandboxSubmissionDao.findById(examSubmissionId)
-                .orElseThrow(() -> new ExamSubmissionNotFoundException("Sandbox submission with id %s was not found.".formatted(examSubmissionId)));
-
-        if (!authenticationFacade.isResourceOwner(sandboxSubmission.getUser())) {
-            log.error("User {} is not the owner of sandbox submission with id {}", authenticationFacade.getUsername(), examSubmissionId);
-            throw new ResourceNotOwnedByCurrentUserException("Sandbox submission '%s' is not owned by user %s".formatted(examSubmissionId, authenticationFacade.getUsername()));
-        }
-
-        return sandboxSubmission;
-    }
-
-    @Transactional
     public List<SandboxSubmission> findAllByAssignment(UUID assignmentId) {
-        log.info("User {} is finding all sandbox submissions for assignment {}", authenticationFacade.getUsername(), assignmentId);
-
-        return sandboxSubmissionDao.findByAssignment_Id(assignmentId);
-    }
-
-    @Transactional
-    public List<SandboxSubmission> findAllByAssignmentAndAuthor(UUID assignmentId) {
         log.info("User {} is finding all sandbox submissions for assignment {}", authenticationFacade.getUsername(), assignmentId);
 
         return sandboxSubmissionDao.findByAssignment_Id(assignmentId);
