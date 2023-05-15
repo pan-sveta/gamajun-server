@@ -40,7 +40,6 @@ public class AssignmentService {
     }
 
     @Transactional
-    //TODO: Check authrorization
     public Assignment findById(UUID id) {
         log.info("Finding assignment with id: {}", id);
 
