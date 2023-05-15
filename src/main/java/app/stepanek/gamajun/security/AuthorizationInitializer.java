@@ -17,14 +17,10 @@ import java.util.Set;
 @Configuration
 public class AuthorizationInitializer {
     private final RoleDao roleDao;
-    private final UserDao userDao;
-    private final PasswordEncoder passwordEncoder;
     private final Logger logger = LoggerFactory.getLogger(AuthorizationInitializer.class);
 
-    public AuthorizationInitializer(RoleDao roleDao, UserDao userDao, PasswordEncoder passwordEncoder) {
+    public AuthorizationInitializer(RoleDao roleDao) {
         this.roleDao = roleDao;
-        this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -36,15 +32,6 @@ public class AuthorizationInitializer {
         roles.add(studentRole);
         roles.add(teacherRole);
 
-        User admin = new User();
-        admin.setUsername("stepafi6");
-        admin.setName("Filip");
-        admin.setSurname("Štěpánek");
-        admin.setEmail("stepafil@gmail.com");
-        admin.setRoles(roles);
-        admin.setPassword(passwordEncoder.encode("gamajun"));
-
-
         return () -> {
             for (var role : roles) {
                 var exists = roleDao.existsByName(role.getName());
@@ -55,12 +42,6 @@ public class AuthorizationInitializer {
                 } else
                     logger.info("Role '{}' already exists in database", role.getName());
             }
-
-            if (!userDao.existsByUsername(admin.getUsername())) {
-                userDao.save(admin);
-                logger.info("Creating admin '{}'", admin.getUsername());
-            }else
-                logger.info("Admin '{}' already exists in database", admin.getName());
         };
     }
 }

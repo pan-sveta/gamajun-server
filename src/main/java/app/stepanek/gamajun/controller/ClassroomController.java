@@ -43,11 +43,13 @@ public class ClassroomController {
         return classroomService.findById(id);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public Classroom createClassroom(@Argument("input")CreateClassroomInput classroomInput){
         return classroomService.createClassroom(classroomInput);
     }
 
+    @Secured("GAMAJUN_TEACHER")
     @MutationMapping
     public void deleteClassroom(@Argument UUID id){
         classroomService.deleteClassroom(id);
